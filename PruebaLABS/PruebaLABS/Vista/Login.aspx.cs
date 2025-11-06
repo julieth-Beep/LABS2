@@ -17,7 +17,7 @@ namespace PruebaLABS.Vista
         }
         protected void bntIngresar_Click(object sender, EventArgs e)
         {
-            string user = txtPass.Text;
+            string user = txtUser.Text;
             string pass = txtPass.Text;
 
             ClUsuarioL ousuL = new ClUsuarioL();
