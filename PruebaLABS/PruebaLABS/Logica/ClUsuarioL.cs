@@ -13,18 +13,7 @@ namespace PruebaLABS.Logica
         {
             ClUsuarioM oDtos=DatUsu.MtLogin(usuario, pass);
 
-            if (oDtos != null)
-            {
-                HttpContext.Current.Session["idUsuario"] = oDtos.idUusuario;
-                HttpContext.Current.Session["nombre"] = oDtos.nombre;
-                HttpContext.Current.Session["correo"] = oDtos.correo;
-
-            }
-            else
-            {
-                return null;
-            }
-            return oDtos;
+            return oDtos ?? null;
         }
     }
 }

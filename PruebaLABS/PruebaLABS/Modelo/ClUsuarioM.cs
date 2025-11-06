@@ -1,11 +1,12 @@
-﻿using System;
+﻿using PruebaLABS.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace PruebaLABS.Datos
 {
-    public class ClUsuarioM
+    public class ClUsuarioM:ClRolM
     {
         public  int idUusuario { get; set; }
         public string documento { get; set; }

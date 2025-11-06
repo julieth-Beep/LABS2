@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PruebaLABS.Datos;
+using PruebaLABS.Logica;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,8 +17,37 @@ namespace PruebaLABS.Vista
         }
         protected void bntIngresar_Click(object sender, EventArgs e)
         {
-            txtUser.Text=
-        }
+            string user = txtPass.Text;
+            string pass = txtPass.Text;
 
+            ClUsuarioL ousuL = new ClUsuarioL();
+            ClUsuarioM ingreso = ousuL.MtLogin(user, pass);
+
+
+            if (ingreso != null)
+            {
+                Session["rol"] = ingreso.idRol;
+                Session["nombre"] = ingreso.nombre;
+                Session["correo"] = ingreso.correo;
+
+                if(ingreso.idRol==2)
+                {
+                    Response.Redirect("opcionesAdmin.aspx");
+                }
+                else if(ingreso.idRol==1)
+                {
+                    Response.Redirect("OpcionesConductor.aspx");
+                }
+                else if (ingreso.idRol==3)
+                {
+                    Response.Redirect("OpcionesContador.aspx");
+                }
+            }
+            else
+            {
+                lnlMensaje.Text = "No tiene cuenta aun,registrese para poder ingresar";
+            }
+
+        }
     }
 }

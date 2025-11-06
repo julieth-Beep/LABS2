@@ -84,6 +84,8 @@
                     ¿No tienes cuenta?
                     <a href="Registro.aspx">Regístrate aquí</a>
                 </p>
+
+                <asp:Label ID="lnlMensaje" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </form>

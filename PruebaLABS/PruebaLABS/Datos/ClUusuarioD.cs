@@ -13,7 +13,7 @@ namespace PruebaLABS.Datos
             ClConexion oConexion=new ClConexion();
             ClUsuarioM oDatosUser = null;
 
-            string consulta = $"select usuario.idUsuario,usuario.documento,usuario.nombre,usuario.apellido,usuario.telefono,usuario.correo,usuario.contraseña from usuario where Email='{email}' and Clave='{pass}'";
+            string consulta = $"select usuario.idUsuario,usuario.documento,usuario.nombre,usuario.apellido,usuario.correo,usuario.telefono,usuario.contraseña,rol.idRol from usuario inner join cargo on usuario.idUsuario=cargo.idUsuario inner join rol on cargo.idRol=rol.idRol where correo='{email}' and contraseña='{pass}'";
             SqlCommand conexion=new SqlCommand(consulta,oConexion.MtAbrirConexion());
             SqlDataReader tbldat=conexion.ExecuteReader();
 
@@ -29,8 +29,10 @@ namespace PruebaLABS.Datos
                 oDatosUser.telefono = (tbldat["telefono"].ToString());
                 oDatosUser.correo = (tbldat["correo"].ToString());
                 oDatosUser.contraseña = (tbldat["contraseña"].ToString());
+                oDatosUser.idRol= tbldat.GetInt32(tbldat.GetOrdinal("idRol"));
 
             }
+            tbldat.Close();
             oConexion.MtCerrarConexion();
             return oDatosUser;
         }
