@@ -15,5 +15,22 @@ namespace PruebaLABS.Logica
 
             return oDtos ?? null;
         }
+
+        public string MtRegistrarUsuario(string documento, string nombre, string apellido, string telefono, string correo, string contraseña)
+        {
+            ClUsuarioM usuario = new ClUsuarioM
+            {
+                documento = documento,
+                nombre = nombre,
+                apellido = apellido,
+                telefono = telefono,
+                correo = correo,
+                contraseña = contraseña
+            };
+
+            return DatUsu.MtRegistrarUsuario(usuario);
+        }
+
     }
+
 }
