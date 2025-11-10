@@ -70,6 +70,7 @@
     <Content Include="Vista\Inicio.aspx" />
     <Content Include="Vista\Login.aspx" />
     <Content Include="Vista\opcionesAdmin.aspx" />
+    <Content Include="Vista\OpcionesCliente.aspx" />
     <Content Include="Vista\OpcionesConductor.aspx" />
     <Content Include="Vista\OpcionesContador.aspx" />
     <Content Include="Vista\Registro.aspx" />
@@ -102,6 +103,13 @@
     </Compile>
     <Compile Include="Vista\opcionesAdmin.aspx.designer.cs">
       <DependentUpon>opcionesAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\OpcionesCliente.aspx.cs">
+      <DependentUpon>OpcionesCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vista\OpcionesCliente.aspx.designer.cs">
+      <DependentUpon>OpcionesCliente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Vista\OpcionesConductor.aspx.cs">
       <DependentUpon>OpcionesConductor.aspx</DependentUpon>
