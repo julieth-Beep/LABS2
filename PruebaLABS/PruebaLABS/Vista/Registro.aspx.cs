@@ -88,10 +88,10 @@ namespace PruebaLABS.Vista
                             redirectPage = "opcionesAdmin.aspx";
                             break;
                         case "3": 
-                            redirectPage = "OpcionesCliente.aspx";
+                            redirectPage = "OpcionesContador.aspx";
                             break;
                         case "4": 
-                            redirectPage = "OpcionesContador.aspx";
+                            redirectPage = "OpcionesCliente.aspx";
                             break;
                     }
 

@@ -182,7 +182,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-3">
-                            <button class="btn btn-success btn-lg w-100 fw-bold">Postulate</button>
+                            <button class="btn btn-success btn-lg w-100 fw-bold">REGISTRARSE</button>
                         </div>
                     </div>
                 </div>

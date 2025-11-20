@@ -77,10 +77,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datos\ClAdministradorD.cs" />
+    <Compile Include="Datos\ClVehiculoD.cs" />
+    <Compile Include="Datos\ClClienteD.cs" />
     <Compile Include="Datos\ClConexion.cs" />
     <Compile Include="Datos\ClContadorD.cs" />
-    <Compile Include="Datos\ClUsuarioD.cs" />
+    <Compile Include="Datos\ClUusuarioD.cs" />
+    <Compile Include="Logica\ClVehiculoL.cs" />
+    <Compile Include="Logica\ClClienteL.cs" />
     <Compile Include="Logica\ClContadorL.cs" />
     <Compile Include="Logica\ClUsuarioL.cs" />
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />
@@ -138,13 +141,6 @@
     <Compile Include="Vista\Registro.aspx.designer.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Vista\Vistas.Master.cs">
-      <DependentUpon>Vistas.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Vista\Vistas.Master.designer.cs">
-      <DependentUpon>Vistas.Master</DependentUpon>
-    </Compile>
     <Compile Include="Vista\Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -156,7 +152,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Vista\Site1.Master" />
-    <Content Include="Vista\Vistas.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

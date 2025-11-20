@@ -39,11 +39,11 @@ namespace PruebaLABS.Vista
                 }
                 else if (ingreso.idRol == 3) 
                 {
-                    Response.Redirect("OpcionesCliente.aspx");
+                    Response.Redirect("OpcionesContador.aspx");
                 }
                 else if (ingreso.idRol == 4) 
                 {
-                    Response.Redirect("OpcionesContador.aspx");
+                    Response.Redirect("OpcionesCliente.aspx");
                 }
             }
             else

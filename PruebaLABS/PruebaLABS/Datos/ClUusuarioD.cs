@@ -140,8 +140,8 @@ namespace PruebaLABS.Datos
             {
                 case 1: return "Conductor";
                 case 2: return "Administrador";
-                case 3: return "Cliente";
-                case 4: return "Contador";
+                case 4: return "Cliente";
+                case 3: return "Contador";
                 default: return "Usuario";
             }
         }
