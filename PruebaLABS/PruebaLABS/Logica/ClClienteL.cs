@@ -1,4 +1,5 @@
 ﻿using PruebaLABS.Datos;
+using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +15,13 @@ namespace PruebaLABS.Logica
         {
             return oContD.DatVehiculo();
         }
+        public ClClienteM MtLoginCliente(string user,string pass)
+        {
+            return oContD.MtLoginCliente(user, pass);
+
+        }
 
     }
+
+    
 }

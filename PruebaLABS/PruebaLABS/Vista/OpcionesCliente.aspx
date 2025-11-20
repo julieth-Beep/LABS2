@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="OpcionesCliente.aspx.cs" Inherits="PruebaLABS.Vista.OpcionesCliente" %>
+﻿<%@ Page Title="Panel Cliente" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="OpcionesCliente.aspx.cs" Inherits="PruebaLABS.Vista.OpcionesCliente" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

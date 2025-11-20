@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PruebaLABS.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 
 namespace PruebaLABS.Datos
@@ -32,5 +34,34 @@ namespace PruebaLABS.Datos
 
         }
 
+        public ClClienteM MtLoginCliente(string correo,string pass)
+        {
+            ClClienteM oDatosCliente = null;
+
+            string consulta = $"select idCliente,documento,nombre,apellido,empresa,telefono,correo,pasword from cliente where correo='{correo}' and pasword='{pass}'";
+            SqlCommand cmd=new SqlCommand(consulta,oConexion.MtAbrirConexion());
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if(reader.Read())
+            {
+                oDatosCliente= new ClClienteM();
+                oDatosCliente.idCliente=reader.GetInt32(reader.GetOrdinal("idCliente"));
+                oDatosCliente.documento = reader["documento"].ToString();
+                oDatosCliente.nombre = reader["nombre"].ToString();
+                oDatosCliente.apellido = reader["apellido"].ToString();
+                oDatosCliente.empresa = reader["empresa"].ToString();
+                oDatosCliente.telefono = reader["telefono"].ToString();
+                oDatosCliente.correo = reader["correo"].ToString();
+                oDatosCliente.contraseña = reader["pasword"].ToString();
+             
+            }
+            reader.Close();
+            oConexion.MtCerrarConexion();
+            return oDatosCliente;
+
+        }
+
     }
+
+    
 }

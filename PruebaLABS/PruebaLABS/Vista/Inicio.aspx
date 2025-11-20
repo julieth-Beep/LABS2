@@ -41,7 +41,7 @@
         </nav>
 
         <section id="inicio" class="position-relative text-white d-flex align-items-center justify-content-center text-center"
-            style="min-height: 70vh; background: url('https://wp.tyt.com.mx/wp-content/uploads/2016/11/kenworth-gpo-ed-1-1024x597.jpg') center/cover no-repeat;">
+            style="min-height: 70vh; background: url('https://wp.tyt.com.mx/wp-content/uploads/2016/11/kenworth-gpo-ed-1-1024x597.jpg') center no-repeat;">
             <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0,0,0,0.5);"></div>
             <div class="container position-relative">
                 <h1 class="display-4 fw-bold">LABS</h1>

@@ -86,6 +86,7 @@
     <Compile Include="Logica\ClClienteL.cs" />
     <Compile Include="Logica\ClContadorL.cs" />
     <Compile Include="Logica\ClUsuarioL.cs" />
+    <Compile Include="Modelo\ClClienteM.cs" />
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />
     <Compile Include="Modelo\ClGastoM.cs" />
     <Compile Include="Modelo\ClRolM.cs" />

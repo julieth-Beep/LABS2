@@ -1,5 +1,6 @@
 ﻿using PruebaLABS.Datos;
 using PruebaLABS.Logica;
+using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace PruebaLABS.Vista
                 Session["rol"] = ingreso.idRol;
                 Session["nombre"] = ingreso.nombre;
                 Session["correo"] = ingreso.correo;
+                Session["esCliente"] = false;
 
                 if (ingreso.idRol == 2) 
                 {
@@ -41,15 +43,30 @@ namespace PruebaLABS.Vista
                 {
                     Response.Redirect("OpcionesContador.aspx");
                 }
-                else if (ingreso.idRol == 4) 
-                {
-                    Response.Redirect("OpcionesCliente.aspx");
-                }
+               
+                
             }
             else
             {
-                lnlMensaje.Text = "No tiene cuenta aún, regístrese para poder ingresar";
+                ClClienteL cliente = new ClClienteL();
+                ClClienteM ingresoC = cliente.MtLoginCliente(user, pass);
+
+                if (ingresoC != null)
+                {
+                    Session["esCliente"] = true;
+                    Session["idCliente"] = ingresoC.idCliente;
+                    Session["nombre"] = ingresoC.nombre;
+                    Session["correo"] = ingresoC.correo;
+
+                    Response.Redirect("OpcionesCliente.aspx");
+                }
+                else
+                {
+                    lnlMensaje.Text = "Credenciales incorrectas.Verifique su email y contraseña.";
+                }
+
             }
+
         }
     }
 }
