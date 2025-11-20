@@ -1,0 +1,360 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\datos\\clcontadord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\datos\\clcontadord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\datos\\clconexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\datos\\clconexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\datos\\cladministradord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\datos\\cladministradord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\vistas.master.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\vistas.master.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\site1.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\site1.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\vista\\opcionescontador.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\opcionescontador.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\vista\\opcionesconductor.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\opcionesconductor.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\vista\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\opcionescliente.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\opcionescliente.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\opcionesadmin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\opcionesadmin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\inicio.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\inicio.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\datos\\clusuariod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\datos\\clusuariod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|c:\\users\\angel\\onedrive\\desktop\\adso\\labs2\\pruebalabs\\pruebalabs\\modelo\\clestadovehiculom.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\modelo\\clestadovehiculom.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\vistas.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\vistas.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\vistas.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\vistas.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\registro.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\registro.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\site1.master.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\site1.master.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\pruebalabs\\vista\\registro.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B20FAAA-AE7A-45EE-8979-092722821F0C}|PruebaLABS\\PruebaLABS.csproj|solutionrelative:pruebalabs\\vista\\registro.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 12,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClAdministradorD.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClAdministradorD.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Datos\\ClAdministradorD.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClAdministradorD.cs",
+              "RelativeToolTip": "PruebaLABS\\Datos\\ClAdministradorD.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T01:39:16.288Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Login.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Login.aspx.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Login.aspx.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Login.aspx.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Login.aspx.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAIwDQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T00:13:40.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ClEstadoVehiculoM.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Modelo\\ClEstadoVehiculoM.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Modelo\\ClEstadoVehiculoM.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Modelo\\ClEstadoVehiculoM.cs",
+              "RelativeToolTip": "PruebaLABS\\Modelo\\ClEstadoVehiculoM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:48:03.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Login.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Login.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Login.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T23:20:04.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Vistas.Master.designer.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master.designer.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Vistas.Master.designer.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master.designer.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Vistas.Master.designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:14:39.22Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Vistas.Master.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Vistas.Master.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Vistas.Master.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T22:26:30.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Site1.Master.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Site1.Master.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Site1.Master.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAwwBYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T22:52:39.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Vistas.Master",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Vistas.Master",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Vistas.Master",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Vistas.Master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T22:16:20.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Registro.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Registro.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Registro.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Registro.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Registro.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T22:13:29.668Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OpcionesCliente.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesCliente.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\OpcionesCliente.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesCliente.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\OpcionesCliente.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T22:07:54.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "opcionesAdmin.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\opcionesAdmin.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\opcionesAdmin.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\opcionesAdmin.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\opcionesAdmin.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T22:06:32.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClConexion.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClConexion.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Datos\\ClConexion.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClConexion.cs",
+              "RelativeToolTip": "PruebaLABS\\Datos\\ClConexion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAB1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T00:04:32.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClContadorD.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClContadorD.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Datos\\ClContadorD.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClContadorD.cs",
+              "RelativeToolTip": "PruebaLABS\\Datos\\ClContadorD.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T00:04:23.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "OpcionesContador.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesContador.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\OpcionesContador.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesContador.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\OpcionesContador.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-20T00:42:17.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Site1.Master",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Site1.Master",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Site1.Master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T22:01:41.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OpcionesConductor.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesConductor.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\OpcionesConductor.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\OpcionesConductor.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\OpcionesConductor.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-20T00:40:53.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ClUsuarioD.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClUsuarioD.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Datos\\ClUsuarioD.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Datos\\ClUsuarioD.cs",
+              "RelativeToolTip": "PruebaLABS\\Datos\\ClUsuarioD.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T00:08:22.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Inicio.aspx",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Inicio.aspx",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Inicio.aspx",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Inicio.aspx",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Inicio.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-11-19T21:59:56.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Site1.Master.designer.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master.designer.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Site1.Master.designer.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Site1.Master.designer.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Site1.Master.designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:24:09.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Registro.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Registro.aspx.cs",
+              "RelativeDocumentMoniker": "PruebaLABS\\Vista\\Registro.aspx.cs",
+              "ToolTip": "C:\\Users\\angel\\OneDrive\\Desktop\\adso\\LABS2\\PruebaLABS\\PruebaLABS\\Vista\\Registro.aspx.cs",
+              "RelativeToolTip": "PruebaLABS\\Vista\\Registro.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:20:15.783Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
