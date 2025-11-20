@@ -23,31 +23,33 @@ namespace PruebaLABS.Vista
             ClUsuarioL ousuL = new ClUsuarioL();
             ClUsuarioM ingreso = ousuL.MtLogin(user, pass);
 
-
             if (ingreso != null)
             {
                 Session["rol"] = ingreso.idRol;
                 Session["nombre"] = ingreso.nombre;
                 Session["correo"] = ingreso.correo;
 
-                if(ingreso.idRol==2)
+                if (ingreso.idRol == 2) 
                 {
                     Response.Redirect("opcionesAdmin.aspx");
                 }
-                else if(ingreso.idRol==1)
+                else if (ingreso.idRol == 1) 
                 {
                     Response.Redirect("OpcionesConductor.aspx");
                 }
-                else if (ingreso.idRol==3)
+                else if (ingreso.idRol == 3) 
+                {
+                    Response.Redirect("OpcionesCliente.aspx");
+                }
+                else if (ingreso.idRol == 4) 
                 {
                     Response.Redirect("OpcionesContador.aspx");
                 }
             }
             else
             {
-                lnlMensaje.Text = "No tiene cuenta aun,registrese para poder ingresar";
+                lnlMensaje.Text = "No tiene cuenta aún, regístrese para poder ingresar";
             }
-
         }
     }
 }
