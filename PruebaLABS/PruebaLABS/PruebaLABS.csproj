@@ -77,9 +77,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\ClClienteD.cs" />
     <Compile Include="Datos\ClConexion.cs" />
     <Compile Include="Datos\ClContadorD.cs" />
-    <Compile Include="Datos\ClUsuarioD.cs" />
+    <Compile Include="Datos\ClUusuarioD.cs" />
+    <Compile Include="Logica\ClClienteL.cs" />
     <Compile Include="Logica\ClContadorL.cs" />
     <Compile Include="Logica\ClUsuarioL.cs" />
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />

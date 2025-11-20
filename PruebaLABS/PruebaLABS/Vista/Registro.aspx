@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="Registro de nuevos Usuarios" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PruebaLABS.Vista.Registro" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>LABS - Registro</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
-
         body {
             background-color: #f4f6f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -103,10 +103,10 @@
             height: 45px;
         }
 
-        .form-control:focus {
-            border-color: #2E7D32;
-            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
-        }
+            .form-control:focus {
+                border-color: #2E7D32;
+                box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
+            }
 
         .input-group:focus-within .input-group-text {
             border-color: #2E7D32;
@@ -126,9 +126,9 @@
             height: 45px;
         }
 
-        .btn-register:hover {
-            background: #27662C;
-        }
+            .btn-register:hover {
+                background: #27662C;
+            }
 
         .login-link {
             text-align: center;
@@ -137,46 +137,55 @@
             border-top: 1px solid #e9ecef;
         }
 
-        .login-link a {
-            color: #2E7D32;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 14px;
-        }
+            .login-link a {
+                color: #2E7D32;
+                font-weight: 500;
+                text-decoration: none;
+                transition: color 0.3s ease;
+                font-size: 14px;
+            }
 
-        .login-link a:hover {
-            color: #1B5E20;
-            text-decoration: underline;
-        }
+                .login-link a:hover {
+                    color: #1B5E20;
+                    text-decoration: underline;
+                }
 
         .full-width {
             grid-column: 1 / -1;
+        }
+
+        .empresa-fields {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2E7D32;
+            margin-top: 10px;
+            display: none;
         }
 
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .card-body {
                 padding: 25px 20px;
             }
-            
+
             .card-header {
                 padding: 25px 20px 10px 20px;
             }
-            
-            .card-header h2 {
-                font-size: 24px;
-            }
+
+                .card-header h2 {
+                    font-size: 24px;
+                }
         }
 
         @media (max-width: 576px) {
             .register-container {
                 padding: 15px;
             }
-            
+
             .card-body {
                 padding: 20px 15px;
             }
@@ -191,7 +200,21 @@
         }
     </style>
 
+    <script type="text/javascript">
+        function toggleEmpresaFields() {
+            var rol = document.getElementById('<%= ddlRol.ClientID %>');
+            var empresaFields = document.getElementById('empresaFields');
+
+            if (rol.value === "3") { 
+                empresaFields.style.display = 'block';
+            } else {
+                empresaFields.style.display = 'none';
+            }
+        }
+    </script>
+
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="register-container">
         <div class="register-card">
@@ -202,7 +225,6 @@
                 <p>Crea tu cuenta en LABS</p>
             </div>
 
-            <%--Body del formulario --%>
             <div class="card-body">
                 <div class="form-grid">
                     
@@ -242,7 +264,35 @@
                         <asp:Label ID="lblCorreo" runat="server" Text="Correo Electrónico" CssClass="form-label"></asp:Label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" TextMode="Email" placeholder="correo@ejemplo.com"></asp:TextBox>
+                            <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" TextMode="Email" placeholder="correo@gmail.com"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <asp:Label ID="lblRol" runat="server" Text="Tipo de Usuario" CssClass="form-label"></asp:Label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                            <asp:DropDownList ID="ddlRol" runat="server" CssClass="form-control" onchange="toggleEmpresaFields()">
+                                <asp:ListItem Value="">Seleccione un rol</asp:ListItem>
+                                <asp:ListItem Value="1">Conductor</asp:ListItem>
+                                <asp:ListItem Value="2">Administrador</asp:ListItem>
+                                <asp:ListItem Value="3">Cliente</asp:ListItem>
+                                <asp:ListItem Value="4">Contador</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <%--Campo Cliente (Empresa)--%>
+                    <div id="empresaFields" class="form-group full-width empresa-fields">
+                        <h5 class="text-success mb-3">Información de la Empresa</h5>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <asp:Label ID="lblEmpresa" runat="server" Text="Nombre de la Empresa" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                    <asp:TextBox ID="txtEmpresa" runat="server" CssClass="form-control" placeholder="Nombre de la empresa"></asp:TextBox>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -264,7 +314,7 @@
                 </div>
 
                 <div class="full-width">
-                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse" 
+                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse"
                         CssClass="btn-register" OnClick="btnRegistrar_Click" />
                 </div>
 
@@ -281,5 +331,4 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </asp:Content>

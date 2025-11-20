@@ -11,6 +11,7 @@ namespace PruebaLABS.Vista
     public partial class Registro : System.Web.UI.Page
     {
         ClUsuarioL logicaUsuario = new ClUsuarioL();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,11 +28,22 @@ namespace PruebaLABS.Vista
                     string.IsNullOrEmpty(txtNombre.Text) ||
                     string.IsNullOrEmpty(txtApellido.Text) ||
                     string.IsNullOrEmpty(txtCorreo.Text) ||
-                    string.IsNullOrEmpty(txtPassword.Text))
+                    string.IsNullOrEmpty(txtPassword.Text) ||
+                    string.IsNullOrEmpty(ddlRol.SelectedValue))
                 {
                     lblMensaje.Text = "Por favor complete todos los campos obligatorios";
                     lblMensaje.Style["color"] = "#dc3545";
                     return;
+                }
+
+                if (ddlRol.SelectedValue == "3")
+                {
+                    if (string.IsNullOrEmpty(txtEmpresa.Text))
+                    {
+                        lblMensaje.Text = "Para registro como cliente, complete el campo de empresa";
+                        lblMensaje.Style["color"] = "#dc3545";
+                        return;
+                    }
                 }
 
                 if (txtPassword.Text != txtConfirmPassword.Text)
@@ -54,16 +66,40 @@ namespace PruebaLABS.Vista
                     txtApellido.Text.Trim(),
                     txtTelefono.Text.Trim(),
                     txtCorreo.Text.Trim(),
-                    txtPassword.Text
+                    txtPassword.Text,
+                    ddlRol.SelectedValue,
+                    txtEmpresa.Text.Trim()
                 );
 
                 if (resultado.Contains("exitosamente"))
                 {
-                    lblMensaje.Text = "✅ " + resultado + ". Redirigiendo al login...";
+                    lblMensaje.Text = "✅ " + resultado + ". Redirigiendo a tu página...";
                     lblMensaje.Style["color"] = "#198754";
-                    LimpiarFormulario();
 
-                    Response.AddHeader("REFRESH", "2;URL=Login.aspx");
+                    string rol = ddlRol.SelectedValue;
+                    string redirectPage = "";
+
+                    switch (rol)
+                    {
+                        case "1": 
+                            redirectPage = "OpcionesConductor.aspx";
+                            break;
+                        case "2": 
+                            redirectPage = "opcionesAdmin.aspx";
+                            break;
+                        case "3": 
+                            redirectPage = "OpcionesCliente.aspx";
+                            break;
+                        case "4": 
+                            redirectPage = "OpcionesContador.aspx";
+                            break;
+                    }
+
+                    Session["rol"] = rol;
+                    Session["nombre"] = txtNombre.Text.Trim();
+                    Session["correo"] = txtCorreo.Text.Trim();
+
+                    Response.Redirect(redirectPage);
                 }
                 else
                 {
@@ -73,7 +109,7 @@ namespace PruebaLABS.Vista
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "❌ Error al registrar usuario: " + ex.Message;
+                lblMensaje.Text = "❌ Error al registrar: " + ex.Message;
                 lblMensaje.Style["color"] = "#dc3545";
             }
         }
@@ -87,6 +123,8 @@ namespace PruebaLABS.Vista
             txtCorreo.Text = "";
             txtPassword.Text = "";
             txtConfirmPassword.Text = "";
+            txtEmpresa.Text = "";
+            ddlRol.SelectedIndex = 0;
         }
     }
 }
