@@ -1,8 +1,8 @@
-﻿<%@ Page Title="Registro de Cliente" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PruebaLABS.Vista.Registro" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="RegistroUsuario.aspx.cs" Inherits="PruebaLABS.Vista.RegistroUsuario" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>LABS - Registro de Cliente</title>
+    <title>LABS - Registro de Empleados</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
@@ -160,8 +160,8 @@
 
             <div class="card-header">
                 <i class="bi bi-person-plus-fill brand-icon"></i>
-                <h2>Registro de Cliente</h2>
-                <p>Registra tu información para solicitar servicios de transporte</p>
+                <h2>Registro de Empleado</h2>
+                <p>Registra tu información</p>
             </div>
 
             <div class="card-body">
@@ -190,14 +190,6 @@
                 </div>
 
                 <div class="form-group">
-                    <asp:Label ID="lblEmpresa" runat="server" Text="Empresa *" CssClass="form-label"></asp:Label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-building"></i></span>
-                        <asp:TextBox ID="txtEmpresa" runat="server" CssClass="form-control" placeholder="Nombre de tu empresa" required></asp:TextBox>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono" CssClass="form-label"></asp:Label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-telephone"></i></span>
@@ -213,29 +205,53 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <asp:Label ID="lblpass" runat="server" Text="Password" CssClass="form-label fw-semibold"></asp:Label>
+                <%--seleccionar rol--%>
+
+                <div class="form-group full-width">
+                    <asp:Label ID="lblRol" runat="server" Text="Tipo de Usuario" CssClass="form-label"></asp:Label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <asp:TextBox ID="txtPass" runat="server" CssClass="form-control" placeholder="Digite password" TextMode="Password"></asp:TextBox>
+                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                        <asp:DropDownList ID="ddlRol" runat="server" CssClass="form-control" onchange="toggleEmpresaFields()">
+                            <asp:ListItem Value="">Seleccione un rol</asp:ListItem>
+                            <asp:ListItem Value="1">Conductor</asp:ListItem>
+                            <asp:ListItem Value="2">Administrador</asp:ListItem>
+                            <asp:ListItem Value="3">Contador</asp:ListItem>
+                        </asp:DropDownList>
                     </div>
                 </div>
 
-                <div class="full-width">
-                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse"
-                        CssClass="btn-register" OnClick="btnRegistrar_Click" />
+                <div class="form-group">
+                    <asp:Label ID="lblPassword" runat="server" Text="Contraseña" CssClass="form-label"></asp:Label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Mínimo 6 caracteres"></asp:TextBox>
+                    </div>
                 </div>
 
-                <div class="full-width">
-                    <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="alert-message"></asp:Label>
-                </div>
-
-                <div class="login-link full-width">
-                    <span>¿Ya tienes cuenta? </span>
-                    <a href="Login.aspx">Inicia sesión aquí</a>
+                <div class="form-group">
+                    <asp:Label ID="lblConfirmPassword" runat="server" Text="Confirmar Contraseña" CssClass="form-label"></asp:Label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Repetir contraseña"></asp:TextBox>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <div class="full-width">
+                <asp:Button ID="btnRegistrarr" runat="server" Text="Registrarse"
+                    CssClass="btn-register" OnClick="btnRegistrarr_Click" />
+            </div>
+
+            <div class="full-width">
+                <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="alert-message"></asp:Label>
+            </div>
+
+            <div class="login-link full-width">
+                <span>¿Ya tienes cuenta? </span>
+                <a href="Login.aspx">Inicia sesión aquí</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </asp:Content>

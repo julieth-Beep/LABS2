@@ -96,9 +96,9 @@
             font-weight: 500;
         }
 
-        .btn-save:hover, .btn-add:hover {
-            background-color: #27662C;
-        }
+            .btn-save:hover, .btn-add:hover {
+                background-color: #27662C;
+            }
 
         .alert-message {
             padding: 10px;
@@ -112,6 +112,8 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
 
     <div class="options-container">
         <div class="container">

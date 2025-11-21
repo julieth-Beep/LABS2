@@ -16,6 +16,5 @@ namespace PruebaLABS.Datos
         public string contraseña { get; set; }
         public int idRol { get; set; }
         public string nombreRol { get; set; }
-        public string empresa { get; set; }
     }
 }

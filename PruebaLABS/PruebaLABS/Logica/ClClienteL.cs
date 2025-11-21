@@ -21,6 +21,23 @@ namespace PruebaLABS.Logica
 
         }
 
+        public string MtRegistrarCliente(string documento, string nombre, string apellido, string empresa, string telefono, string correo, string contraseña)
+        {
+            ClClienteM cliente = new ClClienteM
+            {
+                documento = documento,
+                nombre = nombre,
+                apellido = apellido,
+                empresa = empresa,
+                telefono = telefono,
+                correo = correo,
+                contraseña = contraseña,
+                idEstado = 1
+            };
+
+            return oContD.MtRegistrarCliente(cliente);
+        }
+
     }
 
     

@@ -16,10 +16,10 @@ namespace PruebaLABS.Logica
             return oDtos ?? null;
         }
 
-        public string MtRegistrarUsuario(string documento, string nombre, string apellido, string telefono,
-            string correo, string contraseña, string idRol, string empresa)
+        public string MtRegistrarUsuario(string documento, string nombre, string apellido, string telefono, string correo,
+             string contraseña, string idRol)
         {
-            ClUsuarioM usuario = new ClUsuarioM
+            ClUsuarioM user = new ClUsuarioM
             {
                 documento = documento,
                 nombre = nombre,
@@ -28,10 +28,9 @@ namespace PruebaLABS.Logica
                 correo = correo,
                 contraseña = contraseña,
                 idRol = Convert.ToInt32(idRol),
-                empresa = empresa
             };
 
-            return DatUsu.MtRegistrarUsuario(usuario);
+            return DatUsu.MtRegistrarUsuario(user);
         }
     }
 }

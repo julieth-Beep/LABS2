@@ -74,6 +74,7 @@
     <Content Include="Vista\OpcionesConductor.aspx" />
     <Content Include="Vista\OpcionesContador.aspx" />
     <Content Include="Vista\Registro.aspx" />
+    <Content Include="Vista\RegistroUsuario.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +142,13 @@
     </Compile>
     <Compile Include="Vista\Registro.aspx.designer.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\RegistroUsuario.aspx.cs">
+      <DependentUpon>RegistroUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vista\RegistroUsuario.aspx.designer.cs">
+      <DependentUpon>RegistroUsuario.aspx</DependentUpon>
     </Compile>
     <Compile Include="Vista\Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>

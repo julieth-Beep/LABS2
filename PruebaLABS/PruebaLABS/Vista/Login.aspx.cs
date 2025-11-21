@@ -2,11 +2,7 @@
 using PruebaLABS.Logica;
 using PruebaLABS.Modelo;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace PruebaLABS.Vista
 {
@@ -16,57 +12,49 @@ namespace PruebaLABS.Vista
         {
 
         }
+
         protected void bntIngresar_Click(object sender, EventArgs e)
         {
             string user = txtUser.Text;
             string pass = txtPass.Text;
 
+
             ClUsuarioL ousuL = new ClUsuarioL();
-            ClUsuarioM ingreso = ousuL.MtLogin(user, pass);
+            ClUsuarioM ingresoUsuario = ousuL.MtLogin(user, pass);
 
-            if (ingreso != null)
+            if (ingresoUsuario != null)
             {
-                Session["rol"] = ingreso.idRol;
-                Session["nombre"] = ingreso.nombre;
-                Session["correo"] = ingreso.correo;
-                Session["esCliente"] = false;
+                Session["rol"] = ingresoUsuario.idRol;
+                Session["nombre"] = ingresoUsuario.nombre;
+                Session["correo"] = ingresoUsuario.correo;
 
-                if (ingreso.idRol == 2) 
-                {
+                if (ingresoUsuario.idRol == 2)
                     Response.Redirect("opcionesAdmin.aspx");
-                }
-                else if (ingreso.idRol == 1) 
-                {
+                else if (ingresoUsuario.idRol == 1)
                     Response.Redirect("OpcionesConductor.aspx");
-                }
-                else if (ingreso.idRol == 3) 
-                {
+                else if (ingresoUsuario.idRol == 3)
                     Response.Redirect("OpcionesContador.aspx");
-                }
-               
-                
+
+                return;
             }
-            else
+
+
+            ClClienteL oClienteL = new ClClienteL();
+            ClClienteM ingresoCliente = oClienteL.MtLoginCliente(user, pass);
+
+            if (ingresoCliente != null)
             {
-                ClClienteL cliente = new ClClienteL();
-                ClClienteM ingresoC = cliente.MtLoginCliente(user, pass);
+                Session["idCliente"] = ingresoCliente.idCliente;
+                Session["nombre"] = ingresoCliente.nombre + " " + ingresoCliente.apellido;
+                Session["correo"] = ingresoCliente.correo;
 
-                if (ingresoC != null)
-                {
-                    Session["esCliente"] = true;
-                    Session["idCliente"] = ingresoC.idCliente;
-                    Session["nombre"] = ingresoC.nombre;
-                    Session["correo"] = ingresoC.correo;
-
-                    Response.Redirect("OpcionesCliente.aspx");
-                }
-                else
-                {
-                    lnlMensaje.Text = "Credenciales incorrectas.Verifique su email y contraseña.";
-                }
-
+                Response.Redirect("OpcionesCliente.aspx");
+                return;
             }
 
+
+
+            lnlMensaje.Text = "Correo o contraseña incorrectos.";
         }
     }
 }
