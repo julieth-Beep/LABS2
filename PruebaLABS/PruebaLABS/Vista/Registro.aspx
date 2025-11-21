@@ -1,6 +1,7 @@
-﻿<%@ Page Title="Registro de Cliente" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PruebaLABS.Vista.Registro" %>
+﻿<%@ Page Title="Registro de Cliente" Language="C#" MasterPageFile="~/Vista/Vistas.Master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PruebaLABS.Vista.Registro" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>LABS - Registro de Cliente</title>
 
@@ -8,58 +9,65 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
+        /* ======== GLOBAL ======== */
         body {
-            background-color: #f4f6f5;
+            background-color: #f4f6f5 !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .register-container {
-            min-height: 100vh;
+            min-height: calc(100vh - 180px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
+        /* ======== CARD ======== */
         .register-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border: none;
+            border: 1px solid #e1e4e7;
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 600px;
+            transition: .2s ease;
         }
 
+        .register-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ======== HEADER ======== */
         .card-header {
             background: white;
-            color: #333;
+            padding: 25px 25px 10px;
             text-align: center;
-            padding: 30px 30px 10px 30px;
-            border-radius: 15px 15px 0 0 !important;
-            border: none;
             border-bottom: 1px solid #e9ecef;
+            border-radius: 15px 15px 0 0;
         }
 
         .brand-icon {
             font-size: 55px;
-            margin-bottom: 10px;
-            display: block;
             color: #2E7D32;
+            margin-bottom: 10px;
         }
 
         .card-header h2 {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 26px;
+            color: #2E7D32;
             margin: 0;
-            color: #333;
         }
 
         .card-header p {
             font-size: 15px;
-            color: #666;
-            margin: 8px 0 0 0;
+            color: #6c757d;
+            margin: 8px 0 0;
         }
 
+        /* ======== FORM ======== */
         .card-body {
             padding: 30px;
         }
@@ -69,43 +77,37 @@
         }
 
         .form-label {
-            font-weight: 500;
-            color: #333;
+            font-weight: 600;
             margin-bottom: 6px;
             font-size: 13px;
-            display: block;
-        }
-
-        .input-group {
-            position: relative;
         }
 
         .input-group-text {
             background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
+            border: 1px solid #dfe3e6;
             border-right: none;
             border-radius: 8px 0 0 8px;
         }
 
         .form-control {
-            border: 1px solid #e9ecef;
+            border: 1px solid #dfe3e6;
             border-left: none;
             border-radius: 0 8px 8px 0;
             padding: 10px 12px;
-            font-size: 14px;
-            transition: all 0.3s ease;
             height: 45px;
+            transition: .2s ease;
         }
 
-            .form-control:focus {
-                border-color: #2E7D32;
-                box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
-            }
+        .form-control:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 0.15rem rgba(46, 125, 50, 0.2);
+        }
 
         .input-group:focus-within .input-group-text {
             border-color: #2E7D32;
         }
 
+        /* ======== BUTTON ======== */
         .btn-register {
             background: #2E7D32;
             border: none;
@@ -114,36 +116,36 @@
             border-radius: 8px;
             font-weight: 500;
             font-size: 15px;
-            transition: all 0.3s ease;
             width: 100%;
             margin-top: 10px;
-            height: 45px;
+            transition: .2s ease;
         }
 
-            .btn-register:hover {
-                background: #27662C;
-            }
+        .btn-register:hover {
+            background: #1b5e20;
+        }
 
+        /* ======== LINK ======== */
         .login-link {
             text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #e9ecef;
         }
 
-            .login-link a {
-                color: #2E7D32;
-                font-weight: 500;
-                text-decoration: none;
-                transition: color 0.3s ease;
-                font-size: 14px;
-            }
+        .login-link a {
+            color: #2E7D32;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-                .login-link a:hover {
-                    color: #1B5E20;
-                    text-decoration: underline;
-                }
+        .login-link a:hover {
+            text-decoration: underline;
+            color: #1b5e20;
+        }
 
+        /* ======== MESSAGE ======== */
         .alert-message {
             border-radius: 8px;
             padding: 10px 12px;
@@ -152,10 +154,14 @@
             font-size: 14px;
         }
     </style>
+
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentBodys" runat="server">
+
     <div class="register-container">
+
         <div class="register-card">
 
             <div class="card-header">
@@ -165,6 +171,7 @@
             </div>
 
             <div class="card-body">
+
                 <div class="form-group">
                     <asp:Label ID="lblDocumento" runat="server" Text="Documento *" CssClass="form-label"></asp:Label>
                     <div class="input-group">
@@ -213,29 +220,27 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <asp:Label ID="lblpass" runat="server" Text="Password" CssClass="form-label fw-semibold"></asp:Label>
+                <div class="form-group">
+                    <asp:Label ID="lblpass" runat="server" Text="Password" CssClass="form-label"></asp:Label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <asp:TextBox ID="txtPass" runat="server" CssClass="form-control" placeholder="Digite password" TextMode="Password"></asp:TextBox>
+                        <asp:TextBox ID="txtPass" runat="server" CssClass="form-control" placeholder="Digite su contraseña" TextMode="Password"></asp:TextBox>
                     </div>
                 </div>
 
-                <div class="full-width">
-                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse"
-                        CssClass="btn-register" OnClick="btnRegistrar_Click" />
-                </div>
+                <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse"
+                    CssClass="btn-register" OnClick="btnRegistrar_Click" />
 
-                <div class="full-width">
-                    <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="alert-message"></asp:Label>
-                </div>
+                <asp:Label ID="lblMensaje" runat="server" CssClass="alert-message"></asp:Label>
 
-                <div class="login-link full-width">
+                <div class="login-link">
                     <span>¿Ya tienes cuenta? </span>
                     <a href="Login.aspx">Inicia sesión aquí</a>
                 </div>
+
             </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
 </asp:Content>

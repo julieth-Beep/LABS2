@@ -37,7 +37,7 @@
 
 
 
-        <asp:ContentPlaceHolder ID="ContentBody" runat="server"></asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="ContentBodys" runat="server"></asp:ContentPlaceHolder>
 
 
 
