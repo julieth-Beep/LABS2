@@ -149,6 +149,51 @@
             grid-column: 1 / -1;
         }
 
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            border-radius: 15px 15px 0 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-footer {
+            border-radius: 0 0 15px 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .btn-close:focus {
+            box-shadow: none;
+        }
+
+        .modal.fade .modal-dialog {
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: scale(1);
+        }
+
+        .bi-check-circle {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -309,7 +354,7 @@
 
                             <div class="full-width">
                                 <asp:Button ID="btnSolicitarViaje" runat="server" Text="Solicitar Viaje"
-                                    CssClass="btn-register" />
+                                    CssClass="btn-register" OnClick="btnSolicitarViaje_Click" />
                             </div>
 
                             <div class="full-width">
@@ -322,5 +367,42 @@
         </div>
     </div>
 
+    <%--Ventana Emergente de Confirmacion de Solicitud Viaje--%>
+    <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalConfirmacionLabel">
+                        <i class="bi bi-check-circle-fill me-2"></i>Solicitud Registrada
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="text-success mb-3">¡Solicitud de Viaje Registrada Exitosamente!</h4>
+                    <p class="lead">Hemos recibido tu solicitud de viaje. Nos contactaremos contigo a la brevedad para informarte el costo y las indicaciones específicas.</p>
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Próximos pasos:</strong> Un asesor se comunicará contigo dentro de las próximas 24 horas.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success btn-lg px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-check-lg me-2"></i>Entendido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        function mostrarModalConfirmacion() {
+            var modal = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+            modal.show();
+        }
+    </script>
 </asp:Content>

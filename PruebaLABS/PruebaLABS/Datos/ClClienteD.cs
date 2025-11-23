@@ -77,11 +77,13 @@ namespace PruebaLABS.Datos
 
                 if (existe > 0)
                 {
-                    mensaje = "El cliente ya está registrado con ese correo.";
+                    mensaje = "El cliente ya está registrado con ese documento o correo.";
                     return mensaje;
                 }
 
-                string insertar = @"insert into cliente (documento, nombre, apellido, empresa, telefono, correo, idEstado) values (@documento, @nombre, @apellido, @empresa, @telefono, @correo, 1)";
+                string insertar = @"insert into cliente (documento, nombre, apellido, empresa, telefono, correo, pasword, idEstado) 
+                          values (@documento, @nombre, @apellido, @empresa, @telefono, @correo, @pasword, 1);
+                          SELECT SCOPE_IDENTITY();";
 
                 SqlCommand cmdInsertar = new SqlCommand(insertar, oConexion.MtAbrirConexion());
                 cmdInsertar.Parameters.AddWithValue("@documento", cliente.documento);
@@ -90,10 +92,11 @@ namespace PruebaLABS.Datos
                 cmdInsertar.Parameters.AddWithValue("@empresa", cliente.empresa ?? "");
                 cmdInsertar.Parameters.AddWithValue("@telefono", cliente.telefono ?? "");
                 cmdInsertar.Parameters.AddWithValue("@correo", cliente.correo);
+                cmdInsertar.Parameters.AddWithValue("@pasword", cliente.contraseña);
 
-                int client = cmdInsertar.ExecuteNonQuery();
+                int idCliente = Convert.ToInt32(cmdInsertar.ExecuteScalar());
 
-                if (client > 0)
+                if (idCliente > 0)
                 {
                     mensaje = "Cliente registrado exitosamente";
                 }

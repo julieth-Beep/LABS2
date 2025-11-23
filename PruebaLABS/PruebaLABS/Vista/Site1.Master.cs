@@ -9,50 +9,39 @@ namespace PruebaLABS.Vista
         {
             if (!IsPostBack)
             {
-
-                if (Session["nombre"] == null)
+                if (Session["nombre"] == null && Session["idCliente"] == null)
                 {
                     Response.Redirect("Login.aspx");
                     return;
                 }
 
-                lblUsuario.Text = Session["nombre"].ToString();
-
-                string nombreRol = "";
-
-     
-                if (Session["esCliente"] != null && Convert.ToBoolean(Session["esCliente"]))
+                if (Session["idCliente"] != null)
                 {
-                    nombreRol = "Cliente";
+                    lblUsuario.Text = Session["nombre"].ToString();
+                    lblRol.Text = "Cliente";
                 }
-                else if (Session["rol"] != null)
+                else if (Session["nombre"] != null)
                 {
-          
+                    lblUsuario.Text = Session["nombre"].ToString();
+
+                    string nombreRol = "";
                     switch (Session["rol"].ToString())
                     {
                         case "1":
                             nombreRol = "Conductor";
                             break;
-
                         case "2":
                             nombreRol = "Administrador";
                             break;
-
                         case "3":
                             nombreRol = "Contador";
                             break;
-
                         default:
                             nombreRol = "Usuario";
                             break;
                     }
+                    lblRol.Text = nombreRol;
                 }
-                else
-                {
-                    nombreRol = "Usuario";
-                }
-
-                lblRol.Text = nombreRol;
             }
         }
 

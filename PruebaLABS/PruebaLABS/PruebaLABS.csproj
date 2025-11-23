@@ -78,12 +78,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\ClSolicitudViajeD.cs" />
     <Compile Include="Datos\ClVehiculoD.cs" />
     <Compile Include="Datos\ClClienteD.cs" />
     <Compile Include="Datos\ClConexion.cs" />
     <Compile Include="Datos\ClContadorD.cs" />
     <Compile Include="Datos\ClUusuarioD.cs" />
     <Compile Include="Datos\ClViajeD.cs" />
+    <Compile Include="Logica\ClSolicitudViajeL.cs" />
     <Compile Include="Logica\ClVehiculoL.cs" />
     <Compile Include="Logica\ClClienteL.cs" />
     <Compile Include="Logica\ClContadorL.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />
     <Compile Include="Modelo\ClGastoM.cs" />
     <Compile Include="Modelo\ClRolM.cs" />
+    <Compile Include="Modelo\ClSolicitudViajeM.cs" />
     <Compile Include="Modelo\ClUsuarioM.cs" />
     <Compile Include="Modelo\ClVehiculoM.cs" />
     <Compile Include="Modelo\ClViajeM.cs" />

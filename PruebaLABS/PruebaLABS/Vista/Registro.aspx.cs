@@ -41,6 +41,7 @@ namespace PruebaLABS.Vista
                 {
                     lblMensaje.Text = "La contraseña debe tener al menos 6 caracteres";
                     lblMensaje.Style["color"] = "#dc3545";
+                    lblMensaje.Visible = true;
                     return;
                 }
 
@@ -49,9 +50,9 @@ namespace PruebaLABS.Vista
                     txtNombre.Text.Trim(),
                     txtApellido.Text.Trim(),
                     txtEmpresa.Text.Trim(),
-                    txtPass.Text,
                     txtTelefono.Text.Trim(),
-                    txtCorreo.Text.Trim()
+                    txtCorreo.Text.Trim(),
+                    txtPass.Text 
                 );
 
                 if (resultado.Contains("exitosamente"))
@@ -60,13 +61,13 @@ namespace PruebaLABS.Vista
                     lblMensaje.Style["color"] = "#198754";
                     lblMensaje.Visible = true;
 
-                    Session["cliente_documento"] = txtDocumento.Text.Trim();
-                    Session["cliente_nombre"] = txtNombre.Text.Trim();
-                    Session["cliente_empresa"] = txtEmpresa.Text.Trim();
-                    Session["cliente_correo"] = txtCorreo.Text.Trim();
+                    Session["idCliente"] = txtDocumento.Text.Trim();
+                    Session["nombre"] = txtNombre.Text.Trim() + " " + txtApellido.Text.Trim();
+                    Session["correo"] = txtCorreo.Text.Trim();
+                    Session["esCliente"] = true; 
 
-                    Response.AddHeader("REFRESH", "2;URL=OpcionesCliente.aspx");
-
+                    Response.Redirect("OpcionesCliente.aspx", false);
+                    Context.ApplicationInstance.CompleteRequest();
                 }
                 else
                 {
