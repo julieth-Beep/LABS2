@@ -90,6 +90,7 @@
     <Compile Include="Logica\ClUsuarioL.cs" />
     <Compile Include="Logica\ClViajeL.cs" />
     <Compile Include="Modelo\ClClienteM.cs" />
+    <Compile Include="Modelo\ClContratoM.cs" />
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />
     <Compile Include="Modelo\ClGastoM.cs" />
     <Compile Include="Modelo\ClRolM.cs" />
