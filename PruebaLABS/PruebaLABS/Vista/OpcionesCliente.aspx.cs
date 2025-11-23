@@ -26,6 +26,9 @@ namespace PruebaLABS.Vista
 
                 CargarDatFlota();
                 CargarEmpresas();
+                CargarMisPedidos();
+
+                MostrarPanelSolicitarPedido();
             }
         }
 
@@ -36,6 +39,31 @@ namespace PruebaLABS.Vista
             gvFlota.DataBind();
         }
 
+        private void CargarMisPedidos()
+        {
+            try
+            {
+                int idCliente = Convert.ToInt32(Session["idCliente"]);
+                DataTable dtPedidos = viajeL.MtObtenerViajesCliente(idCliente);
+
+                if (dtPedidos != null && dtPedidos.Rows.Count > 0)
+                {
+                    gvMisPedidos.DataSource = dtPedidos;
+                    gvMisPedidos.DataBind();
+                }
+                else
+                {
+                    gvMisPedidos.DataSource = null;
+                    gvMisPedidos.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                gvMisPedidos.DataSource = null;
+                gvMisPedidos.DataBind();
+            }
+        }
+
         private void CargarEmpresas()
         {
             ddlEmpresa.Items.Clear();
@@ -44,6 +72,82 @@ namespace PruebaLABS.Vista
             ddlEmpresa.Items.Add(new ListItem("LogiCar S.A.", "LogiCar S.A."));
             ddlEmpresa.Items.Add(new ListItem("CargaExpress", "CargaExpress"));
             ddlEmpresa.Items.Add(new ListItem("Otra empresa", "Otra"));
+        }
+
+        private void MostrarPanelSolicitarPedido()
+        {
+            pnlSolicitarPedido.Visible = true;
+            pnlVisualizarPedidos.Visible = false;
+            pnlCajonPreguntas.Visible = false;
+            pnlFlotaVehiculos.Visible = false;
+
+            btnSolicitarPedido.CssClass = "sidebar-item active";
+            btnVisualizarPedidos.CssClass = "sidebar-item";
+            btnCajonPreguntas.CssClass = "sidebar-item";
+            btnFlotaVehiculos.CssClass = "sidebar-item";
+        }
+
+        private void MostrarPanelVisualizarPedidos()
+        {
+            pnlSolicitarPedido.Visible = false;
+            pnlVisualizarPedidos.Visible = true;
+            pnlCajonPreguntas.Visible = false;
+            pnlFlotaVehiculos.Visible = false;
+
+            btnSolicitarPedido.CssClass = "sidebar-item";
+            btnVisualizarPedidos.CssClass = "sidebar-item active";
+            btnCajonPreguntas.CssClass = "sidebar-item";
+            btnFlotaVehiculos.CssClass = "sidebar-item";
+
+            CargarMisPedidos();
+        }
+
+        private void MostrarPanelCajonPreguntas()
+        {
+            pnlSolicitarPedido.Visible = false;
+            pnlVisualizarPedidos.Visible = false;
+            pnlCajonPreguntas.Visible = true;
+            pnlFlotaVehiculos.Visible = false;
+
+            btnSolicitarPedido.CssClass = "sidebar-item";
+            btnVisualizarPedidos.CssClass = "sidebar-item";
+            btnCajonPreguntas.CssClass = "sidebar-item active";
+            btnFlotaVehiculos.CssClass = "sidebar-item";
+        }
+
+        private void MostrarPanelFlotaVehiculos()
+        {
+            pnlSolicitarPedido.Visible = false;
+            pnlVisualizarPedidos.Visible = false;
+            pnlCajonPreguntas.Visible = false;
+            pnlFlotaVehiculos.Visible = true;
+
+            btnSolicitarPedido.CssClass = "sidebar-item";
+            btnVisualizarPedidos.CssClass = "sidebar-item";
+            btnCajonPreguntas.CssClass = "sidebar-item";
+            btnFlotaVehiculos.CssClass = "sidebar-item active";
+
+            CargarDatFlota();
+        }
+
+        protected void btnSolicitarPedido_Click(object sender, EventArgs e)
+        {
+            MostrarPanelSolicitarPedido();
+        }
+
+        protected void btnVisualizarPedidos_Click(object sender, EventArgs e)
+        {
+            MostrarPanelVisualizarPedidos();
+        }
+
+        protected void btnCajonPreguntas_Click(object sender, EventArgs e)
+        {
+            MostrarPanelCajonPreguntas();
+        }
+
+        protected void btnFlotaVehiculos_Click(object sender, EventArgs e)
+        {
+            MostrarPanelFlotaVehiculos();
         }
 
         protected void btnSolicitarViaje_Click(object sender, EventArgs e)
@@ -76,8 +180,12 @@ namespace PruebaLABS.Vista
                 if (resultado.Contains("exitosamente"))
                 {
                     lblMensaje.Visible = false;
+
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarModal", "mostrarModalConfirmacion();", true);
+
                     LimpiarFormulario();
+
+                    CargarMisPedidos();
                 }
                 else
                 {
@@ -91,6 +199,34 @@ namespace PruebaLABS.Vista
                 lblMensaje.Text = "❌ Error al solicitar el viaje: " + ex.Message;
                 lblMensaje.Style["color"] = "#dc3545";
                 lblMensaje.Visible = true;
+            }
+        }
+
+        protected void btnEnviarConsulta_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ddlTipoConsulta.SelectedValue) ||
+                    string.IsNullOrEmpty(txtAsunto.Text) ||
+                    string.IsNullOrEmpty(txtMensajeConsulta.Text))
+                {
+                    lblMensajeConsultaResult.Text = "Por favor complete todos los campos de la consulta";
+                    lblMensajeConsultaResult.Style["color"] = "#dc3545";
+                    return;
+                }
+
+
+                lblMensajeConsultaResult.Text = "✅ Tu consulta ha sido enviada exitosamente. Te contactaremos pronto.";
+                lblMensajeConsultaResult.Style["color"] = "#198754";
+
+                ddlTipoConsulta.SelectedIndex = 0;
+                txtAsunto.Text = "";
+                txtMensajeConsulta.Text = "";
+            }
+            catch (Exception ex)
+            {
+                lblMensajeConsultaResult.Text = "❌ Error al enviar la consulta: " + ex.Message;
+                lblMensajeConsultaResult.Style["color"] = "#dc3545";
             }
         }
 

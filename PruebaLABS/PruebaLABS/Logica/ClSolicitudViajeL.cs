@@ -2,6 +2,7 @@
 using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -29,6 +30,11 @@ namespace PruebaLABS.Logica
             };
 
             return datosViaje.MtRegistrarViaje(viaje);
+        }
+
+        public DataTable MtObtenerViajesCliente(int idCliente)
+        {
+            return datosViaje.MtObtenerViajesCliente(idCliente);
         }
     }
 }
