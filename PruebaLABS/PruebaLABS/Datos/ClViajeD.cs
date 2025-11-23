@@ -15,7 +15,7 @@ namespace PruebaLABS.Datos
             ClConexion Oconex = new ClConexion();
 
             string consulta = @"
-           select  v.idViaje,v.puntoPartida ,v.destino,v.fechaInicio,v.fechaFin ,v.estadoViaje , v.distancia,v.costo,veh.placa,veh.modelo,veh.capacidad,c.idCliente from viaje v
+           select  v.idViaje,v.puntoPartida ,v.destino,v.fechaInicio,v.fechaFin ,v.estadoViaje , v.distancia,v.costo,v.motivo,v.observaciones,v.tipoCarga,veh.placa,veh.modelo,veh.capacidad,c.idCliente from viaje v
            INNER JOIN viajeVehiculo vv ON v.idViaje = vv.idViaje
            INNER JOIN cargo car ON vv.idConductor = car.idCargo
            INNER JOIN usuario u ON car.idUsuario = u.idUsuario
@@ -43,6 +43,9 @@ namespace PruebaLABS.Datos
                 viaje.placa = dr["placa"].ToString();
                 viaje.modelo = dr["modelo"].ToString();
                 viaje.capacidad = dr["capacidad"].ToString();
+                viaje.tipoCarga = dr["tipoCarga"].ToString();
+                viaje.motivo = dr["motivo"].ToString();
+                viaje.observaciones = dr["observaciones"].ToString();
                 viaje.idCliente = dr.GetInt32(dr.GetOrdinal("idCliente"));
                 viaje.estadoViaje = dr["estadoViaje"].ToString();
 

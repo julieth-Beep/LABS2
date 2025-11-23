@@ -15,6 +15,9 @@ namespace PruebaLABS.Modelo
         public string estadoViaje { get; set; }
         public string costo { get; set; }
         public string distancia { get; set; }
+        public string motivo { get; set; }
+        public string observaciones { get; set; }
+        public string tipoCarga {  get; set; }
         public int idCliente { get; set; }
         public int idAdministrador { get; set; }
 

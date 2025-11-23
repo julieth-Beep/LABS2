@@ -219,8 +219,11 @@
                                 <asp:BoundField DataField="placa" HeaderText="Vehículo" />
                                 <asp:BoundField DataField="modelo" HeaderText="Modelo" />
                                 <asp:BoundField DataField="capacidad" HeaderText="Capacidad" />
-                                <asp:BoundField DataField="idCliente" HeaderText="Cliente" />
                                 <asp:BoundField DataField="distancia" HeaderText="Distancia" />
+                                <asp:BoundField DataField="tipoCarga" HeaderText="Tipo de carga" />
+                                <asp:BoundField DataField="motivo" HeaderText="Motivo" />
+                                <asp:BoundField DataField="observaciones" HeaderText="Observaciones" />
+                                <asp:BoundField DataField="idCliente" HeaderText="Cliente" />
 
 
                                 <asp:TemplateField HeaderText="Estado">
