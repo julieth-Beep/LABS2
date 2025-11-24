@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.UI;
 
 namespace PruebaLABS.Vista
 {
@@ -7,55 +6,37 @@ namespace PruebaLABS.Vista
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (Session["nombre"] == null)
             {
-                if (Session["nombre"] == null && Session["idCliente"] == null)
-                {
-                    Response.Redirect("Login.aspx");
-                    return;
-                }
+                Response.Redirect("Login.aspx");
+                return;
+            }
 
-                if (Session["idCliente"] != null)
-                {
-                    lblUsuario.Text = Session["nombre"].ToString();
-                    lblRol.Text = "Cliente";
-                }
-                else if (Session["nombre"] != null)
-                {
-                    lblUsuario.Text = Session["nombre"].ToString();
+            lblUsuario.Text = Session["nombre"].ToString();
 
-                    string nombreRol = "";
-                    switch (Session["rol"].ToString())
-                    {
-                        case "1":
-                            nombreRol = "Conductor";
-                            break;
-                        case "2":
-                            nombreRol = "Administrador";
-                            break;
-                        case "3":
-                            nombreRol = "Contador";
-                            break;
-                        default:
-                            nombreRol = "Usuario";
-                            break;
-                    }
-                    lblRol.Text = nombreRol;
+            string rol = "Usuario";
+
+            bool esCliente = Session["esCliente"] != null && (bool)Session["esCliente"];
+
+            if (esCliente)
+                rol = "Cliente";
+            else if (Session["rol"] != null)
+            {
+                switch (Session["rol"].ToString())
+                {
+                    case "1": rol = "Conductor"; break;
+                    case "2": rol = "Administrador"; break;
+                    case "3": rol = "Contador"; break;
                 }
             }
-        }
 
+            lblRol.Text = rol;
+        }
 
         protected void btnCerrar_Click(object sender, EventArgs e)
         {
-          
             Session.Clear();
             Session.Abandon();
-            Session.RemoveAll();
-
-            Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-
             Response.Redirect("Login.aspx");
         }
     }
