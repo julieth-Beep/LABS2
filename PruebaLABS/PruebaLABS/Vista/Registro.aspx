@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
-        /* ======== GLOBAL ======== */
         body {
             background-color: #f4f6f5 !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -23,7 +22,6 @@
             padding: 40px 20px;
         }
 
-        /* ======== CARD ======== */
         .register-card {
             background: white;
             border-radius: 15px;
@@ -39,7 +37,6 @@
             box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.12);
         }
 
-        /* ======== HEADER ======== */
         .card-header {
             background: white;
             padding: 25px 25px 10px;
@@ -67,7 +64,6 @@
             margin: 8px 0 0;
         }
 
-        /* ======== FORM ======== */
         .card-body {
             padding: 30px;
         }
@@ -107,7 +103,6 @@
             border-color: #2E7D32;
         }
 
-        /* ======== BUTTON ======== */
         .btn-register {
             background: #2E7D32;
             border: none;
@@ -125,7 +120,6 @@
             background: #1b5e20;
         }
 
-        /* ======== LINK ======== */
         .login-link {
             text-align: center;
             margin-top: 20px;
@@ -145,7 +139,6 @@
             color: #1b5e20;
         }
 
-        /* ======== MESSAGE ======== */
         .alert-message {
             border-radius: 8px;
             padding: 10px 12px;

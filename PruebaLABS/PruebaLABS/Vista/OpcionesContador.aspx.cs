@@ -132,7 +132,7 @@ namespace PruebaLABS.Vista
             lblFeedback.Text = mensaje;
 
             panelEditarContrato.Visible = false;
-            LoadContratos(); // recargar tabla
+            LoadContratos(); 
         }
         protected void btnCancelarEdicion_Click(object sender, EventArgs e)
         {

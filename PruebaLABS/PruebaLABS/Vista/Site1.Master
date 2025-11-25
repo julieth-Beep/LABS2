@@ -15,7 +15,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Encabezado superior */
         .top-bar {
             background: #ffffff;
             padding: 12px 25px;
@@ -32,11 +31,11 @@
             align-items: center;
         }
 
-        .user-info i {
-            font-size: 30px;
-            color: #2E7D32;
-            margin-right: 10px;
-        }
+            .user-info i {
+                font-size: 30px;
+                color: #2E7D32;
+                margin-right: 10px;
+            }
 
         #btnCerrar:hover {
             background-color: #198754 !important;
@@ -55,7 +54,6 @@
 
     <form id="form1" runat="server">
 
-        <!-- HEADER -->
         <div class="top-bar">
             <div class="user-info">
                 <i class="bi bi-person-circle"></i>
@@ -74,7 +72,6 @@
                 Text="Cerrar sesión" OnClick="btnCerrar_Click" />
         </div>
 
-        <!-- CONTENIDO DE CADA PÁGINA -->
         <div class="content-wrapper">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
         </div>

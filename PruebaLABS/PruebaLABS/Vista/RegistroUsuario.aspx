@@ -205,7 +205,6 @@
                     </div>
                 </div>
 
-                <%--seleccionar rol--%>
 
                 <div class="form-group full-width">
                     <asp:Label ID="lblRol" runat="server" Text="Tipo de Usuario" CssClass="form-label"></asp:Label>

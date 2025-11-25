@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="OpcionesContador.aspx.cs" Inherits="PruebaLABS.Vista.OpcionesContador" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
@@ -52,7 +53,6 @@
 
         <asp:Label ID="lblFeedback" runat="server" CssClass="fw-bold"></asp:Label>
 
-        <!-- ====== CONTRATOS (LISTA GENERAL) ====== -->
         <asp:GridView ID="gvContratos" runat="server"
             CssClass="table table-striped table-bordered table-sm"
             AutoGenerateColumns="false"
@@ -117,7 +117,6 @@
 
 
 
-        <!-- ====== GASTOS ====== -->
         <div id="panelGastos" runat="server" visible="false" class="mb-4">
             <div class="card card-rounded">
                 <div class="card-header bg-success text-white text-center">
@@ -139,7 +138,6 @@
             </div>
         </div>
 
-        <!-- ====== BONOS ====== -->
         <div id="panelBonos" runat="server" visible="false" class="mb-4">
             <div class="card card-rounded">
                 <div class="card-header bg-primary text-white text-center">
@@ -160,7 +158,6 @@
             </div>
         </div>
 
-        <!-- ====== TOTALES ====== -->
         <div id="panelTotales" runat="server" visible="false" class="mb-4">
             <div class="card card-rounded">
                 <div class="card-header bg-dark text-white text-center">
@@ -183,7 +180,6 @@
             </div>
         </div>
 
-        <!-- ====== CONTRATO POR USUARIO (BUSCAR + REGISTRAR) ====== -->
         <div id="panelContratoUsuario" runat="server" visible="false" class="mb-4">
             <div class="card card-rounded">
                 <div class="card-header bg-warning text-dark text-center">
@@ -239,7 +235,6 @@
     </div>
 
 
-    <!-- Bootstrap JS (necesario para el modal) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </asp:Content>

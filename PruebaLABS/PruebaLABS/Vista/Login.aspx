@@ -146,7 +146,6 @@
 
         <div class="login-container">
 
-            <!-- LEFT SIDE -->
             <div class="login-left">
 
                 <div class="mb-3">
@@ -178,7 +177,7 @@
             </div>
 
             <div class="login-right">
-                <img src="https://media.istockphoto.com/id/1703227595/es/foto/fila-de-los-grandes-camiones-semirremolques-tractores-con-semirremolques-de-furgoneta-seca.jpg?s=612x612&w=0&k=20&c=IRsQ6SPVoHv3dfCasuHD5r4w-4pLoadHmKskgpNyLK8="
+                <img src="  https://wp.tyt.com.mx/wp-content/uploads/2016/11/kenworth-gpo-ed-1-1024x597.jpg"
                      />
             </div>
 
