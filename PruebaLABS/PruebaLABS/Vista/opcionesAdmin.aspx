@@ -1,5 +1,7 @@
-﻿<%@ Page Title="Panel Administrador" Language="C#" MasterPageFile="~/Vista/Site1.Master"
-    AutoEventWireup="true" CodeBehind="OpcionesAdmin.aspx.cs"
+﻿<%@ Page Title="Panel Administrador" Language="C#"
+    MasterPageFile="~/Vista/Site1.Master"
+    AutoEventWireup="true"
+    CodeBehind="OpcionesAdmin.aspx.cs"
     Inherits="PruebaLABS.Vista.OpcionesAdmin" %>
 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
@@ -81,7 +83,6 @@
                 font-weight: 600;
             }
 
-
         .content-zone {
             flex: 1;
         }
@@ -107,32 +108,28 @@
             color: #2E7D32;
         }
 
-        .btn-edit {
-            background: #0d6efd;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-        }
-
+        .btn-edit,
         .btn-state {
-            background: #198754;
-            color: white;
+            background: #E8F5E9;
+            color: #2E7D32;
             padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
+            border-radius: 8px;
+            border: 1px solid #C8E6C9;
+            transition: 0.2s;
         }
 
         .btn-delete {
-            background: #dc3545;
-            color: white;
+            background: #FFEBEE;
+            color: #B71C1C;
             padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
+            border-radius: 8px;
+            border: 1px solid #FFCDD2;
+            transition: 0.2s;
         }
 
         .btn-save,
-        .btn-add {
+        .btn-add,
+        .btn-register {
             background-color: #2E7D32;
             color: white;
             padding: 12px;
@@ -141,17 +138,67 @@
             border: none;
             margin-top: 10px;
         }
+
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 13px;
+            display: block;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .form-control {
+            border: 1px solid #e9ecef;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            padding: 10px 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            height: 45px;
+        }
+
+            .form-control:focus {
+                border-color: #2E7D32;
+                box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
+            }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #2E7D32;
+        }
+
+        .alert-message {
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            display: block;
+        }
     </style>
 
 </asp:Content>
-
-
-
 
 <asp:Content ID="ContentBody" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="options-container">
         <div class="admin-layout">
+
 
             <div class="sidebar">
                 <div class="sidebar-header">
@@ -185,8 +232,6 @@
             </div>
 
 
-
-
             <div class="content-zone">
 
                 <asp:Panel ID="pnlVehiculos" runat="server" Visible="true">
@@ -214,7 +259,7 @@
                                         <asp:LinkButton runat="server" CssClass="btn-edit"
                                             CommandName="editar"
                                             CommandArgument='<%# Container.DataItemIndex %>'>
-                                        <i class="bi bi-pencil-square"></i>
+                                            <i class="bi bi-pencil-square"></i>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -224,7 +269,7 @@
                                         <asp:LinkButton runat="server" CssClass="btn-state"
                                             CommandName="cambiarEstado"
                                             CommandArgument='<%# Container.DataItemIndex %>'>
-                                        <i class="bi bi-arrow-repeat"></i>
+                                            <i class="bi bi-arrow-repeat"></i>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -235,7 +280,7 @@
                                             CommandName="eliminar"
                                             CommandArgument='<%# Container.DataItemIndex %>'
                                             OnClientClick="return confirm('¿Seguro que deseas eliminar este vehículo?');">
-                                        <i class="bi bi-trash3"></i>
+                                            <i class="bi bi-trash3"></i>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -246,8 +291,6 @@
 
                         <asp:Label ID="lblMensaje" runat="server" CssClass="text-success fw-bold mt-3"></asp:Label>
                     </div>
-
-
 
                     <div class="content-card">
                         <div class="card-header-custom">
@@ -279,8 +322,6 @@
                             OnClick="btnGuardar_Click" />
 
                     </div>
-
-
 
                     <div class="content-card">
                         <div class="card-header-custom">
@@ -315,8 +356,6 @@
                 </asp:Panel>
 
 
-
-
                 <asp:Panel ID="pnlUsuarios" runat="server" Visible="false">
                     <div class="content-card">
                         <div class="card-header-custom">
@@ -329,21 +368,95 @@
                 </asp:Panel>
 
 
-
-
                 <asp:Panel ID="pnlRegistro" runat="server" Visible="false">
                     <div class="content-card">
                         <div class="card-header-custom">
                             <i class="bi bi-person-plus brand-icon"></i>
                             <h3>Registro de Personal</h3>
+                            <p class="text-muted mb-0">Registra un nuevo empleado del sistema</p>
                         </div>
 
-                        <a href="RegistroUsuario.aspx" class="btn btn-success">Ir al formulario</a>
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <asp:Label ID="lblDocumento" runat="server" Text="Documento *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                    <asp:TextBox ID="txtDocumento" runat="server" CssClass="form-control" placeholder="Número de documento"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblNombre" runat="server" Text="Nombres *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" placeholder="Nombres"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblApellido" runat="server" Text="Apellidos *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control" placeholder="Apellidos"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblTelefono" runat="server" Text="Teléfono" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control" placeholder="Número de teléfono"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblCorreo" runat="server" Text="Correo Electrónico *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" TextMode="Email" placeholder="correo@gmail.com"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblRol" runat="server" Text="Tipo de Usuario *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                    <asp:DropDownList ID="ddlRol" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="">Seleccione un rol</asp:ListItem>
+                                        <asp:ListItem Value="1">Conductor</asp:ListItem>
+                                        <asp:ListItem Value="2">Administrador</asp:ListItem>
+                                        <asp:ListItem Value="3">Contador</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblPassword" runat="server" Text="Contraseña *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Mínimo 6 caracteres"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblConfirmPassword" runat="server" Text="Confirmar Contraseña *" CssClass="form-label"></asp:Label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                    <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Repetir contraseña"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <asp:Button ID="btnRegistrarr" runat="server"
+                                Text="Registrar Usuario"
+                                CssClass="btn-register"
+                                OnClick="btnRegistrarr_Click" />
+
+                            <asp:Label ID="lblMensajeRegistro" runat="server" Text="" CssClass="alert-message"></asp:Label>
+
+                        </div>
                     </div>
                 </asp:Panel>
-
-
-
 
                 <asp:Panel ID="pnlReportes" runat="server" Visible="false">
                     <div class="content-card">
@@ -355,7 +468,6 @@
                         <p>Contenido pendiente...</p>
                     </div>
                 </asp:Panel>
-
 
             </div>
         </div>

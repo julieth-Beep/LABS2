@@ -41,12 +41,14 @@ namespace PruebaLABS.Datos
 
         public string MtRegistrarUsuario(ClUsuarioM user)
         {
-            string mensaje = "";
+
             ClConexion oConexion = new ClConexion();
 
             try
             {
-                string consultaUsu = @"select count(*) from usuario where documento = @documento or correo = @correo";
+                
+                string consultaUsu = @"select count(*) from usuario 
+                               where documento = @documento or correo = @correo";
                 SqlCommand cmdVerificar = new SqlCommand(consultaUsu, oConexion.MtAbrirConexion());
                 cmdVerificar.Parameters.AddWithValue("@documento", user.documento);
                 cmdVerificar.Parameters.AddWithValue("@correo", user.correo);
@@ -55,47 +57,46 @@ namespace PruebaLABS.Datos
                 oConexion.MtCerrarConexion();
 
                 if (existe > 0)
-                {
-                    mensaje = "El usuario ya está registrado con ese correo.";
-                    return mensaje;
-                }
+                    return "El usuario ya está registrado.";
 
-                string insertar = @"insert into usuario (documento, nombre, apellido, telefono, correo, idRol) values (@documento, @nombre, @apellido, @telefono, @correo, 1)";
+                
+                string insertar = @"
+            insert into usuario (documento, nombre, apellido, telefono, correo, contraseña)
+            output inserted.idUsuario
+            values (@documento, @nombre, @apellido, @telefono, @correo, @contraseña)";
 
                 SqlCommand cmdInsertar = new SqlCommand(insertar, oConexion.MtAbrirConexion());
                 cmdInsertar.Parameters.AddWithValue("@documento", user.documento);
                 cmdInsertar.Parameters.AddWithValue("@nombre", user.nombre);
-                cmdInsertar.Parameters.AddWithValue("@apellido", user.apellido); ;
-                cmdInsertar.Parameters.AddWithValue("@telefono", user.telefono ?? "");
+                cmdInsertar.Parameters.AddWithValue("@apellido", user.apellido);
+                cmdInsertar.Parameters.AddWithValue("@telefono", user.telefono);
                 cmdInsertar.Parameters.AddWithValue("@correo", user.correo);
+                cmdInsertar.Parameters.AddWithValue("@contraseña", user.contraseña);
 
-                int idUsuario = Convert.ToInt32(cmdInsertar.ExecuteScalar());
+                int idUsuario = (int)cmdInsertar.ExecuteScalar();
                 oConexion.MtCerrarConexion();
 
-                string consultaCargo = @"insert into cargo (idUsuario, idRol) values (@idUsuario, @idRol)";
-
-                SqlCommand cmdCargo = new SqlCommand(consultaCargo, oConexion.MtAbrirConexion());
-                cmdCargo.Parameters.AddWithValue("@idUsuario", idUsuario);
+                string insertarCargo = @"insert into cargo (idRol, idUsuario)
+                                 values (@idRol, @idUsuario)";
+                SqlCommand cmdCargo = new SqlCommand(insertarCargo, oConexion.MtAbrirConexion());
                 cmdCargo.Parameters.AddWithValue("@idRol", user.idRol);
+                cmdCargo.Parameters.AddWithValue("@idUsuario", idUsuario);
 
                 cmdCargo.ExecuteNonQuery();
                 oConexion.MtCerrarConexion();
 
-                mensaje = "Usuario registrado exitosamente como " + GetNombreRol(user.idRol);
+                return "Usuario registrado exitosamente.";
             }
             catch (Exception ex)
             {
-                mensaje = "Error al registrar usuario: " + ex.Message;
+                return "Error al registrar: " + ex.Message;
             }
             finally
             {
-                if (oConexion != null)
-                {
-                    oConexion.MtCerrarConexion();
-                }
+                oConexion.MtCerrarConexion();
             }
 
-            return mensaje;
+           
         }
 
         private string GetNombreRol(int idRol)

@@ -11,7 +11,7 @@ namespace PruebaLABS.Datos
         SqlConnection Oconex;
          public ClConexion()
         {
-            Oconex = new SqlConnection("Data Source=DESKTOP-HV9ISR7\\SQLEXPRESS;Initial Catalog=dbLABS;Integrated Security=True;");
+            Oconex = new SqlConnection("Data Source=Nino\\SQLEXPRESS;Initial Catalog=dbLABS;Integrated Security=True;");
         }
 
         public SqlConnection MtAbrirConexion()

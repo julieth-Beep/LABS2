@@ -9,19 +9,28 @@ namespace PruebaLABS.Vista
 {
     public partial class OpcionesAdmin : Page
     {
+        // Solo las instancias que realmente usamos
         ClVehiculoD oVehiculoD = new ClVehiculoD();
-        ClVehiculoL oVehiculoL = new ClVehiculoL();
+        ClUsuarioL logicaUsuario = new ClUsuarioL();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                // Panel por defecto
+                pnlVehiculos.Visible = true;
+                pnlUsuarios.Visible = false;
+                pnlRegistro.Visible = false;
+                pnlReportes.Visible = false;
+
                 MtCargarVehiculos();
                 ActivarMenu(btnVehiculos);
+
+                if (lblMensajeRegistro != null)
+                    lblMensajeRegistro.Visible = false;
             }
         }
 
-        
         private void ActivarMenu(Button boton)
         {
             btnVehiculos.CssClass = "sidebar-item";
@@ -32,8 +41,7 @@ namespace PruebaLABS.Vista
             boton.CssClass = "sidebar-item active";
         }
 
-
-    
+        // ----- BOTONES DEL MENÚ LATERAL -----
 
         protected void btnVehiculos_Click(object sender, EventArgs e)
         {
@@ -76,8 +84,7 @@ namespace PruebaLABS.Vista
             ActivarMenu(btnReportes);
         }
 
-
-
+        // ----- VEHÍCULOS -----
 
         private void MtCargarVehiculos()
         {
@@ -166,6 +173,82 @@ namespace PruebaLABS.Vista
             txtAddModelo.Text = "";
             txtAddCapacidad.Text = "";
             ddlAddEstado.SelectedIndex = 0;
+        }
+
+
+
+        protected void btnRegistrarr_Click(object sender, EventArgs e)
+        {
+            lblMensajeRegistro.Visible = true;
+
+            try
+            {
+        
+                if (string.IsNullOrWhiteSpace(txtDocumento.Text) ||
+                    string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                    string.IsNullOrWhiteSpace(txtApellido.Text) ||
+                    string.IsNullOrWhiteSpace(txtCorreo.Text) ||
+                    string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                    string.IsNullOrWhiteSpace(ddlRol.SelectedValue))
+                {
+                    lblMensajeRegistro.Text = "Por favor complete todos los campos obligatorios.";
+                    lblMensajeRegistro.Style["color"] = "#dc3545";
+                    return;
+                }
+
+                if (txtPassword.Text != txtConfirmPassword.Text)
+                {
+                    lblMensajeRegistro.Text = "Las contraseñas no coinciden.";
+                    lblMensajeRegistro.Style["color"] = "#dc3545";
+                    return;
+                }
+
+                if (txtPassword.Text.Length < 6)
+                {
+                    lblMensajeRegistro.Text = "La contraseña debe tener al menos 6 caracteres.";
+                    lblMensajeRegistro.Style["color"] = "#dc3545";
+                    return;
+                }
+
+                string resultado = logicaUsuario.MtRegistrarUsuario(
+                    txtDocumento.Text.Trim(),
+                    txtNombre.Text.Trim(),
+                    txtApellido.Text.Trim(),
+                    txtTelefono.Text.Trim(),
+                    txtCorreo.Text.Trim(),
+                    txtPassword.Text,
+                    ddlRol.SelectedValue
+                );
+
+                if (resultado.Contains("exitosamente"))
+                {
+                    lblMensajeRegistro.Text = "✅ " + resultado;
+                    lblMensajeRegistro.Style["color"] = "#198754";
+                    LimpiarFormularioRegistro();
+                }
+                else
+                {
+                    lblMensajeRegistro.Text = "❌ " + resultado;
+                    lblMensajeRegistro.Style["color"] = "#dc3545";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensajeRegistro.Text = "❌ Error al registrar: " + ex.Message;
+                lblMensajeRegistro.Style["color"] = "#dc3545";
+            }
+        }
+
+        private void LimpiarFormularioRegistro()
+        {
+            txtDocumento.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtTelefono.Text = "";
+            txtCorreo.Text = "";
+            txtPassword.Text = "";
+            txtConfirmPassword.Text = "";
+            ddlRol.SelectedIndex = 0;
         }
     }
 }

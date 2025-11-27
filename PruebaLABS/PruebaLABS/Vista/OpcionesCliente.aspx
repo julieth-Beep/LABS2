@@ -507,7 +507,7 @@
                         </div>
                     </asp:Panel>
 
-                    <%--Cajón de Preguntas--%>
+       
                     <asp:Panel ID="pnlCajonPreguntas" runat="server" Visible="false">
                         <div class="content-card">
                             <div class="card-header-custom">
@@ -561,7 +561,7 @@
                         </div>
                     </asp:Panel>
 
-                    <%--Panel: Flota de Vehículos--%>
+        
                     <asp:Panel ID="pnlFlotaVehiculos" runat="server" Visible="false">
                         <div class="content-card">
                             <div class="card-header-custom">
@@ -597,7 +597,7 @@
         </div>
     </div>
 
-    <%--Ventana Emergente para Visualizar el Registro Exitoso de la Solicitud de Viaje--%>
+ 
     <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
