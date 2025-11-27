@@ -1,240 +1,425 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="OpcionesContador.aspx.cs" Inherits="PruebaLABS.Vista.OpcionesContador" %>
+﻿<%@ Page Title="Panel Contador" Language="C#" MasterPageFile="~/Vista/Site1.Master" AutoEventWireup="true" CodeBehind="OpcionesContador.aspx.cs" Inherits="PruebaLABS.Vista.OpcionesContador" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
     <style>
         body {
             background-color: #f4f6f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI';
         }
 
-        .container-top {
-            margin-top: 24px;
+        .options-container {
+            min-height: 100vh;
+            padding: 30px 20px;
         }
 
-        .card-rounded {
-            border-radius: 12px;
+        .admin-layout {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
         }
 
-        .table-sm td, .table-sm th {
-            padding: .4rem .6rem;
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding-bottom: 20px;
         }
 
-        .nav-link {
-            cursor: pointer;
+        @media (min-width: 768px) {
+            .sidebar {
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+
+        .sidebar-header {
+            text-align: center;
+            padding: 25px 20px 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+            .sidebar-header h4 {
+                margin-top: 10px;
+                font-weight: 600;
+            }
+
+        .sidebar-menu {
+            padding: 15px 0;
+        }
+
+        .sidebar-item {
+            padding: 12px 25px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+            color: #333;
+            transition: 0.2s;
+        }
+
+            .sidebar-item i {
+                color: #2E7D32;
+                margin-right: 8px;
+            }
+
+            .sidebar-item:hover {
+                background: rgba(46,125,50,0.1);
+                color: #2E7D32;
+                border-left: 4px solid #2E7D32;
+            }
+
+            .sidebar-item.active {
+                background: rgba(46,125,50,0.15);
+                color: #2E7D32;
+                border-left: 4px solid #2E7D32;
+                font-weight: 600;
+            }
+
+
+        .content-zone {
+            flex: 1;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header-custom {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .brand-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #2E7D32;
+        }
+
+        .btn-edit {
+            background: #0d6efd;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .btn-state {
+            background: #198754;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .btn-save,
+        .btn-add {
+            background-color: #2E7D32;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: none;
+            margin-top: 10px;
         }
     </style>
+
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <!-- NAVBAR (EN LA MISMA PÁGINA) -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2E7D32;">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold"><i class="bi bi-speedometer2"></i>Panel Contador</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContador">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-            <div class="collapse navbar-collapse" id="navContador">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" id="lnkContratos" runat="server" onserverclick="ShowContratos">Contratos</a></li>
-                    <li class="nav-item"><a class="nav-link" id="lnkGastos" runat="server" onserverclick="ShowGastos">Gastos Realizados</a></li>
-                    <li class="nav-item"><a class="nav-link" id="lnkBonos" runat="server" onserverclick="ShowBonos">Bonos</a></li>
-                    <li class="nav-item"><a class="nav-link" id="lnkTotales" runat="server" onserverclick="ShowTotales">Total a Pagar</a></li>
-                    <li class="nav-item"><a class="nav-link" id="lnkContratoUsuario" runat="server" onserverclick="ShowContratoUsuario">Contrato por Usuario</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div class="container-fluid py-4">
 
-    <div class="container container-top">
+        <div class="row">
 
-        <asp:Label ID="lblFeedback" runat="server" CssClass="fw-bold"></asp:Label>
+            <!-- SIDEBAR RESPONSIVE -->
+            <div class="col-12 col-md-3 mb-4">
 
-        <asp:GridView ID="gvContratos" runat="server"
-            CssClass="table table-striped table-bordered table-sm"
-            AutoGenerateColumns="false"
-            OnRowCommand="gvContratos_RowCommand"
-            DataKeyNames="idContrato">
+                <div class="sidebar p-3 bg-white shadow rounded-3">
 
-            <Columns>
-                <asp:BoundField DataField="documento" HeaderText="Documento" />
-                <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                <asp:BoundField DataField="apellido" HeaderText="Apellido" />
-                <asp:BoundField DataField="salario" HeaderText="Salario" DataFormatString="{0:C0}" />
-                <asp:BoundField DataField="tipo" HeaderText="Tipo" />
-                <asp:BoundField DataField="idContrato" HeaderText="ID" Visible="false" />
-
-                <asp:TemplateField HeaderText="Editar">
-                    <ItemTemplate>
-                        <asp:Button runat="server" Text="Editar" CssClass="btn btn-primary btn-sm"
-                            CommandName="Editar" CommandArgument='<%# Eval("idContrato") %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
-
-        <asp:Panel ID="panelEditarContrato" runat="server" CssClass="card p-3 mt-3" Visible="false">
-
-            <asp:HiddenField ID="hfIdContratoEditar" runat="server" />
-
-            <h5>Editar Contrato</h5>
-
-            <div class="row mt-3">
-
-                <div class="col-md-3">
-                    <label>Documento</label>
-                    <asp:TextBox ID="txtEditDocumento" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
-                </div>
-
-                <div class="col-md-3">
-                    <label>Salario</label>
-                    <asp:TextBox ID="txtEditSalario" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
-
-                <div class="col-md-3">
-                    <label>Tipo</label>
-                    <asp:TextBox ID="txtEditTipo" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
-
-                <div class="col-md-3">
-                    <label>Bono</label>
-                    <asp:TextBox ID="txtEditBono" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
-
-            </div>
-
-            <div class="mt-3">
-                <asp:Button ID="btnGuardarEdicion" runat="server" Text="Guardar Cambios"
-                    CssClass="btn btn-success" OnClick="btnGuardarEdicion_Click" />
-                <asp:Button ID="btnCancelarEdicion" runat="server" Text="Cancelar"
-                    CssClass="btn btn-secondary" OnClick="btnCancelarEdicion_Click" />
-            </div>
-
-        </asp:Panel>
-
-
-
-        <div id="panelGastos" runat="server" visible="false" class="mb-4">
-            <div class="card card-rounded">
-                <div class="card-header bg-success text-white text-center">
-                    <h5 class="mb-0"><i class="bi bi-cash-stack"></i>Gastos por Conductor</h5>
-                </div>
-                <div class="card-body">
-                    <asp:GridView ID="gvGastos" runat="server"
-                        CssClass="table table-striped table-bordered table-sm text-center"
-                        AutoGenerateColumns="false">
-                        <Columns>
-                            <asp:BoundField DataField="nombreConductor" HeaderText="Nombre" />
-                            <asp:BoundField DataField="apellidoConductor" HeaderText="Apellido" />
-                            <asp:BoundField DataField="tipoGasto" HeaderText="Tipo de Gasto" />
-                            <asp:BoundField DataField="monto" HeaderText="Monto" DataFormatString="{0:N0}" />
-                            <asp:BoundField DataField="fechaGasto" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
-                        </Columns>
-                    </asp:GridView>
-                </div>
-            </div>
-        </div>
-
-        <div id="panelBonos" runat="server" visible="false" class="mb-4">
-            <div class="card card-rounded">
-                <div class="card-header bg-primary text-white text-center">
-                    <h5 class="mb-0"><i class="bi bi-award"></i>Bonos por Conductor</h5>
-                </div>
-                <div class="card-body">
-                    <asp:GridView ID="gvBonos" runat="server"
-                        CssClass="table table-striped table-bordered table-sm text-center"
-                        AutoGenerateColumns="false">
-                        <Columns>
-                            <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                            <asp:BoundField DataField="apellido" HeaderText="Apellido" />
-                            <asp:BoundField DataField="totalViajes" HeaderText="Viajes" />
-                            <asp:BoundField DataField="bonoTotal" HeaderText="Bono Total" DataFormatString="{0:N0}" />
-                        </Columns>
-                    </asp:GridView>
-                </div>
-            </div>
-        </div>
-
-        <div id="panelTotales" runat="server" visible="false" class="mb-4">
-            <div class="card card-rounded">
-                <div class="card-header bg-dark text-white text-center">
-                    <h5 class="mb-0"><i class="bi bi-calculator"></i>Total a Pagar</h5>
-                </div>
-                <div class="card-body">
-                    <asp:GridView ID="gvTotal" runat="server"
-                        CssClass="table table-striped table-bordered table-sm text-center"
-                        AutoGenerateColumns="false">
-                        <Columns>
-                            <asp:BoundField DataField="documento" HeaderText="Documento" />
-                            <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                            <asp:BoundField DataField="apellido" HeaderText="Apellido" />
-                            <asp:BoundField DataField="salario" HeaderText="Salario" DataFormatString="{0:C0}" />
-                            <asp:BoundField DataField="bono" HeaderText="Bono" DataFormatString="{0:C0}" />
-                            <asp:BoundField DataField="totalPagar" HeaderText="Total a Pagar" DataFormatString="{0:C0}" />
-                        </Columns>
-                    </asp:GridView>
-                </div>
-            </div>
-        </div>
-
-        <div id="panelContratoUsuario" runat="server" visible="false" class="mb-4">
-            <div class="card card-rounded">
-                <div class="card-header bg-warning text-dark text-center">
-                    <h5 class="mb-0"><i class="bi bi-person-lines-fill"></i>Contratos por Usuario</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-2 mb-3">
-                        <div class="col-md-4">
-                            <asp:TextBox ID="txtBuscarDocumento" runat="server" CssClass="form-control" placeholder="Documento"></asp:TextBox>
-                        </div>
-                        <div class="col-md-2">
-                            <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary w-100" Text="Buscar" OnClick="btnBuscar_Click" />
-                        </div>
+                    <div class="sidebar-header text-center mb-3 pb-3 border-bottom">
+                        <i class="bi bi-shield-lock brand-icon"></i>
+                        <h4>Contador</h4>
                     </div>
 
-                    <asp:GridView ID="gvUsuario" runat="server" CssClass="table table-striped table-bordered table-sm"
-                        AutoGenerateColumns="false" DataKeyNames="idUusuario,documento">
-                        <Columns>
-                            <asp:BoundField DataField="documento" HeaderText="Documento" />
-                            <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                            <asp:BoundField DataField="apellido" HeaderText="Apellido" />
-                            <asp:BoundField DataField="salario" HeaderText="Salario" DataFormatString="{0:C0}" />
-                            <asp:BoundField DataField="tipo" HeaderText="Tipo" />
-                        </Columns>
-                    </asp:GridView>
+                    <div class="sidebar-menu">
 
-                    <hr />
+                        <asp:Button ID="btnContraEmp" runat="server" Text="Contratos de Empleados" CssClass="sidebar-item w-100 mb-2" OnClick="btnContraEmp_Click" />
+                        <asp:Button ID="btnContraViaj" runat="server" Text="Contratos de Viajes" CssClass="sidebar-item w-100 mb-2" OnClick="btnContraViaj_Click" />
+                        <asp:Button ID="btnGastos" runat="server" Text="Gastos Viaje" CssClass="sidebar-item w-100 mb-2" OnClick="btnGastos_Click" />
+                        <asp:Button ID="btnBonos" runat="server" Text="Bonos" CssClass="sidebar-item w-100 mb-2" OnClick="btnBonos_Click" />
 
-                    <h6>Registrar Contrato</h6>
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                            <asp:TextBox ID="txtRegDocumento" runat="server" CssClass="form-control" placeholder="Documento"></asp:TextBox>
-                        </div>
-                        <div class="col-md-4">
-                            <asp:TextBox ID="txtRegSalario" runat="server" CssClass="form-control" placeholder="Salario"></asp:TextBox>
-                        </div>
-                        <div class="col-md-4">
-                            <asp:DropDownList ID="ddlRegTipo" runat="server" CssClass="form-control">
-                                <asp:ListItem>Fijo</asp:ListItem>
-                                <asp:ListItem>Temporal</asp:ListItem>
-                                <asp:ListItem>Contrato por viaje</asp:ListItem>
-                            </asp:DropDownList>
-                        </div>
-                        <div class="col-md-3 mt-2">
-                            <asp:Button ID="btnRegistrarContrato" runat="server" CssClass="btn btn-success w-100" Text="Registrar" OnClick="btnRegistrarContrato_Click" />
-                        </div>
                     </div>
 
                 </div>
+
             </div>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="col-12 col-md-9">
+
+                <!-- PANEL CONTRATOS EMPLEADOS -->
+                <asp:Panel ID="pnlContraEmp" runat="server" Visible="true">
+
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-truck brand-icon"></i>
+                            <h3>Contratos de Empleados</h3>
+                            <p class="text-muted">Listado de contratos</p>
+                        </div>
+
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvContraEmp" runat="server" AutoGenerateColumns="false"
+                                CssClass="table table-bordered"
+                                OnRowCommand="gvContraEmp_RowCommand">
+                                <Columns>
+                                    <asp:BoundField DataField="idContrato" HeaderText="ID" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Cargo" />
+                                    <asp:BoundField DataField="documento" HeaderText="Documento" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" />
+                                    <asp:BoundField DataField="apellido" HeaderText="Apellido" />
+                                    <asp:BoundField DataField="fecha" HeaderText="Fecha" />
+                                    <asp:BoundField DataField="salario" HeaderText="Salario" />
+                                    <asp:BoundField DataField="tipo" HeaderText="Tipo de Contrato" />
+
+                                    <asp:TemplateField HeaderText="Eliminar">
+                                        <ItemTemplate>
+                                            <asp:LinkButton runat="server" CssClass="btn-delete"
+                                                CommandName="eliminar"
+                                                CommandArgument='<%# Container.DataItemIndex %>'
+                                                OnClientClick="return confirm('¿Seguro que deseas eliminar este Contrato?');">
+                                                <i class="bi bi-trash3"></i>
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+
+                        <asp:Button ID="Button4" runat="server" Text="Exportar Contratos"
+                            CssClass="btn btn-success mt-3" OnClick="Button4_Click" />
+
+                        <asp:FileUpload ID="FileUpload2" runat="server" CssClass="form-control mt-3" />
+                        <asp:Button ID="Button5" runat="server" Text="Importar Contratos"
+                            CssClass="btn btn-primary mt-2" OnClick="Button5_Click" />
+
+                        <asp:Label ID="lblMensaje" runat="server" CssClass="text-success fw-bold mt-3"></asp:Label>
+
+                    </div>
+
+                    <!-- EDITAR CONTRATO -->
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-pencil brand-icon"></i>
+                            <h3>Editar Contrato</h3>
+                        </div>
+
+                        <asp:TextBox ID="txtIdContrato" runat="server" Visible="false"></asp:TextBox>
+
+                        <label>Fecha</label>
+                        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Salario</label>
+                        <asp:TextBox ID="txtSalario" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Bono</label>
+                        <asp:TextBox ID="txtBono" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Tipo</label>
+                        <asp:DropDownList ID="ddlTipo" runat="server" CssClass="form-control mb-3">
+                            <asp:ListItem>Fijo</asp:ListItem>
+                            <asp:ListItem>Indefinido</asp:ListItem>
+                            <asp:ListItem>Contrato por Viaje</asp:ListItem>
+                        </asp:DropDownList>
+
+                        <asp:Button ID="btnGuardar" runat="server"
+                            Text="Guardar Cambios"
+                            CssClass="btn-save w-100 mt-2"
+                            OnClick="btnGuardar_Click" />
+
+                    </div>
+
+                    <!-- AGREGAR CONTRATO -->
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-plus-circle brand-icon"></i>
+                            <h3>Agregar Nuevo Contrato</h3>
+                        </div>
+
+                        <label>Documento</label>
+                        <asp:TextBox ID="txtAddDocumento" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Fecha</label>
+                        <asp:TextBox ID="txtAddFecha" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Salario</label>
+                        <asp:TextBox ID="txtAddSalario" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Bono</label>
+                        <asp:TextBox ID="txtAddBono" runat="server" CssClass="form-control mb-3"></asp:TextBox>
+
+                        <label>Tipo</label>
+                        <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control mb-3">
+                            <asp:ListItem>Fijo</asp:ListItem>
+                            <asp:ListItem>Indefinido</asp:ListItem>
+                            <asp:ListItem>Contrato por Viaje</asp:ListItem>
+                        </asp:DropDownList>
+
+                        <asp:Button ID="Button1" runat="server"
+                            Text="Guardar Cambios"
+                            CssClass="btn-save w-100 mt-2"
+                            OnClick="btnGuardar_Click" />
+
+                        <asp:Label ID="lblAddMensaje" runat="server" CssClass="text-success fw-bold mt-3"></asp:Label>
+
+                    </div>
+
+                </asp:Panel>
+
+
+                <!-- ======================== PANEL CONTRATOS VIAJE ======================= -->
+
+                <asp:Panel ID="pnlContraViaj" runat="server" Visible="false">
+
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-file-earmark-text brand-icon"></i>
+                            <h3>Contratos de Viajes</h3>
+                        </div>
+
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvContraViaj" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered">
+                                <Columns>
+                                    <asp:BoundField DataField="idCliente" HeaderText="ID Cliente" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Nombre Cliente" />
+                                    <asp:BoundField DataField="apellido" HeaderText="Apellido" />
+                                    <asp:BoundField DataField="empresa" HeaderText="Empresa" />
+                                    <asp:BoundField DataField="estado" HeaderText="Estado" />
+                                    <asp:BoundField DataField="idViaje" HeaderText="ID Viaje" />
+                                    <asp:BoundField DataField="fechaInicio" HeaderText="Fecha Salida" />
+                                    <asp:BoundField DataField="fechaFin" HeaderText="Fecha Llegada" />
+                                    <asp:BoundField DataField="puntoPartida" HeaderText="Punto de Partida" />
+                                    <asp:BoundField DataField="destino" HeaderText="Destino" />
+                                    <asp:BoundField DataField="costo" HeaderText="Valor Viaje" />
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+
+                        <asp:Button ID="Button2" runat="server" Text="Exportar Contratos"
+                            CssClass="btn btn-success mt-3" OnClick="Button2_Click" />
+
+                    </div>
+
+                </asp:Panel>
+
+
+                <!-- ======================== PANEL GASTOS ======================= -->
+
+                <asp:Panel ID="pnlGastos" runat="server" Visible="false">
+
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-receipt brand-icon"></i>
+                            <h3>Gastos del Viaje</h3>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <asp:TextBox ID="txtIdViajeBuscar" runat="server" CssClass="form-control" placeholder="Ingrese ID del Viaje"></asp:TextBox>
+                            <asp:Button ID="btnBuscarGastos" runat="server" Text="Buscar"
+                                CssClass="btn btn-success" OnClick="btnBuscarGastos_Click" />
+                        </div>
+
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvGastos" runat="server" AutoGenerateColumns="False"
+                                CssClass="table table-striped"
+                                ShowFooter="true"
+                                OnRowDataBound="gvGastos_RowDataBound">
+                                <Columns>
+                                    <asp:BoundField DataField="idGasto" HeaderText="ID" />
+                                    <asp:BoundField DataField="tipoGasto" HeaderText="Tipo" />
+                                    <asp:BoundField DataField="monto" HeaderText="Monto" />
+                                    <asp:BoundField DataField="descripcion" HeaderText="Descripción" />
+                                    <asp:BoundField DataField="fecha" HeaderText="Fecha" />
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+
+                        <asp:Button ID="btnExportar" runat="server" Text="Exportar Gastos"
+                            CssClass="btn btn-success mt-3" OnClick="btnExportar_Click" />
+
+                        <asp:FileUpload ID="fileExcel" runat="server" CssClass="form-control mt-3" />
+                        <asp:Button ID="btnImportar" runat="server" Text="Importar Gastos"
+                            CssClass="btn btn-primary mt-2" OnClick="btnImportar_Click" />
+
+                        <asp:Label ID="lblGastosMensaje" runat="server" CssClass="text-danger fw-bold mt-3"></asp:Label>
+
+                    </div>
+
+                </asp:Panel>
+
+
+                <!-- ======================== PANEL BONOS ======================= -->
+
+                <asp:Panel ID="pnlBonos" runat="server" Visible="false">
+
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-cash-coin brand-icon"></i>
+                            <h3>Bonos de Empleados</h3>
+                        </div>
+
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvBonos" runat="server" AutoGenerateColumns="false"
+                                CssClass="table table-bordered">
+                                <Columns>
+                                    <asp:BoundField DataField="idUsuario" HeaderText="ID Usuario" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" />
+                                    <asp:BoundField DataField="apellido" HeaderText="Apellido" />
+                                    <asp:BoundField DataField="nombre1" HeaderText="Rol" />
+                                    <asp:BoundField DataField="bono" HeaderText="Bono Asignado" />
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+
+                        <asp:Button ID="ExportarBonos" runat="server" Text="Exportar Bonos"
+                            CssClass="btn btn-success mt-3" OnClick="ExportarBonos_Click" />
+
+                    </div>
+
+                </asp:Panel>
+
+            </div>
+
         </div>
 
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </asp:Content>

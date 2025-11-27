@@ -1,8 +1,13 @@
-﻿using PruebaLABS.Logica;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Table;
+using PruebaLABS.Logica;
 using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,209 +18,326 @@ namespace PruebaLABS.Vista
     public partial class OpcionesContador : System.Web.UI.Page
     {
         ClContadorL oContL = new ClContadorL();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ShowContratos(null, null);
+                CargarContratosEmp();
             }
         }
 
-        protected void ShowContratos(object sender, EventArgs e)
+        protected void btnContraEmp_Click(object sender, EventArgs e)
         {
-            HideAllPanels();
-            gvContratos.Visible = true;
-            LoadContratos();
-            lblFeedback.Text = "";
+            pnlContraEmp.Visible = true;
+            pnlContraViaj.Visible = false;
+            pnlGastos.Visible = false;
+            pnlBonos.Visible = false;
+
+            CargarContratosEmp();
         }
 
-        protected void ShowGastos(object sender, EventArgs e)
+        protected void btnContraViaj_Click(object sender, EventArgs e)
         {
-            HideAllPanels();
-            panelGastos.Visible = true;
-            LoadGastos();
-            lblFeedback.Text = "";
+            pnlContraEmp.Visible = false;
+            pnlContraViaj.Visible = true;
+            pnlGastos.Visible = false;
+            pnlBonos.Visible = false;
+
+            CargarContratosViaje();
         }
 
-        protected void ShowBonos(object sender, EventArgs e)
+        protected void btnGastos_Click(object sender, EventArgs e)
         {
-            HideAllPanels();
-            panelBonos.Visible = true;
-            LoadBonos();
-            lblFeedback.Text = "";
-        }
+            pnlContraEmp.Visible = false;
+            pnlContraViaj.Visible = false;
+            pnlGastos.Visible = true;
+            pnlBonos.Visible = false;
 
-        protected void ShowTotales(object sender, EventArgs e)
-        {
-            HideAllPanels();
-            panelTotales.Visible = true;
-            LoadTotales();
-            lblFeedback.Text = "";
-        }
-
-        protected void ShowContratoUsuario(object sender, EventArgs e)
-        {
-            HideAllPanels();
-            panelContratoUsuario.Visible = true;
-            lblFeedback.Text = "";
-        }
-
-        private void HideAllPanels()
-        {
-            gvContratos.Visible = false;
-            panelGastos.Visible = false;
-            panelBonos.Visible = false;
-            panelTotales.Visible = false;
-            panelContratoUsuario.Visible = false;
-        }
-
-        private void LoadContratos()
-        {
-            DataTable dt = oContL.Contratos();
-            gvContratos.DataSource = dt;
-            gvContratos.DataBind();
-        }
-
-        private void LoadGastos()
-        {
-            DataTable dt = oContL.ListarGastosPorConductor();
-            gvGastos.DataSource = dt;
+            gvGastos.DataSource = null;
             gvGastos.DataBind();
         }
 
-        private void LoadBonos()
+        protected void btnBonos_Click(object sender, EventArgs e)
         {
-            DataTable dt = oContL.Bono();
+            pnlContraEmp.Visible = false;
+            pnlContraViaj.Visible = false;
+            pnlGastos.Visible = false;
+            pnlBonos.Visible = true;
+
+            CargarBonos();
+        }
+        private void CargarContratosEmp()
+        {
+            DataTable dt = oContL.ContratosEmp();
+            gvContraEmp.DataSource = dt;
+            gvContraEmp.DataBind();
+        }
+
+        protected void gvContraEmp_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int index = Convert.ToInt32(e.CommandArgument);
+
+            // Obtener valores de la fila
+            GridViewRow row = gvContraEmp.Rows[index];
+            int idContrato = Convert.ToInt32(row.Cells[0].Text);
+
+            if (e.CommandName == "editar")
+            {
+                txtIdContrato.Text = idContrato.ToString();
+                txtFecha.Text = row.Cells[5].Text;
+                txtSalario.Text = row.Cells[6].Text;
+                txtBono.Text = "";
+                ddlTipo.SelectedValue = row.Cells[7].Text;
+
+                lblMensaje.Text = "";
+            }
+            else if (e.CommandName == "eliminar")
+            {
+                string resp = oContL.EliminarContra(idContrato);
+                lblMensaje.Text = resp;
+
+                CargarContratosEmp();
+            }
+            else if (e.CommandName == "cambiarTipo")
+            {
+                string tipoActual = row.Cells[7].Text;
+                string nuevoTipo = (tipoActual == "Fijo") ? "Indefinido" : "Fijo";
+
+                ClContratoM m = new ClContratoM();
+                m.idContrato = idContrato;
+                m.tipo = nuevoTipo;
+
+                oContL.MtEditContrato(m);
+
+                CargarContratosEmp();
+            }
+        }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+            ClContratoM m = new ClContratoM();
+            m.idContrato = Convert.ToInt32(txtIdContrato.Text);
+            m.fecha = Convert.ToDateTime(txtFecha.Text);
+            m.salario = Convert.ToDecimal(txtSalario.Text);
+            m.bono = Convert.ToDecimal(txtBono.Text);
+            m.tipo = ddlTipo.SelectedValue;
+
+            string respuesta = oContL.MtEditContrato(m);
+            lblMensaje.Text = respuesta;
+
+            CargarContratosEmp();
+        }
+
+        protected void btnRegistrar_Click(object sender, EventArgs e)
+        {
+            ClContratoM m = new ClContratoM();
+
+            m.documento = txtAddDocumento.Text;
+            m.fecha = Convert.ToDateTime(txtFecha.Text);
+            m.salario = Convert.ToDecimal(txtSalario.Text);
+            m.bono = Convert.ToDecimal(txtBono.Text);
+            m.tipo = DropDownList1.SelectedValue;
+
+            string r = oContL.Registrar(m);
+            lblAddMensaje.Text = r;
+
+            CargarContratosEmp();
+        }
+
+        private void CargarContratosViaje()
+        {
+            DataTable dt = oContL.ContratosViaje();
+            gvContraViaj.DataSource = dt;
+            gvContraViaj.DataBind();
+        }
+
+        protected void btnBuscarGastos_Click(object sender, EventArgs e)
+        {
+            if (txtIdViajeBuscar.Text == "")
+            {
+                lblGastosMensaje.Text = "Ingrese el ID del viaje.";
+                return;
+            }
+
+            int idViaje = Convert.ToInt32(txtIdViajeBuscar.Text);
+
+            DataTable dt = oContL.ListarGastosViaje(idViaje);
+
+            if (dt.Rows.Count == 0)
+            {
+                lblGastosMensaje.Text = "No se encontraron gastos para este viaje.";
+                gvGastos.DataSource = null;
+                gvGastos.DataBind();
+            }
+            else
+            {
+                lblGastosMensaje.Text = "";
+                gvGastos.DataSource = dt;
+                gvGastos.DataBind();
+            }
+        }
+
+        private void CargarBonos()
+        {
+            DataTable dt = oContL.Bonos();
             gvBonos.DataSource = dt;
             gvBonos.DataBind();
         }
-
-        private void LoadTotales()
+        protected void gvGastos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            DataTable dt = oContL.Contratos();
-            gvTotal.DataSource = dt;
-            gvTotal.DataBind();
-        }
-        protected void gvContratos_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Editar")
+            if (e.Row.RowType == DataControlRowType.Footer)
             {
-                int idContrato = Convert.ToInt32(e.CommandArgument);
+                decimal total = 0;
 
-                hfIdContratoEditar.Value = idContrato.ToString();
-
-                DataTable dt = oContL.Contratos();
-                var row = dt.AsEnumerable().FirstOrDefault(r => r.Field<int>("idContrato") == idContrato);
-
-                if (row != null)
+                foreach (GridViewRow row in gvGastos.Rows)
                 {
-                    txtEditDocumento.Text = row["documento"].ToString();
-                    txtEditSalario.Text = row["salario"].ToString();
-                    txtEditTipo.Text = row["tipo"].ToString();
-                    txtEditBono.Text = row["bono"].ToString();
+                    total += Convert.ToDecimal(row.Cells[2].Text); 
                 }
 
-                panelEditarContrato.Visible = true;
+                e.Row.Cells[1].Text = "TOTAL:";
+                e.Row.Cells[1].Font.Bold = true;
+
+                e.Row.Cells[2].Text = total.ToString("N0");
+                e.Row.Cells[2].Font.Bold = true;
             }
         }
-
-        protected void btnGuardarEdicion_Click(object sender, EventArgs e)
+        private void ExportarExcel(GridView grid, string nombreArchivo)
         {
-            ClContratoM c = new ClContratoM();
-            c.idContrato = Convert.ToInt32(hfIdContratoEditar.Value);
-            c.salario = Convert.ToDecimal(txtEditSalario.Text);
-            c.tipo = txtEditTipo.Text;
-            c.bono = Convert.ToDecimal(txtEditBono.Text);
-            c.fecha = DateTime.Now;
+            using (ExcelPackage excel = new ExcelPackage())
+            {
+                var ws = excel.Workbook.Worksheets.Add("Datos");
 
-            string mensaje = oContL.MtEditContrato(c);
-            lblFeedback.Text = mensaje;
+                DataTable dt = new DataTable();
 
-            panelEditarContrato.Visible = false;
-            LoadContratos(); 
+                foreach (DataControlField col in grid.Columns)
+                    dt.Columns.Add(col.HeaderText);
+
+                foreach (GridViewRow row in grid.Rows)
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int i = 0; i < row.Cells.Count; i++)
+                        dr[i] = row.Cells[i].Text;
+                    dt.Rows.Add(dr);
+                }
+
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+                ws.Cells.AutoFitColumns();
+
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", $"attachment; filename={nombreArchivo}.xlsx");
+                Response.BinaryWrite(excel.GetAsByteArray());
+                Response.End();
+            }
         }
-        protected void btnCancelarEdicion_Click(object sender, EventArgs e)
+
+
+        private DataTable ImportarExcel(FileUpload archivo)
         {
-            panelEditarContrato.Visible = false;
+            string ruta = Server.MapPath("~/Vista/Archivos/");
+            if (!Directory.Exists(ruta))
+                Directory.CreateDirectory(ruta);
+
+            string path = Path.Combine(ruta, archivo.FileName);
+            archivo.SaveAs(path);
+
+            DataTable dt = new DataTable();
+
+            using (var package = new ExcelPackage(new FileInfo(path)))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                int colCount = ws.Dimension.End.Column;
+                int rowCount = ws.Dimension.End.Row;
+
+                // Crear columnas
+                for (int col = 1; col <= colCount; col++)
+                    dt.Columns.Add(ws.Cells[1, col].Text);
+
+                // Crear filas
+                for (int row = 2; row <= rowCount; row++)
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int col = 1; col <= colCount; col++)
+                        dr[col - 1] = ws.Cells[row, col].Text;
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            return dt;
         }
-        protected void btnBuscar_Click(object sender, EventArgs e)
+        protected void Button4_Click(object sender, EventArgs e)
         {
-            string doc = txtBuscarDocumento.Text.Trim();
-            if (string.IsNullOrEmpty(doc))
-            {
-                lblFeedback.Text = "Ingrese un documento para buscar.";
-                return;
-            }
-
-            var lista = oContL.MtListContra(doc);
-            if (lista == null || lista.Count == 0)
-            {
-                lblFeedback.Text = "No se encontraron contratos para el documento.";
-                gvUsuario.DataSource = null;
-                gvUsuario.DataBind();
-                return;
-            }
-            gvUsuario.DataSource = lista;
-            gvUsuario.DataBind();
-            lblFeedback.Text = "";
+            ExportarExcel(gvContraEmp, "Contratos_Empleados");
         }
-
-        protected void btnRegistrarContrato_Click(object sender, EventArgs e)
+        protected void Button5_Click(object sender, EventArgs e)
         {
-            string doc = txtRegDocumento.Text.Trim();
-            if (string.IsNullOrEmpty(doc))
+            if (!FileUpload2.HasFile)
             {
-                lblFeedback.Text = "Ingrese documento para registrar.";
+                lblMensaje.Text = "Suba un archivo Excel.";
                 return;
             }
 
-            if (!decimal.TryParse(txtRegSalario.Text.Trim(), out decimal salario))
+            DataTable dt = ImportarExcel(FileUpload2);
+
+            foreach (DataRow row in dt.Rows)
             {
-                lblFeedback.Text = "Salario inválido.";
-                return;
+                ClContratoM c = new ClContratoM();
+
+                c.documento = row["Documento"].ToString();
+                c.fecha = Convert.ToDateTime(row["Fecha"].ToString());
+                c.salario = Convert.ToDecimal(row["Salario"]);
+                c.bono = Convert.ToDecimal(row["Bono"]);
+                c.tipo = row["Tipo de Contrato"].ToString();
+
+                new ClContadorL().Registrar(c);
             }
 
-            var lista = oContL.MtListContra(doc);
-            if (lista == null || lista.Count == 0)
-            {
-                lblFeedback.Text = "Usuario no encontrado. No se puede registrar contrato.";
-                return;
-            }
-
-            if (lista[0].salario > 0)
-            {
-                lblFeedback.Text = "El usuario ya tiene un contrato registrado.";
-                return;
-            }
-
-            ClContratoM nuevo = new ClContratoM()
-            {
-                idUusuario = lista[0].idUusuario,
-                documento = doc,
-                salario = salario,
-                tipo = ddlRegTipo.SelectedValue,
-                fecha = DateTime.Now,
-                bono = 0
-            };
-
-            string resp = oContL.Registrar(nuevo);
-            lblFeedback.Text = resp;
-
-            gvUsuario.DataSource = null;
-            gvUsuario.DataBind();
-            LoadContratos();
-            LoadTotales();
+            lblMensaje.Text = "Importación completada.";
         }
-        protected void btnEditar_Click(object sender, EventArgs e)
+        protected void Button2_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            GridViewRow row = (GridViewRow)btn.NamingContainer;
-
-            int index = row.RowIndex;
-            int idContratoVal = Convert.ToInt32(gvUsuario.DataKeys[index].Value);
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "showModal", "$('#modalEditar').modal('show');", true);
+            ExportarExcel(gvContraViaj, "Contratos_Viajes");
         }
+        protected void btnExportar_Click(object sender, EventArgs e)
+        {
+            ExportarExcel(gvGastos, "Gastos_Viaje");
+        }
+        protected void btnImportar_Click(object sender, EventArgs e)
+        {
+            if (!fileExcel.HasFile)
+            {
+                lblGastosMensaje.Text = "Seleccione un archivo.";
+                return;
+            }
+
+            DataTable dt = ImportarExcel(fileExcel);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                ClGastoM g = new ClGastoM();
+
+                g.tipoGasto = row["Tipo"].ToString();
+                g.monto = Convert.ToDecimal(row["Monto"]);
+                g.descripcionGasto = row["Descripción"].ToString();
+                g.fechaGasto = Convert.ToDateTime(row["Fecha"]);
+                g.idViajeVehiculo = Convert.ToInt32(txtIdViajeBuscar.Text);
+
+                new ClContadorL().RegistrarGasto(g);
+            }
+
+            lblGastosMensaje.Text = "Importación completada.";
+        }
+        protected void ExportarBonos_Click(object sender, EventArgs e)
+        {
+            ExportarExcel(gvBonos, "Bonos_Empleados");
+        }
+
+
+
+        public override void VerifyRenderingInServerForm(Control control) { }
+
+
 
     }
 }

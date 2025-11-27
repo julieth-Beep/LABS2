@@ -8,12 +8,12 @@ namespace PruebaLABS.Modelo
     public class ClGastoM:ClReporteM
     {
         public int idGasto { get; set; }
-        public string tipoGasto { get; set; }
-        public string monto { get; set; }
-        public string descripcionGasto { get; set; }
-        public string fechaGasto { get; set; }
-        public string imagenRecibo { get; set; }
         public int idViajeVehiculo { get; set; }
+        public string tipoGasto { get; set; }
+        public decimal monto { get; set; }
+        public string descripcionGasto { get; set; }
+        public DateTime fechaGasto { get; set; }
+        public string imagenRecibo { get; set; }
 
     }
 }

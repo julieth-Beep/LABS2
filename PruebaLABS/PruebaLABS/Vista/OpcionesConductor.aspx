@@ -405,8 +405,8 @@
                                         <asp:BoundField DataField="idGasto" HeaderText="ID" />
                                         <asp:BoundField DataField="tipoGasto" HeaderText="Tipo de Gasto" />
                                         <asp:BoundField DataField="descripcionGasto" HeaderText="Descripción" />
-                                        <asp:BoundField DataField="monto" HeaderText="Monto" DataFormatString="{0:C}" />
-                                        <asp:BoundField DataField="fechaGasto" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
+                                        <asp:BoundField DataField="monto" HeaderText="Monto" />
+                                        <asp:BoundField DataField="fechaGasto" HeaderText="Fecha" />
                                         <asp:BoundField DataField="idViaje" HeaderText="ID Viaje" />
                                         <asp:TemplateField HeaderText="Evidencia">
                                             <ItemTemplate>

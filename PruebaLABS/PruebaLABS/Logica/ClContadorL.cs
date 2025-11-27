@@ -12,9 +12,10 @@ namespace PruebaLABS.Logica
     public class ClContadorL
     {
         ClContadorD oContD = new ClContadorD();
-        public DataTable ListarGastosPorConductor()
+        ClSolicitudViajeL v = new ClSolicitudViajeL();
+        public DataTable ListarGastosViaje(int id)
         {
-            return oContD.GastosporConductor();
+            return oContD.GastosViaje(id);
         }
         public List<ClContratoM> MtListContra(string documento)
         {
@@ -24,17 +25,31 @@ namespace PruebaLABS.Logica
         {
             return oContD.MtEditar(v);
         }
-        public DataTable Bono()
+        public DataTable Bonos()
         {
-            return oContD.MtBonoConductor();
+            return oContD.MtBonos();
         }
-        public DataTable Contratos()
+        public DataTable ContratosEmp()
         {
-            return oContD.MtContraTotal();
+            return oContD.MtContraEmp();
+        }
+        public DataTable ContratosViaje()
+        {
+            return oContD.MtContraViaj();
         }
         public string Registrar(ClContratoM m)
         {
             return oContD.MtRegistrarContrato(m);
         }
+        public string EliminarContra(int v)
+        {
+            return oContD.MtEliminarContrato(v);
+        }
+        public string RegistrarGasto(ClGastoM g)
+        {
+            return oContD.MtRegistrarGasto(g);
+        }
+
+
     }
 }

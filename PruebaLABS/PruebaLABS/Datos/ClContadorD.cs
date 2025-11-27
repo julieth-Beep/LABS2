@@ -11,18 +11,18 @@ namespace PruebaLABS.Datos
     public class ClContadorD
     {
         ClConexion oConexion = new ClConexion();
-        public DataTable GastosporConductor()
+        public DataTable GastosViaje(int idViaje)
         {
             DataTable dt = new DataTable();
 
-            string consulta = @"select g.tipoGasto,g.monto,g.descripcion AS descripcionGasto,g.fecha AS fechaGasto,g.imagenRecibo,u.documento AS documentoConductor,u.nombre 
-            AS nombreConductor,u.apellido AS apellidoConductor,u.telefono,u.correo,r.nombre AS rol,r.descripcion AS descripcionRol,v.idViaje,v.puntoPartida,v.destino,v.fechaInicio,v.fechaFin,v.estadoViaje,v.costo AS costoViaje,v.distancia,
-            ve.idVehiculo,ve.placa,ve.modelo,ve.capacidad,ev.estado AS estadoVehiculo,ev.descripcion AS descripcionEstadoVehiculo
-            FROM gasto g INNER JOIN viajeVehiculo vv ON g.idViajeVehiculo = vv.idViajeVehiculo
-            INNER JOIN usuario u ON vv.idConductor = u.idUsuario INNER JOIN cargo c ON u.idUsuario = c.idUsuario INNER JOIN rol r ON c.idRol = r.idRol
-            INNER JOIN viaje v ON vv.idViaje = v.idViaje INNER JOIN vehiculo ve ON vv.idVehiculo = ve.idVehiculo INNER JOIN estadoVehiculo ev ON ve.idEstadoVehiculo = ev.idEstadoVehiculo ORDER BY u.nombre, g.fecha DESC;";
+            string consulta = @"SELECT g.idGasto,g.tipoGasto,g.monto,g.descripcion,g.fecha,v.idViaje,(SELECT SUM(g2.monto) FROM gasto g2
+            INNER JOIN viajeVehiculo vv2 ON vv2.idViajeVehiculo = g2.idViajeVehiculo WHERE vv2.idViaje = v.idViaje) AS totalGastosDelViaje 
+            FROM gasto g INNER JOIN viajeVehiculo v ON v.idViajeVehiculo = g.idViajeVehiculo WHERE v.idViaje = @idViaje;";
 
-            SqlDataAdapter da = new SqlDataAdapter(consulta, oConexion.MtAbrirConexion());
+
+            SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@idViaje", idViaje);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             try
             {
@@ -30,7 +30,7 @@ namespace PruebaLABS.Datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener gastos por conductor: " + ex.Message, ex);
+                throw new Exception("Error al obtener gastos " + ex.Message, ex);
             }
 
             return dt;
@@ -87,12 +87,11 @@ namespace PruebaLABS.Datos
             return mensaje;
 
         }
-        public DataTable MtBonoConductor()
+        public DataTable MtBonos()
         {
             DataTable dt = new DataTable();
 
-            string consulta = @"select u.idUsuario,u.nombre, u.apellido,count(vv.idViaje) as totalViajes, (count(vv.idViaje) * 200000) as bonoTotal 
-            from usuario u inner join viajeVehiculo vv on u.idUsuario = vv.idConductor group by u.idUsuario, u.nombre, u.apellido;";
+            string consulta = @"select u.idUsuario,u.nombre, u.apellido,r.nombre, c.bono from usuario u join contrato c on c.idUsuario=u.idUsuario join cargo cr on cr.idUsuario=u.idUsuario join rol r on cr.idRol=r.idRol;";
 
             SqlDataAdapter da = new SqlDataAdapter(consulta, oConexion.MtAbrirConexion());
 
@@ -102,21 +101,19 @@ namespace PruebaLABS.Datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener bono por conductor: " + ex.Message, ex);
+                throw new Exception("Error al obtener bonos " + ex.Message, ex);
             }
             oConexion.MtCerrarConexion();
 
             return dt;
 
         }
-        public DataTable MtContraTotal()
+        public DataTable MtContraEmp()
         {
             DataTable dt = new DataTable();
 
-            string consulta = @"SELECT u.documento, u.idUsuario,u.nombre,u.apellido,c.idContrato,c.salario, c.tipo, ISNULL(vViajes.cantidadViajes * 200000, 0) AS bono, (c.salario + ISNULL(vViajes.cantidadViajes * 200000, 0)) AS totalPagar
-            FROM usuario u LEFT JOIN contrato c ON u.idUsuario = c.idUsuario 
-            LEFT JOIN (SELECT vv.idConductor, COUNT(vv.idViaje) AS cantidadViajes 
-            FROM viajeVehiculo vv GROUP BY vv.idConductor) vViajes ON vViajes.idConductor = u.idUsuario;";
+            string consulta = @"select c.idContrato, r.nombre, u.documento, u.nombre, u.apellido, c.fecha, c.salario, c.tipo from usuario u join contrato c on c.idUsuario=u.idUsuario 
+            join cargo cr on cr.idUsuario=u.idUsuario join rol r on cr.idRol=r.idRol;";
 
             SqlDataAdapter da = new SqlDataAdapter(consulta, oConexion.MtAbrirConexion());
 
@@ -127,6 +124,26 @@ namespace PruebaLABS.Datos
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener contratos: " + ex.Message, ex);
+            }
+            oConexion.MtCerrarConexion();
+
+            return dt;
+        }
+        public DataTable MtContraViaj()
+        {
+            DataTable dt = new DataTable();
+
+            string consulta = @"select c.idCliente,c.nombre,c.apellido,c.empresa,e.estado,v.* from cliente c join estadoCliente e on c.idEstado=e.idEstadoCliente join viaje v on c.idCliente=v.idCliente;";
+
+            SqlDataAdapter da = new SqlDataAdapter(consulta, oConexion.MtAbrirConexion());
+
+            try
+            {
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener contratos de viajes: " + ex.Message, ex);
             }
             oConexion.MtCerrarConexion();
 
@@ -147,6 +164,63 @@ namespace PruebaLABS.Datos
             oConexion.MtCerrarConexion();
 
             return "Contrato registrado correctamente.";
-        }   
+        }
+        public string MtEliminarContrato(int idContrato)
+        {
+            string mensaje = "";
+            try
+            {
+                string consulta = "DELETE FROM contrato WHERE idContrato = @idContrato";
+
+                SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idContrato", idContrato);
+
+                int filas = cmd.ExecuteNonQuery();
+
+                mensaje = filas > 0 ? "Contrato eliminado correctamente" : "No se encontró el contrato";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al eliminar contrato: " + ex.Message;
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return mensaje;
+        }
+        public string MtRegistrarGasto(ClGastoM g)
+        {
+            string mensaje = "";
+            try
+            {
+                string consulta = @"INSERT INTO gasto (idViajeVehiculo, tipoGasto, monto, descripcion, fecha, imagenRecibo)
+                            VALUES (@idViajeVehiculo, @tipoGasto, @monto, @descripcion, @fecha, @imagenRecibo)";
+
+                SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+                // si no tienes idViajeVehiculo en el Excel, ajusta para asignar 0 o buscar el id correspondiente
+                cmd.Parameters.AddWithValue("@idViajeVehiculo", g.idViajeVehiculo);
+                cmd.Parameters.AddWithValue("@tipoGasto", g.tipoGasto ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@monto", g.monto);
+                cmd.Parameters.AddWithValue("@descripcion", g.descripcionGasto ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@fecha", g.fechaGasto);
+                cmd.Parameters.AddWithValue("@imagenRecibo", g.imagenRecibo ?? (object)DBNull.Value);
+
+                cmd.ExecuteNonQuery();
+                mensaje = "Gasto registrado";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al registrar gasto: " + ex.Message;
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return mensaje;
+        }
+
     }
 }

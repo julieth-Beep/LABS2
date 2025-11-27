@@ -96,17 +96,12 @@ namespace PruebaLABS.Vista
 
         private void CargarGastos()
         {
-            try
-            {
                 int idConductor = Convert.ToInt32(Session["idUsuario"]);
                 var gastos = logicaViaje.GRConductor(idConductor);
                 gvGastos.DataSource = gastos;
                 gvGastos.DataBind();
-            }
-            catch (Exception ex)
-            {
-                MostarMensajes("Error al cargar gastos: " + ex.Message, "danger");
-            }
+            
+            
         }
 
         private void CargarViajesParaGastos()
@@ -219,9 +214,9 @@ namespace PruebaLABS.Vista
                 {
                     idViajeVehiculo = idViajeVehiculo,
                     tipoGasto = ddlTipoGasto.SelectedValue,
-                    monto = monto.ToString("0.00"),
+                    monto = monto,
                     descripcionGasto = txtDescripcionGasto.Text ?? "",
-                    fechaGasto = DateTime.Now.ToString("yyyy-MM-dd"),
+                    fechaGasto = DateTime.Now,
                     imagenRecibo = nombreArchivo
                 };
 
