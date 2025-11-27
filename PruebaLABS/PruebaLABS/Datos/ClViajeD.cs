@@ -107,8 +107,6 @@ namespace PruebaLABS.Datos
                 reporte.descripcionGasto = dr["descripcion"].ToString();
                 reporte.monto = dr.GetDecimal(dr.GetOrdinal("monto"));
                 reporte.fechaGasto = dr["fecha"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["fecha"]);
-
-               
                 reporte.imagenRecibo = dr["imagenRecibo"] != DBNull.Value ? dr["imagenRecibo"].ToString() : "";
                 reporte.idViaje = dr.GetInt32(dr.GetOrdinal("idViaje"));
 

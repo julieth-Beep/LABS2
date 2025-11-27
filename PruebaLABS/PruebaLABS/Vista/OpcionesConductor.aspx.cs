@@ -96,12 +96,10 @@ namespace PruebaLABS.Vista
 
         private void CargarGastos()
         {
-                int idConductor = Convert.ToInt32(Session["idUsuario"]);
-                var gastos = logicaViaje.GRConductor(idConductor);
-                gvGastos.DataSource = gastos;
-                gvGastos.DataBind();
-            
-            
+            int idConductor = Convert.ToInt32(Session["idUsuario"]);
+            var gastos = logicaViaje.GRConductor(idConductor);
+            gvGastos.DataSource = gastos;
+            gvGastos.DataBind();
         }
 
         private void CargarViajesParaGastos()

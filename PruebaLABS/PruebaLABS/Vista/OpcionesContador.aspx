@@ -409,8 +409,8 @@
                             </asp:GridView>
                         </div>
 
-                        <asp:Button ID="ExportarBonos" runat="server" Text="Exportar Bonos"
-                            CssClass="btn btn-success mt-3" OnClick="ExportarBonos_Click" />
+                        <asp:Button ID="Export" runat="server" Text="Exportar Bonos"
+                            CssClass="btn btn-success mt-3" OnClick="Export_Click" />
 
                     </div>
 

@@ -26,7 +26,6 @@ namespace PruebaLABS.Vista
                 CargarContratosEmp();
             }
         }
-
         protected void btnContraEmp_Click(object sender, EventArgs e)
         {
             pnlContraEmp.Visible = true;
@@ -328,7 +327,7 @@ namespace PruebaLABS.Vista
 
             lblGastosMensaje.Text = "Importación completada.";
         }
-        protected void ExportarBonos_Click(object sender, EventArgs e)
+        protected void Export_Click(object sender, EventArgs e)
         {
             ExportarExcel(gvBonos, "Bonos_Empleados");
         }
