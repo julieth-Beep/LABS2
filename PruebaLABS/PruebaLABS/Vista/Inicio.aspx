@@ -29,7 +29,7 @@
 
         #inicio {
             min-height: 75vh;
-            background: url('https://media.istockphoto.com/id/1703227595/es/foto/fila-de-los-grandes-camiones-semirremolques-tractores-con-semirremolques-de-furgoneta-seca.jpg?s=612x612&w=0&k=20&c=IRsQ6SPVoHv3dfCasuHD5r4w-4pLoadHmKskgpNyLK8=') center/cover no-repeat;
+            background: url('https://media.istockphoto.com/id/1703227595/es/foto/fila-de-los-grandes-camiones-semirremolques-tractores-con-semirremolques-de-furgoneta-seca.jpg?s=612x612&w=0&k=20&c=IRsQ6SPVoHv3dfCasuHD5r4w-4pLoadHmKskgpNyLK8=') center  no-repeat;
             position: relative;
         }
 
@@ -200,7 +200,7 @@
 
         <section id="contact" class="py-5">
             <div class="container">
-                <h2 class="fw-bold text-success mb-5 text-center">Informacion</h2>
+                <h2 class="fw-bold text-success mb-5 text-center">Información</h2>
 
                 <div class="row g-4 justify-content-center">
                     <div class="col-lg-6">

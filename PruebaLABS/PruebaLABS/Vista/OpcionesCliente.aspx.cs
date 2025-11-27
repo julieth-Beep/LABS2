@@ -57,7 +57,7 @@ namespace PruebaLABS.Vista
                     gvMisPedidos.DataBind();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 gvMisPedidos.DataSource = null;
                 gvMisPedidos.DataBind();

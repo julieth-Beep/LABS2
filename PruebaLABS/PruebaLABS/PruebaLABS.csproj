@@ -95,6 +95,7 @@
     <Compile Include="Modelo\ClContratoM.cs" />
     <Compile Include="Modelo\ClEstadoVehiculoM.cs" />
     <Compile Include="Modelo\ClGastoM.cs" />
+    <Compile Include="Modelo\ClReporteM.cs" />
     <Compile Include="Modelo\ClRolM.cs" />
     <Compile Include="Modelo\ClSolicitudViajeM.cs" />
     <Compile Include="Modelo\ClUsuarioM.cs" />

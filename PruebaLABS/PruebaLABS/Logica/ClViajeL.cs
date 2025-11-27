@@ -19,5 +19,19 @@ namespace PruebaLABS.Logica
         {
             return datosViaje.MtCambiarEstadoViaje(idViaje,estado);
         }
+
+        public List<ClGastoM> GRConductor(int idConductor)
+        {
+            return datosViaje.ReporteGastosConductor(idConductor);
+        }
+        public string MtRegistrarGastoConImagen(ClGastoM gasto)
+        {
+            return datosViaje.MtInsertarGastoConImagen(gasto);
+        }
+
+        public int MtObtenerIdViajeVehiculo(int idViaje, int idConductor)
+        {
+            return datosViaje.obteneridVeviculo(idViaje, idConductor);
+        }
     }
 }

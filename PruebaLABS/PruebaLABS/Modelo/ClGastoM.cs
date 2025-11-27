@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PruebaLABS.Modelo
 {
-    public class ClGastoM
+    public class ClGastoM:ClReporteM
     {
         public int idGasto { get; set; }
         public string tipoGasto { get; set; }
@@ -13,5 +13,7 @@ namespace PruebaLABS.Modelo
         public string descripcionGasto { get; set; }
         public string fechaGasto { get; set; }
         public string imagenRecibo { get; set; }
+        public int idViajeVehiculo { get; set; }
+
     }
 }

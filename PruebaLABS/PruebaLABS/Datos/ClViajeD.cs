@@ -86,5 +86,105 @@ namespace PruebaLABS.Datos
 
             return mensaje;
         }
+
+        public List<ClGastoM> ReporteGastosConductor(int idConductor)
+        {
+            ClConexion oConex = new ClConexion();
+            List<ClGastoM> lista = new List<ClGastoM>();
+            string consulta = @"select g.idGasto,g.tipoGasto, g.descripcion, g.monto, g.fecha ,g.imagenRecibo,v.idViaje from gasto g inner join viajeVehiculo vv on g.idViajeVehiculo = vv.idViajeVehiculo inner join cargo car ON vv.idConductor = car.idCargo inner join usuario u ON car.idUsuario = u.idUsuario inner join viaje v ON vv.idViaje = v.idViaje where u.idUsuario = @idConductor ORDER BY g.fecha DESC";
+
+
+            SqlCommand cmd = new SqlCommand(consulta, oConex.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@idConductor", idConductor);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                ClGastoM reporte = new ClGastoM();
+                reporte.idGasto = dr.GetInt32(dr.GetOrdinal("idGasto"));
+                reporte.tipoGasto = dr["tipoGasto"].ToString();
+                reporte.descripcionGasto = dr["descripcion"].ToString();
+                reporte.monto = dr["monto"].ToString();
+                reporte.fechaGasto = dr["fecha"].ToString();
+                reporte.imagenRecibo = dr["imagenRecibo"] != DBNull.Value ? dr["imagenRecibo"].ToString() : "";
+                reporte.idViaje = dr.GetInt32(dr.GetOrdinal("idViaje"));
+
+
+
+                lista.Add(reporte);
+            }
+            dr.Close();
+            oConex.MtCerrarConexion();
+            return lista;
+        }
+
+
+        public string MtInsertarGastoConImagen(ClGastoM gasto)
+        {
+            ClConexion Oconex = new ClConexion();
+            string mensaje = "";
+
+            try
+            {
+                string consulta = @"INSERT INTO gasto(idViajeVehiculo,tipoGasto,monto,descripcion,fecha,imagenRecibo) 
+                           VALUES (@idViajeVehiculo,@tipoGasto,@monto,@descripcion,@fecha,@imagenRecibo)";
+                SqlCommand cmd = new SqlCommand(consulta, Oconex.MtAbrirConexion());
+
+                cmd.Parameters.AddWithValue("@idViajeVehiculo", gasto.idViajeVehiculo);
+                cmd.Parameters.AddWithValue("@tipoGasto", gasto.tipoGasto);
+                cmd.Parameters.AddWithValue("@monto", gasto.monto);
+                cmd.Parameters.AddWithValue("@descripcion", gasto.descripcionGasto ?? "");
+                cmd.Parameters.AddWithValue("@fecha", gasto.fechaGasto);
+                cmd.Parameters.AddWithValue("@imagenRecibo", gasto.imagenRecibo ?? "");
+
+                cmd.ExecuteNonQuery();
+                mensaje = "Gasto registrado correctamente";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al registrar gasto:" + ex.Message;
+            }
+            finally
+            {
+                Oconex.MtCerrarConexion();
+            }
+            return mensaje;
+        }
+
+
+        public int obteneridVeviculo(int idViaje, int idConductor)
+        {
+            ClConexion Oconex = new ClConexion();
+            int idViajeVehiculo = 0;
+
+
+            try
+            {
+                string consulta = @"select vv.idViajeVehiculo from viajeVehiculo vv inner join cargo car on vv.idConductor=car.idCargo inner join usuario u on car.idUsuario=u.idUsuario where vv.idViaje=@idViaje and u.idUsuario=@idConductor";
+                SqlCommand cmd = new SqlCommand(consulta, Oconex.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idViaje", idViaje);
+                cmd.Parameters.AddWithValue("@idConductor", idConductor);
+
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    idViajeVehiculo = Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener idViajeVehiculo: " + ex.Message);
+            }
+            finally
+            {
+                Oconex.MtCerrarConexion();
+            }
+
+            return idViajeVehiculo;
+        }
+
+
+
     }
 }
