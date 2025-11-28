@@ -22,7 +22,7 @@ namespace PruebaLABS.Logica
                 fechaInicio = fechaInicio,
                 fechaFin = fechaFin,
                 tipoCarga = tipoCarga,
-                motivo = motivo, 
+                motivo = motivo,
                 observaciones = observaciones,
                 idCliente = idCliente,
                 costo = "0",
@@ -35,6 +35,31 @@ namespace PruebaLABS.Logica
         public DataTable MtObtenerViajesCliente(int idCliente)
         {
             return datosViaje.MtObtenerViajesCliente(idCliente);
+        }
+
+        public DataTable MtObtenerTodasLasSolicitudes()
+        {
+            return datosViaje.MtObtenerTodasLasSolicitudes();
+        }
+
+        public DataTable MtObtenerSolicitudesPorDocumento(string documento)
+        {
+            return datosViaje.MtObtenerSolicitudesPorDocumento(documento);
+        }
+
+        public DataTable MtObtenerSolicitudesPorEstado(string estado)
+        {
+            return datosViaje.MtObtenerSolicitudesPorEstado(estado);
+        }
+
+        public string MtActualizarSolicitud(int idViaje, string estado, string costo, string fechaLlegada, string observaciones)
+        {
+            return datosViaje.MtActualizarSolicitud(idViaje, estado, costo, fechaLlegada, observaciones);
+        }
+
+        public string MtEliminarSolicitud(int idViaje)
+        {
+            return datosViaje.MtEliminarSolicitud(idViaje);
         }
     }
 }

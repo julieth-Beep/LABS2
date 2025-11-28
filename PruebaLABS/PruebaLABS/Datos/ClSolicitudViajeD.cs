@@ -21,7 +21,7 @@ namespace PruebaLABS.Datos
                 string consultaAdmin = @"SELECT TOP 1 idCargo from cargo where idRol = 2";
                 SqlCommand cmdAdmin = new SqlCommand(consultaAdmin, oConexion.MtAbrirConexion());
                 object result = cmdAdmin.ExecuteScalar();
-                int idAdministrador = result != null ? Convert.ToInt32(result) : 1; 
+                int idAdministrador = result != null ? Convert.ToInt32(result) : 1;
                 oConexion.MtCerrarConexion();
 
                 string consulta = @"insert into viaje (puntoPartida, destino, fechaInicio, fechaFin, estadoViaje, costo, distancia, tipoCarga, idAdministrador, idCliente, motivo, observaciones) values (@puntoPartida, @destino, @fechaInicio, @fechaFin, @estadoViaje, @costo, @distancia, @tipoCarga, @idAdministrador, @idCliente, @motivo, @observaciones)";
@@ -84,6 +84,134 @@ namespace PruebaLABS.Datos
                 oConexion.MtCerrarConexion();
             }
             return dt;
+        }
+
+
+        public DataTable MtObtenerTodasLasSolicitudes()
+        {
+            DataTable dt = new DataTable();
+            string consulta = @"select v.idViaje, c.documento, c.nombre + ' ' + c.apellido as Cliente, c.empresa, v.puntoPartida, v.destino, v.fechaInicio, v.fechaFin, v.estadoViaje, v.costo, v.tipoCarga, v.motivo, v.observaciones from viaje v inner join cliente c on v.idCliente = c.idCliente order by v.fechaInicio DESC, v.idViaje DESC";
+
+            SqlDataAdapter da = new SqlDataAdapter(consulta, oConexion.MtAbrirConexion());
+
+            try
+            {
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener todas las solicitudes: " + ex.Message, ex);
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return dt;
+        }
+
+        public DataTable MtObtenerSolicitudesPorDocumento(string documento)
+        {
+            DataTable dt = new DataTable();
+            string consulta = @"select v.idViaje, c.documento, c.nombre + ' ' + c.apellido as Cliente, c.empresa, v.puntoPartida, v.destino, v.fechaInicio, v.fechaFin, v.estadoViaje, v.costo, v.tipoCarga, v.motivo, v.observaciones from viaje v  inner join cliente c ON v.idCliente = c.idCliente where c.documento = @documento order by v.fechaInicio DESC";
+
+            SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@documento", documento);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            try
+            {
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener solicitudes por documento: " + ex.Message, ex);
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return dt;
+        }
+
+        public DataTable MtObtenerSolicitudesPorEstado(string estado)
+        {
+            DataTable dt = new DataTable();
+            string consulta = @"select v.idViaje, c.documento, c.nombre + ' ' + c.apellido as Cliente, c.empresa, v.puntoPartida, v.destino, v.fechaInicio, v.fechaFin, v.estadoViaje, v.costo, v.tipoCarga, v.motivo, v.observaciones from viaje v  inner join cliente c on v.idCliente = c.idCliente where v.estadoViaje = @estado order by v.fechaInicio DESC";
+
+            SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@estado", estado);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            try
+            {
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener solicitudes por estado: " + ex.Message, ex);
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return dt;
+        }
+
+        public string MtActualizarSolicitud(int idViaje, string estado, string costo, string fechaLlegada, string observaciones)
+        {
+            string mensaje = "";
+            string consulta = @"UPDATE viaje SET estadoViaje = @estado, costo = @costo, fechaFin = @fechaFin, observaciones = @observaciones where idViaje = @idViaje";
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@estado", estado);
+                cmd.Parameters.AddWithValue("@costo", string.IsNullOrEmpty(costo) ? (object)DBNull.Value : decimal.Parse(costo));
+                cmd.Parameters.AddWithValue("@fechaFin", string.IsNullOrEmpty(fechaLlegada) ? (object)DBNull.Value : fechaLlegada);
+                cmd.Parameters.AddWithValue("@observaciones", observaciones ?? "");
+                cmd.Parameters.AddWithValue("@idViaje", idViaje);
+
+                int resultado = cmd.ExecuteNonQuery();
+                mensaje = resultado > 0 ? "Solicitud actualizada correctamente." : "No se pudo actualizar la solicitud.";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al actualizar solicitud: " + ex.Message;
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return mensaje;
+        }
+
+        public string MtEliminarSolicitud(int idViaje)
+        {
+            string mensaje = "";
+            string consulta = "delet from viaje where idViaje = @idViaje";
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idViaje", idViaje);
+
+                int resultado = cmd.ExecuteNonQuery();
+                mensaje = resultado > 0 ? "Solicitud eliminada correctamente." : "No se pudo eliminar la solicitud.";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al eliminar solicitud: " + ex.Message;
+            }
+            finally
+            {
+                oConexion.MtCerrarConexion();
+            }
+
+            return mensaje;
         }
     }
 }
