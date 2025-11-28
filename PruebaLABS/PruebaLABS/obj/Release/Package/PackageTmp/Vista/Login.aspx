@@ -1,23 +1,29 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="PruebaLABS.Vista.Login" %>
+﻿<%@ Page Title="Incio secion" Language="C#" MasterPageFile="~/Vista/Vistas.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="PruebaLABS.Vista.Login" %>
 
-<!DOCTYPE html>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>LABS</title>
-
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
-        body {
+        body, html {
+            height: 100%;
             background-color: #f4f6f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-wrapper {
+            min-height: calc(100vh - 120px); /* Ajusta por el header/footer de la MasterPage */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
         }
 
         .card {
+            width: 100%;
+            max-width: 410px;
             border: none;
             border-radius: 15px;
         }
@@ -30,7 +36,7 @@
 
         @keyframes moveTruck {
             0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(8px); }
+            50% { transform: translateX(6px); }
         }
 
         .btn-custom {
@@ -48,68 +54,68 @@
         a {
             color: #2E7D32;
             font-weight: 500;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #1B4A20;
         }
 
         .forgot-password {
             text-align: right;
             margin-top: 8px;
-            margin-bottom: 15px;
+        }
+
+        /* Celulares */
+        @media (max-width: 480px) {
+            .brand-icon { font-size: 50px; }
+            .card { padding: 20px !important; }
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div class="container d-flex align-items-center justify-content-center vh-100">
-            <div class="card shadow-lg p-4" style="max-width: 410px; width: 100%;">
-                <div class="text-center mb-4">
-                    <i class="bi bi-truck brand-icon"></i>
-                    <h3 class="mt-3 fw-bold text-dark">Iniciar Sesión</h3>
-                </div>
 
-                <div class="mb-3">
-                    <asp:Label ID="lblUser" runat="server" Text="Usuario" CssClass="form-label fw-semibold"></asp:Label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <asp:TextBox ID="txtUser" runat="server" CssClass="form-control" placeholder="Digite email" TextMode="Email"></asp:TextBox>
-                    </div>
-                </div>
+</asp:Content>
 
-                <div class="mb-3">
-                    <asp:Label ID="lblpass" runat="server" Text="Password" CssClass="form-label fw-semibold"></asp:Label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <asp:TextBox ID="txtPass" runat="server" CssClass="form-control" placeholder="Digite password" TextMode="Password"></asp:TextBox>
-                    </div>
-                    
-                    <div class="forgot-password">
-                        <asp:HyperLink ID="lnkRecuperar" runat="server" 
-                               NavigateUrl="RecuperarContraseña.aspx" 
-                               Text="¿Olvidó su contraseña?" 
-                               CssClass="fw-semibold"></asp:HyperLink>
-                    </div>
-                </div>
 
-                <div class="d-grid mt-3">
-                    <asp:Button ID="btnIngresar" runat="server" Text="Ingresar" OnClick="bntIngresar_Click" CssClass="btn btn-custom" />
-                </div>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentBodys" runat="server">
 
-                <p class="mt-3 text-center">
-                    ¿No tienes cuenta?
-                    <a href="Registro.aspx">Regístrate aquí</a>
-                </p>
-
-                <asp:Label ID="lnlMensaje" runat="server" Text=""></asp:Label>
+    <div class="login-wrapper">
+        <div class="card shadow-lg p-4">
+            
+            <div class="text-center mb-4">
+                <i class="bi bi-truck brand-icon"></i>
+                <h3 class="mt-3 fw-bold text-dark">Iniciar Sesión</h3>
             </div>
+
+            <div class="mb-3">
+                <asp:Label ID="lblUser" runat="server" Text="Usuario" CssClass="form-label fw-semibold"></asp:Label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <asp:TextBox ID="txtUser" runat="server" CssClass="form-control" placeholder="Digite email" TextMode="Email"></asp:TextBox>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <asp:Label ID="lblpass" runat="server" Text="Password" CssClass="form-label fw-semibold"></asp:Label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <asp:TextBox ID="txtPass" runat="server" CssClass="form-control" placeholder="Digite password" TextMode="Password"></asp:TextBox>
+                </div>
+
+                <div class="forgot-password">
+                    <asp:HyperLink ID="lnkRecuperar" runat="server"
+                                   NavigateUrl="RecuperarContraseña.aspx"
+                                   Text="¿Olvidó su contraseña?" />
+                </div>
+            </div>
+
+            <div class="d-grid mt-3">
+                <asp:Button ID="btnIngresar" runat="server" Text="Ingresar" 
+                            OnClick="bntIngresar_Click" CssClass="btn btn-custom" />
+            </div>
+
+            <p class="mt-3 text-center">
+                ¿No tienes cuenta?
+                <a href="Registro.aspx">Regístrate aquí</a>
+            </p>
+
+            <asp:Label ID="lnlMensaje" runat="server" Text=""></asp:Label>
+
         </div>
-    </form>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+</asp:Content>

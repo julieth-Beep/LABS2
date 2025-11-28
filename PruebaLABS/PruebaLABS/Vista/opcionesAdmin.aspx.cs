@@ -70,6 +70,7 @@ namespace PruebaLABS.Vista
             pnlClientes.Visible = false;
 
             ActivarMenu(btnUsuarios);
+            MtCargarUsuarios();
         }
 
         protected void btnRegistro_Click(object sender, EventArgs e)
@@ -258,6 +259,7 @@ namespace PruebaLABS.Vista
             }
         }
 
+
         private void CargarTodasLasSolicitudes()
         {
             try
@@ -268,7 +270,7 @@ namespace PruebaLABS.Vista
                 gvSolicitudesClientes.DataBind();
 
                 lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
-                lblMensajeSolicitudes.Text = $"Se cargaron {dtSolicitudes.Rows.Count} solicitudes.";
+                lblMensajeSolicitudes.Text = "Se cargaron " + dtSolicitudes.Rows.Count + " solicitudes.";
                 lblMensajeSolicitudes.Style["color"] = "#198754";
             }
             catch (Exception ex)
@@ -296,14 +298,15 @@ namespace PruebaLABS.Vista
                 gvSolicitudesClientes.DataBind();
 
                 lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
+
                 if (dtSolicitudes.Rows.Count > 0)
                 {
-                    lblMensajeSolicitudes.Text = $"Se encontraron {dtSolicitudes.Rows.Count} solicitudes para el documento: {documento}";
+                    lblMensajeSolicitudes.Text = "Se encontraron " + dtSolicitudes.Rows.Count + " solicitudes para el documento: " + documento;
                     lblMensajeSolicitudes.Style["color"] = "#198754";
                 }
                 else
                 {
-                    lblMensajeSolicitudes.Text = $"No se encontraron solicitudes para el documento: {documento}";
+                    lblMensajeSolicitudes.Text = "No se encontraron solicitudes para el documento: " + documento;
                     lblMensajeSolicitudes.Style["color"] = "#6c757d";
                 }
             }
@@ -344,7 +347,7 @@ namespace PruebaLABS.Vista
                 gvSolicitudesClientes.DataBind();
 
                 lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
-                lblMensajeSolicitudes.Text = $"Solicitudes con estado: {estado} ({dtSolicitudes.Rows.Count} encontradas)";
+                lblMensajeSolicitudes.Text = "Solicitudes con estado: " + estado + " (" + dtSolicitudes.Rows.Count + " encontradas)";
                 lblMensajeSolicitudes.Style["color"] = "#198754";
             }
             catch (Exception ex)
@@ -433,6 +436,12 @@ namespace PruebaLABS.Vista
                 case "Cancelado": return "danger";
                 default: return "secondary";
             }
+        }
+
+        private void MtCargarUsuarios()
+        {
+            gvUsuarios.DataSource = logicaUsuario.MtListarUsuarios();
+            gvUsuarios.DataBind();
         }
 
         private void LimpiarFormularioRegistro()

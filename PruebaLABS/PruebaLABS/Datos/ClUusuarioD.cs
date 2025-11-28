@@ -24,7 +24,7 @@ namespace PruebaLABS.Datos
             if (tbldat.Read())
             {
                 oDatosUser = new ClUsuarioM();
-                oDatosUser.idUusuario = tbldat.GetInt32(tbldat.GetOrdinal("idUsuario"));
+                oDatosUser.idUsuario = tbldat.GetInt32(tbldat.GetOrdinal("idUsuario"));
                 oDatosUser.documento = tbldat["documento"].ToString();
                 oDatosUser.nombre = tbldat["nombre"].ToString();
                 oDatosUser.apellido = tbldat["apellido"].ToString();
@@ -96,8 +96,44 @@ namespace PruebaLABS.Datos
                 oConexion.MtCerrarConexion();
             }
 
+
            
         }
+        public List<ClUsuarioM> MtListarUsuarios()
+        {
+            List<ClUsuarioM> lista = new List<ClUsuarioM>();
+
+            string consulta = @"
+        SELECT u.idUsuario, u.documento, u.nombre, u.apellido, 
+               u.telefono, u.correo, r.nombre AS nombreRol, r.idRol
+        FROM usuario u
+        INNER JOIN cargo c ON u.idUsuario = c.idUsuario
+        INNER JOIN rol r ON c.idRol = r.idRol";
+
+            ClConexion cn = new ClConexion();
+            SqlCommand cmd = new SqlCommand(consulta, cn.MtAbrirConexion());
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                lista.Add(new ClUsuarioM()
+                {
+                    idUsuario = Convert.ToInt32(dr["idUsuario"]),
+                    documento = dr["documento"].ToString(),
+                    nombre = dr["nombre"].ToString(),
+                    apellido = dr["apellido"].ToString(),
+                    telefono = dr["telefono"].ToString(),
+                    correo = dr["correo"].ToString(),
+                    nombreRol = dr["nombreRol"].ToString(),
+                    idRol = Convert.ToInt32(dr["idRol"])
+                });
+            }
+
+            dr.Close();
+            cn.MtCerrarConexion();
+            return lista;
+        }
+
 
         private string GetNombreRol(int idRol)
         {

@@ -451,15 +451,37 @@
 
 
                 <asp:Panel ID="pnlUsuarios" runat="server" Visible="false">
+
                     <div class="content-card">
                         <div class="card-header-custom">
                             <i class="bi bi-people brand-icon"></i>
-                            <h3>Usuarios</h3>
+                            <h3>Gestión de Usuarios</h3>
+                            <p class="text-muted">Listado y administración de usuarios registrados</p>
                         </div>
 
-                        <p>Contenido pendiente...</p>
+                        <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="false"
+                            CssClass="table table-bordered">
+
+                            <Columns>
+
+                                <asp:BoundField DataField="idUsuario" HeaderText="ID" />
+                                <asp:BoundField DataField="documento" HeaderText="Documento" />
+                                <asp:BoundField DataField="nombre" HeaderText="Nombres" />
+                                <asp:BoundField DataField="apellido" HeaderText="Apellidos" />
+                                <asp:BoundField DataField="telefono" HeaderText="Teléfono" />
+                                <asp:BoundField DataField="correo" HeaderText="Correo" />
+                                <asp:BoundField DataField="nombreRol" HeaderText="Rol" />
+
+                            </Columns>
+
+                        </asp:GridView>
+
+                        <asp:Label ID="lblMensajeUsuario" runat="server" CssClass="alert-message"></asp:Label>
                     </div>
+
                 </asp:Panel>
+
+
 
 
                 <asp:Panel ID="pnlRegistro" runat="server" Visible="false">

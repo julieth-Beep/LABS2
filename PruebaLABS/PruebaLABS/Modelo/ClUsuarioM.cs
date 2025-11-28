@@ -7,7 +7,7 @@ namespace PruebaLABS.Datos
 {
     public class ClUsuarioM
     {
-        public int idUusuario { get; set; }
+        public int idUsuario { get; set; }
         public string documento { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }

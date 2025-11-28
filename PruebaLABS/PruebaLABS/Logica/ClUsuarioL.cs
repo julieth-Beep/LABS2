@@ -32,5 +32,9 @@ namespace PruebaLABS.Logica
 
             return DatUsu.MtRegistrarUsuario(user);
         }
+        public List<ClUsuarioM> MtListarUsuarios()
+        {
+            return DatUsu.MtListarUsuarios();
+        }
     }
 }

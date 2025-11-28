@@ -24,7 +24,7 @@ namespace PruebaLABS.Vista
 
             if (ingresoUsuario != null)
             {
-                Session["idUsuario"]=ingresoUsuario.idUusuario;
+                Session["idUsuario"]=ingresoUsuario.idUsuario;
                 Session["rol"] = ingresoUsuario.idRol;
                 Session["nombre"] = ingresoUsuario.nombre;
                 Session["correo"] = ingresoUsuario.correo;

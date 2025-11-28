@@ -28,10 +28,14 @@
         }
 
         #inicio {
-            min-height: 75vh;
-            background: url('https://media.istockphoto.com/id/1703227595/es/foto/fila-de-los-grandes-camiones-semirremolques-tractores-con-semirremolques-de-furgoneta-seca.jpg?s=612x612&w=0&k=20&c=IRsQ6SPVoHv3dfCasuHD5r4w-4pLoadHmKskgpNyLK8=') center  no-repeat;
+            min-height: 60vh;
+            background-image: url('/Vista/imagenes/mula.jpg');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
             position: relative;
         }
+
 
             #inicio::before {
                 content: '';
@@ -210,7 +214,16 @@
                             <p><i class="fa fa-phone text-success me-2"></i>6087654504</p>
                             <p><i class="fa fa-envelope text-success me-2"></i>contacto.labs@gmail.com</p>
                             <p><i class="fa fa-clock text-success me-2"></i>Lunes a Sábado 8:00am - 6:00pm</p>
-                            <src><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.3350404561547!2d-73.027305!3d5.808269999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a3f6322f3e2bf%3A0x46d1b815677d0db!2sCra.%2039%20%2310-1%2C%20Duitama%2C%20Boyac%C3%A1!5e0!3m2!1ses-419!2sco!4v1764001179329!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></src>
+                            <div class="mt-3">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.3350404561547!2d-73.027305!3d5.80827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a3f6322f3e2bf%3A0x46d1b815677d0db!2sCra.%2039%20%2310-1%2C%20Duitama%2C%20Boyac%C3%A1!5e0!3m2!1ses-419!2sco!4v1764001179329!5m2!1ses-419!2sco"
+                                    width="100%"
+                                    height="350"
+                                    style="border: 0; border-radius: 12px;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>

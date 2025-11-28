@@ -49,7 +49,7 @@ namespace PruebaLABS.Datos
             while (tbl.Read())
             {
                 ClContratoM v = new ClContratoM();
-                v.idUusuario = Convert.ToInt32(tbl["idUsuario"]);
+                v.idUsuario = Convert.ToInt32(tbl["idUsuario"]);
                 v.documento = tbl["documento"].ToString();
                 v.nombre = tbl["nombre"].ToString();
                 v.apellido = tbl["apellido"].ToString();
@@ -155,7 +155,7 @@ namespace PruebaLABS.Datos
                         VALUES (@idUsuario, @fecha, @salario, @tipo, 0)";
 
             SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
-            cmd.Parameters.AddWithValue("@idUsuario", c.idUusuario);
+            cmd.Parameters.AddWithValue("@idUsuario", c.idUsuario);
             cmd.Parameters.AddWithValue("@fecha", c.fecha);
             cmd.Parameters.AddWithValue("@salario", c.salario);
             cmd.Parameters.AddWithValue("@tipo", c.tipo);
