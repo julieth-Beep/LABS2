@@ -585,6 +585,10 @@
                     </div>
                 </asp:Panel>
 
+
+
+                <%--cliente--%>
+
                 <asp:Panel ID="pnlClientes" runat="server" Visible="false">
 
                     <div class="content-card">
@@ -599,16 +603,33 @@
                                 <div class="form-group">
                                     <label class="form-label">Buscar por Documento</label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                        <asp:TextBox ID="txtBuscarDocumento" runat="server" CssClass="form-control" placeholder="Documento del cliente"></asp:TextBox>
-                                        <asp:Button ID="btnBuscarCliente" runat="server" Text="Buscar"
-                                            CssClass="btn btn-success" OnClick="btnBuscarCliente_Click" />
+                                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                        <asp:TextBox ID="txtBuscarDocumento" runat="server" CssClass="form-control"
+                                            placeholder="Documento del cliente"></asp:TextBox>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Fecha Desde</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                        <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control"
+                                            TextMode="Date"></asp:TextBox>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Fecha Hasta</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                        <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control"
+                                            TextMode="Date"></asp:TextBox>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label">Filtrar por Estado</label>
-                                    <asp:DropDownList ID="ddlFiltrarEstado" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlFiltrarEstado_SelectedIndexChanged">
+                                    <asp:DropDownList ID="ddlFiltrarEstado" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="">Todos los estados</asp:ListItem>
                                         <asp:ListItem Value="Pendiente">Pendiente</asp:ListItem>
                                         <asp:ListItem Value="Aprobado">Aprobado</asp:ListItem>
@@ -619,9 +640,11 @@
                                 </div>
                             </div>
 
-                            <div class="text-center mt-2">
+                            <div class="text-center mt-3">
+                                <asp:Button ID="btnBuscarCliente" runat="server" Text="Buscar Solicitudes"
+                                    CssClass="btn btn-success me-2" OnClick="btnBuscarCliente_Click" />
                                 <asp:Button ID="btnMostrarTodos" runat="server" Text="Mostrar Todos"
-                                    CssClass="btn btn-outline-success btn-sm" OnClick="btnMostrarTodos_Click" />
+                                    CssClass="btn btn-outline-secondary" OnClick="btnMostrarTodos_Click" />
                             </div>
                         </div>
 
@@ -632,12 +655,13 @@
                         <div class="card-header-custom">
                             <i class="bi bi-list-check brand-icon"></i>
                             <h3>Solicitudes de Viaje</h3>
-                            <p class="text-muted mb-0">Edición directa en tabla - Scroll horizontal disponible</p>
+                            <p class="text-muted mb-0">Tabla responsiva con filtros avanzados</p>
                         </div>
 
-                        <div class="table-container">
-                            <asp:GridView ID="gvSolicitudesClientes" runat="server" AutoGenerateColumns="false"
-                                CssClass="table table-custom table-hover"
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvSolicitudesClientes" runat="server"
+                                AutoGenerateColumns="false"
+                                CssClass="table table-hover table-striped"
                                 OnRowEditing="gvSolicitudesClientes_RowEditing"
                                 OnRowUpdating="gvSolicitudesClientes_RowUpdating"
                                 OnRowCancelingEdit="gvSolicitudesClientes_RowCancelingEdit"
@@ -645,51 +669,46 @@
                                 DataKeyNames="idViaje"
                                 EmptyDataText="No se encontraron solicitudes de viaje"
                                 ShowHeaderWhenEmpty="true">
-                                <Columns>
-                                    <asp:TemplateField HeaderText="ID" ItemStyle-Width="50px">
-                                        <ItemTemplate>
-                                            <asp:Label ID="lblIdViaje" runat="server" Text='<%# Eval("idViaje") %>'></asp:Label>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Documento" ItemStyle-Width="100px">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Documento" HeaderStyle-Width="100px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblDocumento" runat="server" Text='<%# Eval("documento") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Cliente" ItemStyle-Width="120px">
+                                    <asp:TemplateField HeaderText="Cliente" HeaderStyle-Width="150px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblCliente" runat="server" Text='<%# Eval("Cliente") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Empresa" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Empresa" HeaderStyle-Width="120px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblEmpresa" runat="server" Text='<%# Eval("empresa") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Origen" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Origen" HeaderStyle-Width="120px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblOrigen" runat="server" Text='<%# Eval("puntoPartida") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Destino" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Destino" HeaderStyle-Width="120px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblDestino" runat="server" Text='<%# Eval("destino") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="F. Salida" ItemStyle-Width="90px">
+                                    <asp:TemplateField HeaderText="F. Salida" HeaderStyle-Width="100px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblFechaSalida" runat="server"
-                                                Text='<%# Eval("fechaInicio", "{0:dd/MM/yyyy}") %>'></asp:Label>
+                                                Text='<%# Convert.ToDateTime(Eval("fechaInicio")).ToString("dd/MM/yyyy") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="F. Llegada" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="F. Llegada" HeaderStyle-Width="100px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblFechaLlegada" runat="server"
                                                 Text='<%# Eval("fechaFin") != DBNull.Value ? Convert.ToDateTime(Eval("fechaFin")).ToString("dd/MM/yyyy") : "Pendiente" %>'></asp:Label>
@@ -700,7 +719,7 @@
                                         </EditItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Estado" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Estado" HeaderStyle-Width="120px">
                                         <ItemTemplate>
                                             <span class='badge badge-<%# GetEstadoBadgeClass(Eval("estadoViaje").ToString()) %>'>
                                                 <%# Eval("estadoViaje") %>
@@ -717,7 +736,7 @@
                                         </EditItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Costo" ItemStyle-Width="90px">
+                                    <asp:TemplateField HeaderText="Costo" HeaderStyle-Width="100px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblCosto" runat="server"
                                                 Text='<%# Eval("costo") != DBNull.Value && !string.IsNullOrEmpty(Eval("costo").ToString()) ? string.Format("{0:C0}", Convert.ToDecimal(Eval("costo"))) : "Por confirmar" %>'></asp:Label>
@@ -728,50 +747,53 @@
                                         </EditItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Tipo Carga" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Tipo Carga" HeaderStyle-Width="120px">
                                         <ItemTemplate>
                                             <asp:Label ID="lblTipoCarga" runat="server" Text='<%# Eval("tipoCarga") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="80px">
+                                    <asp:TemplateField HeaderText="Acciones" HeaderStyle-Width="100px">
                                         <ItemTemplate>
                                             <div class="d-flex gap-1">
                                                 <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn-edit" CommandName="Edit" ToolTip="Editar">
-                                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="bi bi-pencil-square"></i>
                                                 </asp:LinkButton>
                                                 <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn-delete" CommandName="Delete"
                                                     OnClientClick="return confirm('¿Está seguro de eliminar esta solicitud?');" ToolTip="Eliminar">
-                                                    <i class="bi bi-trash3"></i>
+                                    <i class="bi bi-trash3"></i>
                                                 </asp:LinkButton>
                                             </div>
                                         </ItemTemplate>
                                         <EditItemTemplate>
                                             <div class="d-flex gap-1">
                                                 <asp:LinkButton ID="btnUpdate" runat="server" CssClass="btn-state" CommandName="Update" ToolTip="Guardar">
-                                                    <i class="bi bi-check-lg"></i>
+                                    <i class="bi bi-check-lg"></i>
                                                 </asp:LinkButton>
                                                 <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn-delete" CommandName="Cancel" ToolTip="Cancelar">
-                                                    <i class="bi bi-x-lg"></i>
+                                    <i class="bi bi-x-lg"></i>
                                                 </asp:LinkButton>
                                             </div>
                                         </EditItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
+
+                                <HeaderStyle CssClass="table-success" />
                             </asp:GridView>
                         </div>
 
                         <div class="mt-3 text-center">
                             <small class="text-muted">
                                 <i class="bi bi-info-circle me-1"></i>
-                                Use el scroll horizontal para ver todas las columnas. Total de registros: 
-                                <asp:Label ID="lblTotalRegistros" runat="server" Text="0"></asp:Label>
+                                Total de registros: 
+                <asp:Label ID="lblTotalRegistros" runat="server" Text="0"></asp:Label>
                             </small>
                         </div>
                     </div>
 
                 </asp:Panel>
 
+                <%--cliente--%>
             </div>
         </div>
     </div>

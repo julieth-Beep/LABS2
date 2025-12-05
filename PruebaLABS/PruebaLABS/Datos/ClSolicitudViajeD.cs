@@ -192,7 +192,7 @@ namespace PruebaLABS.Datos
         public string MtEliminarSolicitud(int idViaje)
         {
             string mensaje = "";
-            string consulta = "delet from viaje where idViaje = @idViaje";
+            string consulta = "delete from viaje where idViaje = @idViaje";
 
             try
             {
@@ -201,6 +201,17 @@ namespace PruebaLABS.Datos
 
                 int resultado = cmd.ExecuteNonQuery();
                 mensaje = resultado > 0 ? "Solicitud eliminada correctamente." : "No se pudo eliminar la solicitud.";
+            }
+            catch (SqlException sqlEx)
+            {
+                if (sqlEx.Number == 547)
+                {
+                    mensaje = "No se puede eliminar la solicitud porque tiene registros relacionados.";
+                }
+                else
+                {
+                    mensaje = "Error al eliminar solicitud: " + sqlEx.Message;
+                }
             }
             catch (Exception ex)
             {

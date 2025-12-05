@@ -259,6 +259,119 @@ namespace PruebaLABS.Vista
             }
         }
 
+        protected void btnBuscarCliente_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string documento = txtBuscarDocumento.Text.Trim();
+                string estado = ddlFiltrarEstado.SelectedValue;
+                string fechaDesde = txtFechaDesde.Text;
+                string fechaHasta = txtFechaHasta.Text;
+
+                if (string.IsNullOrEmpty(documento) && string.IsNullOrEmpty(estado) &&
+                    string.IsNullOrEmpty(fechaDesde) && string.IsNullOrEmpty(fechaHasta))
+                {
+                    CargarTodasLasSolicitudes();
+                    return;
+                }
+
+                DataTable dtSolicitudes = logicaSolicitud.MtObtenerTodasLasSolicitudes();
+
+                DataTable dtFiltrado = FiltrarSolicitudes(dtSolicitudes, documento, estado, fechaDesde, fechaHasta);
+
+                Session["SolicitudesData"] = dtFiltrado;
+                gvSolicitudesClientes.DataSource = dtFiltrado;
+                gvSolicitudesClientes.DataBind();
+
+                lblTotalRegistros.Text = dtFiltrado.Rows.Count.ToString();
+
+                if (dtFiltrado.Rows.Count > 0)
+                {
+                    string mensaje = "Se encontraron " + dtFiltrado.Rows.Count + " solicitudes";
+
+                    if (!string.IsNullOrEmpty(documento))
+                        mensaje += " para documento: " + documento;
+
+                    if (!string.IsNullOrEmpty(estado))
+                        mensaje += ", estado: " + estado;
+
+                    lblMensajeSolicitudes.Text = mensaje;
+                    lblMensajeSolicitudes.Style["color"] = "#198754";
+                }
+                else
+                {
+                    lblMensajeSolicitudes.Text = "No se encontraron solicitudes con los filtros aplicados";
+                    lblMensajeSolicitudes.Style["color"] = "#6c757d";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensajeSolicitudes.Text = "Error al buscar: " + ex.Message;
+                lblMensajeSolicitudes.Style["color"] = "#dc3545";
+            }
+        }
+
+        private DataTable FiltrarSolicitudes(DataTable dtOriginal, string documento, string estado, string fechaDesde, string fechaHasta)
+        {
+            DataTable dtFiltrado = dtOriginal.Clone();
+
+            foreach (DataRow row in dtOriginal.Rows)
+            {
+                bool cumpleFiltros = true;
+
+                if (!string.IsNullOrEmpty(documento))
+                {
+                    string docCliente = row["documento"].ToString().ToLower();
+                    if (!docCliente.Contains(documento.ToLower()))
+                        cumpleFiltros = false;
+                }
+
+                if (!string.IsNullOrEmpty(estado))
+                {
+                    string estadoViaje = row["estadoViaje"].ToString();
+                    if (estadoViaje != estado)
+                        cumpleFiltros = false;
+                }
+
+                if (!string.IsNullOrEmpty(fechaDesde))
+                {
+                    DateTime fechaInicio = Convert.ToDateTime(row["fechaInicio"]);
+                    DateTime fechaDesdeFiltro = Convert.ToDateTime(fechaDesde);
+
+                    if (fechaInicio < fechaDesdeFiltro)
+                        cumpleFiltros = false;
+                }
+
+                if (!string.IsNullOrEmpty(fechaHasta))
+                {
+                    DateTime fechaInicio = Convert.ToDateTime(row["fechaInicio"]);
+                    DateTime fechaHastaFiltro = Convert.ToDateTime(fechaHasta);
+
+                    if (fechaInicio > fechaHastaFiltro)
+                        cumpleFiltros = false;
+                }
+
+                if (cumpleFiltros)
+                {
+                    dtFiltrado.ImportRow(row);
+                }
+            }
+
+            return dtFiltrado;
+        }
+
+        protected void btnMostrarTodos_Click(object sender, EventArgs e)
+        {
+            txtBuscarDocumento.Text = "";
+            txtFechaDesde.Text = "";
+            txtFechaHasta.Text = "";
+            ddlFiltrarEstado.SelectedIndex = 0;
+
+            CargarTodasLasSolicitudes();
+
+            lblMensajeSolicitudes.Text = "Mostrando todas las solicitudes";
+            lblMensajeSolicitudes.Style["color"] = "#198754";
+        }
 
         private void CargarTodasLasSolicitudes()
         {
@@ -270,89 +383,10 @@ namespace PruebaLABS.Vista
                 gvSolicitudesClientes.DataBind();
 
                 lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
-                lblMensajeSolicitudes.Text = "Se cargaron " + dtSolicitudes.Rows.Count + " solicitudes.";
-                lblMensajeSolicitudes.Style["color"] = "#198754";
             }
             catch (Exception ex)
             {
                 lblMensajeSolicitudes.Text = "Error al cargar las solicitudes: " + ex.Message;
-                lblMensajeSolicitudes.Style["color"] = "#dc3545";
-            }
-        }
-
-        protected void btnBuscarCliente_Click(object sender, EventArgs e)
-        {
-            string documento = txtBuscarDocumento.Text.Trim();
-            if (string.IsNullOrEmpty(documento))
-            {
-                lblMensajeSolicitudes.Text = "Por favor ingrese un documento para buscar.";
-                lblMensajeSolicitudes.Style["color"] = "#dc3545";
-                return;
-            }
-
-            try
-            {
-                DataTable dtSolicitudes = logicaSolicitud.MtObtenerSolicitudesPorDocumento(documento);
-                Session["SolicitudesData"] = dtSolicitudes;
-                gvSolicitudesClientes.DataSource = dtSolicitudes;
-                gvSolicitudesClientes.DataBind();
-
-                lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
-
-                if (dtSolicitudes.Rows.Count > 0)
-                {
-                    lblMensajeSolicitudes.Text = "Se encontraron " + dtSolicitudes.Rows.Count + " solicitudes para el documento: " + documento;
-                    lblMensajeSolicitudes.Style["color"] = "#198754";
-                }
-                else
-                {
-                    lblMensajeSolicitudes.Text = "No se encontraron solicitudes para el documento: " + documento;
-                    lblMensajeSolicitudes.Style["color"] = "#6c757d";
-                }
-            }
-            catch (Exception ex)
-            {
-                lblMensajeSolicitudes.Text = "Error al buscar: " + ex.Message;
-                lblMensajeSolicitudes.Style["color"] = "#dc3545";
-            }
-        }
-
-        protected void ddlFiltrarEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string estado = ddlFiltrarEstado.SelectedValue;
-            if (!string.IsNullOrEmpty(estado))
-            {
-                FiltrarPorEstado(estado);
-            }
-            else
-            {
-                CargarTodasLasSolicitudes();
-            }
-        }
-
-        protected void btnMostrarTodos_Click(object sender, EventArgs e)
-        {
-            txtBuscarDocumento.Text = "";
-            ddlFiltrarEstado.SelectedIndex = 0;
-            CargarTodasLasSolicitudes();
-        }
-
-        private void FiltrarPorEstado(string estado)
-        {
-            try
-            {
-                DataTable dtSolicitudes = logicaSolicitud.MtObtenerSolicitudesPorEstado(estado);
-                Session["SolicitudesData"] = dtSolicitudes;
-                gvSolicitudesClientes.DataSource = dtSolicitudes;
-                gvSolicitudesClientes.DataBind();
-
-                lblTotalRegistros.Text = dtSolicitudes.Rows.Count.ToString();
-                lblMensajeSolicitudes.Text = "Solicitudes con estado: " + estado + " (" + dtSolicitudes.Rows.Count + " encontradas)";
-                lblMensajeSolicitudes.Style["color"] = "#198754";
-            }
-            catch (Exception ex)
-            {
-                lblMensajeSolicitudes.Text = "Error al filtrar: " + ex.Message;
                 lblMensajeSolicitudes.Style["color"] = "#dc3545";
             }
         }
@@ -400,20 +434,36 @@ namespace PruebaLABS.Vista
         {
             try
             {
-                int idViaje = Convert.ToInt32(gvSolicitudesClientes.DataKeys[e.RowIndex].Value);
+                string debugInfo = $"RowIndex: {e.RowIndex}, ";
+                debugInfo += $"DataKeys Count: {gvSolicitudesClientes.DataKeys.Count}, ";
 
-                string resultado = logicaSolicitud.MtEliminarSolicitud(idViaje);
-                CargarDatosGridView();
+                if (gvSolicitudesClientes.DataKeys.Count > e.RowIndex)
+                {
+                    int idViaje = Convert.ToInt32(gvSolicitudesClientes.DataKeys[e.RowIndex].Value);
+                    debugInfo += $"idViaje: {idViaje}";
 
-                lblMensajeSolicitudes.Text = resultado;
-                lblMensajeSolicitudes.Style["color"] = "#198754";
+                    string resultado = logicaSolicitud.MtEliminarSolicitud(idViaje);
+
+                    RecargarSolicitudes();
+
+                    lblMensajeSolicitudes.Text = resultado;
+                    lblMensajeSolicitudes.Style["color"] = resultado.Contains("correctamente") ? "#198754" : "#dc3545";
+                }
+                else
+                {
+                    lblMensajeSolicitudes.Text = "Error: No se pudo obtener el ID de la solicitud.";
+                    lblMensajeSolicitudes.Style["color"] = "#dc3545";
+                }
+
             }
             catch (Exception ex)
             {
-                lblMensajeSolicitudes.Text = "Error al eliminar: " + ex.Message;
+                lblMensajeSolicitudes.Text = "Error al eliminar: " + ex.Message + " Stack: " + ex.StackTrace;
                 lblMensajeSolicitudes.Style["color"] = "#dc3545";
             }
         }
+
+
 
         private void CargarDatosGridView()
         {
@@ -422,6 +472,42 @@ namespace PruebaLABS.Vista
             {
                 gvSolicitudesClientes.DataSource = dt;
                 gvSolicitudesClientes.DataBind();
+                lblTotalRegistros.Text = dt.Rows.Count.ToString();
+            }
+            else
+            {
+                CargarTodasLasSolicitudes();
+            }
+        }
+
+        private void RecargarSolicitudes()
+        {
+            try
+            {
+                string documento = txtBuscarDocumento.Text.Trim();
+                string estado = ddlFiltrarEstado.SelectedValue;
+                string fechaDesde = txtFechaDesde.Text;
+                string fechaHasta = txtFechaHasta.Text;
+
+                if (string.IsNullOrEmpty(documento) && string.IsNullOrEmpty(estado) &&
+                    string.IsNullOrEmpty(fechaDesde) && string.IsNullOrEmpty(fechaHasta))
+                {
+                    CargarTodasLasSolicitudes();
+                }
+                else
+                {
+                    DataTable dtSolicitudes = logicaSolicitud.MtObtenerTodasLasSolicitudes();
+                    DataTable dtFiltrado = FiltrarSolicitudes(dtSolicitudes, documento, estado, fechaDesde, fechaHasta);
+                    Session["SolicitudesData"] = dtFiltrado;
+                    gvSolicitudesClientes.DataSource = dtFiltrado;
+                    gvSolicitudesClientes.DataBind();
+                    lblTotalRegistros.Text = dtFiltrado.Rows.Count.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensajeSolicitudes.Text = "Error al recargar datos: " + ex.Message;
+                lblMensajeSolicitudes.Style["color"] = "#dc3545";
             }
         }
 
