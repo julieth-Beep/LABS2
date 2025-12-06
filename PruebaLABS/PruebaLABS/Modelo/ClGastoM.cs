@@ -14,6 +14,7 @@ namespace PruebaLABS.Modelo
         public string descripcionGasto { get; set; }
         public DateTime fechaGasto { get; set; }
         public string imagenRecibo { get; set; }
-
+        public string nombreUsuario { get; set; }
+        public string placa { get; set; }
     }
 }

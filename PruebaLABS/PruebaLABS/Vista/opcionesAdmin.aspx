@@ -279,6 +279,292 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
+
+        .submenu-reportes {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .submenu-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .submenu-item {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+            color: #333;
+            transition: all 0.3s ease;
+            margin: 2px 0;
+        }
+
+            .submenu-item:hover {
+                background: rgba(46,125,50,0.08);
+                color: #2E7D32;
+                border-left: 4px solid #2E7D32;
+            }
+
+            .submenu-item.active {
+                background: rgba(46,125,50,0.15);
+                color: #2E7D32;
+                border-left: 4px solid #2E7D32;
+                font-weight: 600;
+            }
+
+        /* Mejoras para la tabla */
+        .table-custom th {
+            background-color: #2E7D32 !important;
+            color: white;
+        }
+
+        /* Tarjetas de estadísticas */
+        .stats-card {
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+            .stats-card:hover {
+                transform: translateY(-5px);
+            }
+
+        /* ====== ESTILOS ESPECÍFICOS PARA EL PANEL DE REPORTES ====== */
+        /* Estos estilos solo afectan al panel de reportes */
+
+        /* CORRECCIÓN DE BADGES DE ESTADO SEGÚN LA IMAGEN */
+        .badge-estado {
+            font-size: 0.80rem;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-weight: 700;
+        }
+
+        .badge-pendiente {
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+        }
+
+        .badge-encurso {
+            background-color: #d1ecf1 !important;
+            color: #0c5460 !important;
+        }
+
+        .badge-completado {
+            background-color: #d4edda !important;
+            color: #155724 !important;
+        }
+
+        /* Estadísticas en panel de reportes */
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #ffc107"] {
+            background-color: #2E7D32 !important;
+        }
+
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #dc3545"] {
+            background-color: #E8F5E9 !important;
+        }
+
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #0d6efd"] {
+            background-color: #0d6efd !important;
+        }
+
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #0dcaf0"] {
+            background-color: #0dcaf0 !important;
+        }
+
+        /* Iconos dentro de estadísticas */
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #2E7D32"] i {
+            color: white !important;
+        }
+
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #E8F5E9"] i {
+            color: #2E7D32 !important;
+        }
+
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #0d6efd"] i,
+        #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #0dcaf0"] i {
+            color: white !important;
+        }
+
+        /* Badges de estado específicos para panel de reportes según la imagen */
+        /* Badge de ID en reportes */
+        #pnlReportes .badge.bg-dark {
+            background-color: #495057 !important;
+        }
+
+        /* Fondo para los iconos de conductor, cliente, vehículo */
+        #pnlReportes .bg-primary-subtle {
+            background-color: #e3f2fd !important;
+        }
+
+        #pnlReportes .bg-info-subtle {
+            background-color: #e0f7fa !important;
+        }
+
+        #pnlReportes .bg-secondary-subtle {
+            background-color: #f5f5f5 !important;
+        }
+
+            /* Color para iconos dentro de estos fondos */
+            #pnlReportes .bg-primary-subtle i,
+            #pnlReportes .bg-info-subtle i,
+            #pnlReportes .bg-secondary-subtle i {
+                color: #2E7D32 !important;
+            }
+
+        /* Encabezado de sección de viajes */
+        #pnlReportes .card-header-custom[style*="border-bottom: 2px solid #2E7D32"] {
+            background-color: #f8fff9 !important;
+        }
+
+        /* Encabezado de sección de gastos */
+        #pnlReportes .card-header-custom[style*="border-bottom: 2px solid #6f42c1"] {
+            background-color: #f9f8ff !important;
+        }
+
+        /* Alerta informativa */
+        #pnlReportes .alert-light {
+            background-color: #f8fff9 !important;
+            border-color: #C8E6C9 !important;
+        }
+
+        /* Botón exportar */
+        #pnlReportes .btn-outline-success {
+            border-color: #2E7D32;
+            color: #2E7D32;
+        }
+
+            #pnlReportes .btn-outline-success:hover {
+                background-color: #2E7D32;
+                color: white;
+            }
+
+        /* Submenú de reportes */
+        #pnlReportes .sidebar-header[style*="border-bottom: 1px solid #e9ecef"] {
+            background-color: #2E7D32 !important;
+        }
+
+            #pnlReportes .sidebar-header[style*="border-bottom: 1px solid #e9ecef"] i {
+                color: white !important;
+            }
+
+            #pnlReportes .sidebar-header[style*="border-bottom: 1px solid #e9ecef"] h5 {
+                color: white !important;
+            }
+
+        /* Tabla en panel de reportes */
+        #pnlReportes .table-custom tbody tr:hover {
+            background-color: #E8F5E9 !important;
+        }
+
+        /* Badge de fecha en reportes */
+        #pnlReportes .badge[style*="background-color: #f8f9fa"] {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+            border: 1px solid #dee2e6 !important;
+        }
+
+        /* ESTILOS NUEVOS PARA LA BARRA DE NAVEGACIÓN HORIZONTAL */
+        .nav-reportes {
+            background: white;
+            border-radius: 0 0 10px 10px;
+            padding: 0;
+            border: 1px solid #e9ecef;
+            border-top: none;
+        }
+
+        .nav-reporte-item {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #495057;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            margin: 0;
+        }
+
+            .nav-reporte-item:hover {
+                background-color: #f8f9fa;
+                color: #2E7D32;
+                border-bottom: 3px solid rgba(46, 125, 50, 0.3);
+            }
+
+            .nav-reporte-item.active {
+                background-color: #E8F5E9;
+                color: #2E7D32;
+                border-bottom: 3px solid #2E7D32;
+                font-weight: 600;
+            }
+
+            .nav-reporte-item i {
+                font-size: 18px;
+                vertical-align: middle;
+            }
+
+        /* ESTILOS ESPECÍFICOS PARA PANEL DE GASTOS */
+        .badge-combustible {
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+            border: 1px solid #ffeaa7;
+        }
+
+        .badge-mantenimiento {
+            background-color: #d1ecf1 !important;
+            color: #0c5460 !important;
+            border: 1px solid #bee5eb;
+        }
+
+        .badge-otros {
+            background-color: #e2e3e5 !important;
+            color: #383d41 !important;
+            border: 1px solid #d6d8db;
+        }
+
+        /* Modal de imagen */
+        #modalImagen .modal-dialog {
+            max-width: 90%;
+        }
+
+        #imgEvidencia {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        /* Agrega esto en la sección de estilos */
+        #pnlReportesGastos .search-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #pnlReportesGastos .input-group .btn-success {
+            border-radius: 0 8px 8px 0;
+        }
+
+        #pnlReportesGastos .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+            #pnlReportesGastos .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+            }
     </style>
 
 </asp:Content>
@@ -579,11 +865,430 @@
                         <div class="card-header-custom">
                             <i class="bi bi-bar-chart-line brand-icon"></i>
                             <h3>Reportes</h3>
+                            <p class="text-muted">Seleccione el tipo de reporte que desea ver</p>
                         </div>
 
-                        <p>Contenido pendiente...</p>
+                        <!-- BARRA DE NAVEGACIÓN HORIZONTAL (REEMPLAZO DEL SUBMENÚ) -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex align-items-center" style="background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%); border-radius: 10px 10px 0 0; padding: 15px 20px;">
+                                            <i class="bi bi-clipboard-data text-white me-2" style="font-size: 1.5rem;"></i>
+                                            <h5 class="text-white mb-0">Tipos de Reportes</h5>
+                                        </div>
+                                        <div class="d-flex nav-reportes">
+                                            <asp:Button ID="btnReportesViajes" runat="server"
+                                                Text=" Viajes"
+                                                CssClass="nav-reporte-item active"
+                                                OnClick="btnReportesViajes_Click" />
+
+                                            <asp:Button ID="btnReportesGastos" runat="server"
+                                                Text=" Gastos"
+                                                CssClass="nav-reporte-item"
+                                                OnClick="btnReportesGastos_Click" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel para Viajes (SIN CAMBIOS) -->
+                        <asp:Panel ID="pnlReportesViajes" runat="server" Visible="true">
+                            <div class="content-card" style="border: 1px solid #e9ecef;">
+                                <div class="card-header-custom" style="border-bottom: 2px solid #2E7D32;">
+                                    <i class="bi bi-truck brand-icon"></i>
+                                    <h4 style="color: #2E7D32;">Reporte de Viajes</h4>
+                                    <p class="text-muted">Listado completo de todos los viajes registrados</p>
+                                </div>
+
+                                <!-- Encabezado con estadísticas -->
+                                <div class="row mb-4">
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-truck " style="font-size: 20px; color: #2E7D32"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="totalViajes">0</h5>
+                                                    <small class="text-muted">Total Viajes</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-clock" style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="viajesPendientes">0</h5>
+                                                    <small class="text-muted">Pendientes</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-arrow-right-circle " style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="viajesEnCurso">0</h5>
+                                                    <small class="text-muted">En Curso</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-check-circle" style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="viajesCompletados">0</h5>
+                                                    <small class="text-muted">Completados</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-container">
+                                    <asp:GridView ID="gvReportesViajes" runat="server" AutoGenerateColumns="false"
+                                        CssClass="table table-custom table-hover"
+                                        EmptyDataText="No se encontraron viajes registrados"
+                                        ShowHeaderWhenEmpty="true">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="ID" ItemStyle-Width="50px">
+                                                <ItemTemplate>
+                                                    <span><%# Eval("idViaje") %></span>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Origen" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                                                        <span><%# Eval("puntoPartida") %></span>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Destino" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-geo-fill text-success me-2"></i>
+                                                        <span><%# Eval("destino") %></span>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="F. Inicio" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="text-center">
+                                                        <span class="badge bg-light text-dark">
+                                                            <i class="bi bi-calendar me-1"></i>
+                                                            <%# Eval("fechaInicio") %>
+                                                        </span>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Estado" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <span class='badge-estado badge-<%# GetEstadoBadgeClass(Eval("estadoViaje").ToString()) %>'>
+                                                        <i class='<%# GetEstadoIcon(Eval("estadoViaje").ToString()) %> me-1'></i>
+                                                        <%# Eval("estadoViaje") %>
+                                                    </span>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Costo" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="fw-bold text-end">
+                                                        <i class="bi bi-currency-dollar"></i>
+                                                        <%# !string.IsNullOrEmpty(Eval("costo").ToString()) ? string.Format("{0:N0}", Convert.ToDecimal(Eval("costo"))) : "0" %>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Conductor" ItemStyle-Width="120px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-primary-subtle rounded-circle p-2 me-2">
+                                                            <i class="bi bi-person"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold"><%# Eval("Conductor") %></div>
+                                                            <small class="text-muted"><%# Eval("telefono") %></small>
+                                                        </div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Cliente" ItemStyle-Width="120px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-info-subtle rounded-circle p-2 me-2">
+                                                            <i class="bi bi-building"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold"><%# Eval("cliente") %></div>
+                                                            <small class="text-muted"><%# Eval("empresa") %></small>
+                                                        </div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Vehículo" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-secondary-subtle rounded-circle p-2 me-2">
+                                                            <i class="bi bi-truck"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold"><%# Eval("placa") %></div>
+                                                            <small><%# Eval("modelo") %></small>
+                                                        </div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="alert alert-light border" role="alert">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-info-circle text-primary me-2"></i>
+                                                <span>Total de registros mostrados: <strong><%# gvReportesViajes.Rows.Count %></strong></span>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success">
+                                                    <i class="bi bi-download me-1"></i>Exportar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <asp:Label ID="lblMensajeReportesViajes" runat="server" Text=""></asp:Label>
+                                </div>
+                            </div>
+                        </asp:Panel>
+
+                        <!-- Panel para Gastos - NUEVO -->
+                        <asp:Panel ID="pnlReportesGastos" runat="server" Visible="false">
+                            <div class="content-card" style="border: 1px solid #e9ecef;">
+                                <div class="card-header-custom" style="border-bottom: 2px solid #2E7D32;">
+                                    <i class="bi bi-cash-coin brand-icon" style="color: #2E7D32;"></i>
+                                    <h4 style="color: #2E7D32;">Reporte de Gastos</h4>
+                                    <p class="text-muted">Listado completo de todos los gastos registrados</p>
+                                </div>
+                                <div class="search-section mb-4">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="form-label">Filtrar por Placa del Vehículo</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                    <asp:TextBox ID="txtBuscarPlacaGastos" runat="server"
+                                                        CssClass="form-control"
+                                                        placeholder="Ingrese la placa del vehículo"></asp:TextBox>
+                                                    <asp:Button ID="btnBuscarPlacaGastos" runat="server"
+                                                        Text="Buscar"
+                                                        CssClass="btn btn-success"
+                                                        OnClick="btnBuscarPlacaGastos_Click" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">&nbsp;</label>
+                                                <asp:Button ID="btnLimpiarFiltroPlaca" runat="server"
+                                                    Text="Mostrar Todos"
+                                                    CssClass="btn btn-outline-secondary w-100"
+                                                    OnClick="btnLimpiarFiltroPlaca_Click" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Encabezado con estadísticas -->
+                                <div class="row mb-4">
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-currency-dollar" style="font-size: 20px; color: #2E7D32"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="totalGastos">0</h5>
+                                                    <small class="text-muted">Total Gastos</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-fuel-pump" style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="gastosCombustible">0</h5>
+                                                    <small class="text-muted">Combustible</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-tools" style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="gastosMantenimiento">0</h5>
+                                                    <small class="text-muted">Mantenimiento</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle p-3 me-3" style="background-color: #E8F5E9;">
+                                                    <i class="bi bi-cash-stack" style="font-size: 20px; color: #2E7D32;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" id="gastosOtros">0</h5>
+                                                    <small class="text-muted">Otros Gastos</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="table-container">
+                                    <asp:GridView ID="gvReportesGastos" runat="server" AutoGenerateColumns="false"
+                                        CssClass="table table-custom table-hover"
+                                        EmptyDataText="No se encontraron gastos registrados"
+                                        ShowHeaderWhenEmpty="true">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="ID" ItemStyle-Width="50px">
+                                                <ItemTemplate>
+                                                    <span><%# Eval("idGasto") %></span>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Tipo" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <span class='badge <%# GetClaseTipoGasto(Eval("tipoGasto").ToString()) %>'>
+                                                        <i class='<%# GetIconoTipoGasto(Eval("tipoGasto").ToString()) %> me-1'></i>
+                                                        <%# Eval("tipoGasto") %>
+                                                    </span>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Descripción" ItemStyle-Width="150px">
+                                                <ItemTemplate>
+                                                    <div>
+                                                        <div class="fw-bold"><%# Eval("descripcionGasto") %></div>
+                                                        <small class="text-muted">ID Viaje: <%# Eval("idViaje") %></small>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Monto" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="fw-bold text-success text-end">
+                                                        <i class="bi bi-currency-dollar"></i>
+                                                        <%# string.Format("{0:N2}", Eval("monto")) %>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Fecha" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <div class="text-center">
+                                                        <span class="badge bg-light text-dark">
+                                                            <i class="bi bi-calendar me-1"></i>
+                                                            <%# Convert.ToDateTime(Eval("fechaGasto")).ToString("dd/MM/yyyy") %>
+                                                        </span>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Conductor" ItemStyle-Width="120px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-primary-subtle rounded-circle p-2 me-2">
+                                                            <i class="bi bi-person"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold"><%# Eval("nombreUsuario") %></div>
+                                                        </div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Placa" ItemStyle-Width="120px">
+                                                <ItemTemplate>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-secondary-subtle rounded-circle p-2 me-2">
+                                                            <i class="bi bi-truck"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold"><%# Eval("placa") %></div>
+                                                        </div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+
+                                            <asp:TemplateField HeaderText="Evidencia" ItemStyle-Width="80px">
+                                                <ItemTemplate>
+                                                    <%# MostrarBotonEvidencia(Eval("imagenRecibo").ToString()) %>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="alert alert-light border" role="alert">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-info-circle text-primary me-2"></i>
+                                                <span>Total de gastos mostrados: <strong><%# gvReportesGastos.Rows.Count %></strong></span>
+                                                <span class="ms-3">Monto total: <strong id="montoTotalGastos">$0.00</strong></span>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success">
+                                                    <i class="bi bi-download me-1"></i>Exportar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <asp:Label ID="lblMensajeReportesGastos" runat="server" Text=""></asp:Label>
+                                </div>
+                            </div>
+                        </asp:Panel>
                     </div>
                 </asp:Panel>
+
 
 
 
@@ -829,12 +1534,46 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalImagen" tabindex="-1" aria-labelledby="modalImagenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalImagenLabel">
+                        <i class="bi bi-receipt me-2"></i>Evidencia del Gasto
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="imgEvidencia" src="k" alt="Evidencia" class="img-fluid rounded" style="max-height: 500px;" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <a id="descargarImagen" href="#" class="btn btn-primary">
+                        <i class="bi bi-download me-1"></i>Descargar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript">
         function mostrarModalConfirmacionUsuario() {
             var modal = new bootstrap.Modal(document.getElementById('modalConfirmacionUsuario'));
             modal.show();
+        }
+        function mostrarImagen(rutaImagen) {
+            var imgElement = document.getElementById('imgEvidencia');
+            var descargarLink = document.getElementById('descargarImagen');
+
+            // Usar la ruta directamente como viene del servidor
+            imgElement.src = rutaImagen;
+            descargarLink.href = rutaImagen;
+
+            // Extraer nombre del archivo para la descarga
+            var nombreArchivo = rutaImagen.split('/').pop();
+            descargarLink.download = nombreArchivo;
         }
     </script>
 

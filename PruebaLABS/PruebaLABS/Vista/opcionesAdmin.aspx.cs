@@ -2,7 +2,9 @@
 using PruebaLABS.Logica;
 using PruebaLABS.Modelo;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,6 +15,9 @@ namespace PruebaLABS.Vista
         ClVehiculoD oVehiculoD = new ClVehiculoD();
         ClUsuarioL logicaUsuario = new ClUsuarioL();
         ClSolicitudViajeL logicaSolicitud = new ClSolicitudViajeL();
+        ClViajeL viajesL = new ClViajeL();
+        List<ClGastoM> listaGastosCompleta = new List<ClGastoM>();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -84,16 +89,7 @@ namespace PruebaLABS.Vista
             ActivarMenu(btnRegistro);
         }
 
-        protected void btnReportes_Click(object sender, EventArgs e)
-        {
-            pnlVehiculos.Visible = false;
-            pnlUsuarios.Visible = false;
-            pnlRegistro.Visible = false;
-            pnlReportes.Visible = true;
-            pnlClientes.Visible = false;
-
-            ActivarMenu(btnReportes);
-        }
+      
 
         protected void btnClientes_Click(object sender, EventArgs e)
         {
@@ -511,18 +507,7 @@ namespace PruebaLABS.Vista
             }
         }
 
-        public string GetEstadoBadgeClass(string estado)
-        {
-            switch (estado)
-            {
-                case "Pendiente": return "warning";
-                case "Aprobado": return "info";
-                case "En curso": return "primary";
-                case "Completado": return "success";
-                case "Cancelado": return "danger";
-                default: return "secondary";
-            }
-        }
+        
 
         private void MtCargarUsuarios()
         {
@@ -541,5 +526,412 @@ namespace PruebaLABS.Vista
             txtConfirmPassword.Text = "";
             ddlRol.SelectedIndex = 0;
         }
+        public string GetEstadoBadgeClass(string estado)
+        {
+            switch (estado)
+            {
+                case "Pendiente": return "pendiente";
+                case "Aprobado": return "aprobado";
+                case "En curso": return "encurso";
+                case "Completado": return "completado";
+                case "Cancelado": return "cancelado";
+                default: return "secondary";
+            }
+        }
+        protected void btnReportesViajes_Click(object sender, EventArgs e)
+        {
+            pnlReportesViajes.Visible = true;
+            pnlReportesGastos.Visible = false;
+            ActivarSubmenuReportes(btnReportesViajes);
+            MtCargarReporteViajes();
+        }
+
+        protected void btnReportesGastos_Click(object sender, EventArgs e)
+        {
+            pnlReportesViajes.Visible = false;
+            pnlReportesGastos.Visible = true;
+            ActivarSubmenuReportes(btnReportesGastos);
+            MtCargarReporteGastos();
+        }
+
+        private void ActivarSubmenuReportes(Button boton)
+        {
+            btnReportesViajes.CssClass = "nav-reporte-item";
+            btnReportesGastos.CssClass = "nav-reporte-item";
+            boton.CssClass = "nav-reporte-item active";
+        }
+
+        private void MtCargarReporteViajes()
+        {
+            try
+            {
+                List<ClViajesAdminM> listaViajes = viajesL.MtViajesAdmin();
+
+                if (listaViajes == null || listaViajes.Count == 0)
+                {
+                    if (lblMensajeReportesViajes != null)
+                    {
+                        lblMensajeReportesViajes.Text = "No se encontraron viajes registrados.";
+                        lblMensajeReportesViajes.Style["color"] = "#6c757d";
+                    }
+                    gvReportesViajes.DataSource = null;
+                    gvReportesViajes.DataBind();
+                    return;
+                }
+
+                // Calcular estadísticas
+                int pendientes = 0;
+                int enCurso = 0;
+                int completados = 0;
+
+                foreach (var viaje in listaViajes)
+                {
+                    if (viaje.estadoViaje != null)
+                    {
+                        switch (viaje.estadoViaje.ToLower())
+                        {
+                            case "pendiente":
+                                pendientes++;
+                                break;
+                            case "en curso":
+                                enCurso++;
+                                break;
+                            case "completado":
+                                completados++;
+                                break;
+                        }
+                    }
+                }
+
+                // Registrar script para mostrar estadísticas
+                string script = $@"
+            document.getElementById('totalViajes').innerText = '{listaViajes.Count}';
+            document.getElementById('viajesPendientes').innerText = '{pendientes}';
+            document.getElementById('viajesEnCurso').innerText = '{enCurso}';
+            document.getElementById('viajesCompletados').innerText = '{completados}';
+        ";
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticas", script, true);
+
+                // Convertir la lista a DataTable
+                DataTable dt = new DataTable();
+                dt.Columns.Add("idViaje", typeof(int));
+                dt.Columns.Add("puntoPartida", typeof(string));
+                dt.Columns.Add("destino", typeof(string));
+                dt.Columns.Add("fechaInicio", typeof(string));
+                dt.Columns.Add("fechaFin", typeof(string));
+                dt.Columns.Add("estadoViaje", typeof(string));
+                dt.Columns.Add("costo", typeof(string));
+                dt.Columns.Add("distancia", typeof(string));
+                dt.Columns.Add("tipoCarga", typeof(string));
+                dt.Columns.Add("observaciones", typeof(string));
+                dt.Columns.Add("Conductor", typeof(string));
+                dt.Columns.Add("telefono", typeof(string));
+                dt.Columns.Add("placa", typeof(string));
+                dt.Columns.Add("modelo", typeof(string));
+                dt.Columns.Add("capacidad", typeof(string));
+                dt.Columns.Add("cliente", typeof(string));
+                dt.Columns.Add("empresa", typeof(string));
+
+                foreach (var viaje in listaViajes)
+                {
+                    dt.Rows.Add(
+                        viaje.idViaje,
+                        viaje.puntoPartida ?? "",
+                        viaje.destino ?? "",
+                        viaje.fechaInicio ?? "",
+                        viaje.fechaFin ?? "",
+                        viaje.estadoViaje ?? "Pendiente",
+                        viaje.costo ?? "0",
+                        viaje.distancia ?? "0",
+                        viaje.tipoCarga ?? "General",
+                        viaje.observaciones ?? "",
+                        viaje.nombreU ?? "Sin asignar",
+                        viaje.telefonoU ?? "",
+                        viaje.placa ?? "Sin asignar",
+                        viaje.modelo ?? "",
+                        viaje.capacidad ?? "",
+                        viaje.nombreC ?? "",
+                        viaje.empresa ?? ""
+                    );
+                }
+
+                Session["TodosViajes"] = dt;
+                gvReportesViajes.DataSource = dt;
+                gvReportesViajes.DataBind();
+
+                if (lblMensajeReportesViajes != null)
+                {
+                    lblMensajeReportesViajes.Text = $"Se cargaron {listaViajes.Count} viajes.";
+                    lblMensajeReportesViajes.Style["color"] = "#198754";
+                }
+            }
+            catch (Exception ex)
+            {
+                if (lblMensajeReportesViajes != null)
+                {
+                    lblMensajeReportesViajes.Text = $"Error al cargar viajes: {ex.Message}";
+                    lblMensajeReportesViajes.Style["color"] = "#dc3545";
+                }
+                gvReportesViajes.DataSource = null;
+                gvReportesViajes.DataBind();
+            }
+        }
+
+        public string GetEstadoIcon(string estado)
+        {
+            switch (estado.ToLower())
+            {
+                case "pendiente":
+                    return "bi bi-clock";
+                case "en curso":
+                case "en progreso":
+                    return "bi bi-arrow-right-circle";
+                case "completado":
+                case "finalizado":
+                    return "bi bi-check-circle";
+                case "cancelado":
+                    return "bi bi-x-circle";
+                case "aprobado":
+                    return "bi bi-check-lg";
+                default:
+                    return "bi bi-question-circle";
+            }
+        }
+
+        // ========== MÉTODOS PARA EL PANEL DE GASTOS ==========
+        private void MtCargarReporteGastos()
+        {
+            try
+            {
+                // Obtener todos los gastos
+                listaGastosCompleta = viajesL.ReporteGastosAdmin();
+                Session["TodosGastos"] = listaGastosCompleta;
+
+                if (listaGastosCompleta == null || listaGastosCompleta.Count == 0)
+                {
+                    lblMensajeReportesGastos.Text = "No se encontraron gastos registrados.";
+                    lblMensajeReportesGastos.Style["color"] = "#6c757d";
+                    gvReportesGastos.DataSource = null;
+                    gvReportesGastos.DataBind();
+                    return;
+                }
+
+
+
+
+                // Calcular estadísticas
+                CalcularEstadisticasGastos(listaGastosCompleta);
+
+                // Mostrar todos los gastos inicialmente
+                MostrarGastosFiltrados(listaGastosCompleta);
+
+                lblMensajeReportesGastos.Text = $"Se cargaron {listaGastosCompleta.Count} gastos.";
+                lblMensajeReportesGastos.Style["color"] = "#198754";
+            }
+            catch (Exception ex)
+            {
+                lblMensajeReportesGastos.Text = $"Error al cargar gastos: {ex.Message}";
+                lblMensajeReportesGastos.Style["color"] = "#dc3545";
+                gvReportesGastos.DataSource = null;
+                gvReportesGastos.DataBind();
+            }
+        }
+
+
+
+        private void CalcularEstadisticasGastos(List<ClGastoM> gastos)
+        {
+            if (gastos == null || gastos.Count == 0) return;
+
+            int total = gastos.Count;
+            decimal montoTotal = gastos.Sum(g => g.monto);
+            int combustible = gastos.Count(g => g.tipoGasto?.ToLower().Contains("combustible") == true);
+            int mantenimiento = gastos.Count(g => g.tipoGasto?.ToLower().Contains("mantenimiento") == true);
+            int otros = total - (combustible + mantenimiento);
+
+            // Registrar script para mostrar estadísticas
+            string script = $@"
+        document.getElementById('totalGastos').innerText = '{total}';
+        document.getElementById('gastosCombustible').innerText = '{combustible}';
+        document.getElementById('gastosMantenimiento').innerText = '{mantenimiento}';
+        document.getElementById('gastosOtros').innerText = '{otros}';
+        document.getElementById('montoTotalGastos').innerText = '${montoTotal:N2}';
+    ";
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticasGastos", script, true);
+        }
+
+        private void MostrarGastosFiltrados(List<ClGastoM> gastos)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("idGasto", typeof(int));
+            dt.Columns.Add("tipoGasto", typeof(string));
+            dt.Columns.Add("descripcionGasto", typeof(string));
+            dt.Columns.Add("monto", typeof(decimal));
+            dt.Columns.Add("fechaGasto", typeof(DateTime));
+            dt.Columns.Add("nombreUsuario", typeof(string));
+            dt.Columns.Add("imagenRecibo", typeof(string));
+            dt.Columns.Add("placa", typeof(string));
+            dt.Columns.Add("idViaje", typeof(int));
+
+            foreach (var gasto in gastos)
+            {
+                dt.Rows.Add(
+                    gasto.idGasto,
+                    gasto.tipoGasto ?? "",
+                    gasto.descripcionGasto ?? "",
+                    gasto.monto,
+                    gasto.fechaGasto,
+                    gasto.nombreUsuario ?? "",
+                    gasto.imagenRecibo ?? "",
+                    gasto.placa ?? "",
+                    gasto.idViaje
+                );
+            }
+
+            gvReportesGastos.DataSource = dt;
+            gvReportesGastos.DataBind();
+        }
+
+        // Métodos para filtrar gastos
+
+
+        // Métodos auxiliares para la vista
+        public string GetClaseTipoGasto(string tipo)
+        {
+            switch (tipo?.ToLower())
+            {
+                case "combustible":
+                    return "badge-combustible";
+                case "mantenimiento":
+                    return "badge-mantenimiento";
+                case "peajes":
+                case "alimentación":
+                case "otros":
+                    return "badge-otros";
+                default:
+                    return "badge-otros";
+            }
+        }
+
+        public string GetIconoTipoGasto(string tipo)
+        {
+            switch (tipo?.ToLower())
+            {
+                case "combustible":
+                    return "bi bi-fuel-pump";
+                case "mantenimiento":
+                    return "bi bi-tools";
+                case "peajes":
+                    return "bi bi-signpost";
+                case "alimentación":
+                    return "bi bi-egg-fried";
+                case "otros":
+                    return "bi bi-cash-stack";
+                default:
+                    return "bi bi-cash";
+            }
+        }
+
+        public string MostrarBotonEvidencia(string rutaImagen)
+        {
+            if (!string.IsNullOrEmpty(rutaImagen) && rutaImagen != "")
+            {
+                // Cambia la ruta para que apunte a la carpeta correcta donde se guardan las imágenes
+                // Si las imágenes están en ~/Vista/Imagenes/
+                string rutaCompleta = "~/Vista/Imagenes/" + rutaImagen;
+
+                return $@"
+            <button type='button' class='btn btn-sm btn-outline-primary' 
+                    onclick='mostrarImagen(""{rutaCompleta}"")' 
+                    data-bs-toggle='modal' data-bs-target='#modalImagen'>
+                <i class='bi bi-receipt'></i> Ver
+            </button>";
+            }
+            return "<span class='text-muted'>Sin evidencia</span>";
+        }
+        // Agrega estos métodos en la clase OpcionesAdmin
+
+        protected void btnBuscarPlacaGastos_Click(object sender, EventArgs e)
+        {
+            string placa = txtBuscarPlacaGastos.Text.Trim();
+
+            if (string.IsNullOrEmpty(placa))
+            {
+                lblMensajeReportesGastos.Text = "Por favor ingrese una placa para buscar.";
+                lblMensajeReportesGastos.Style["color"] = "#dc3545";
+                return;
+            }
+
+            try
+            {
+                // Obtener la lista completa de gastos desde la sesión o recargarla
+                List<ClGastoM> todosGastos = Session["TodosGastos"] as List<ClGastoM>;
+
+                if (todosGastos == null || todosGastos.Count == 0)
+                {
+                    // Si no hay datos en sesión, cargarlos desde la base de datos
+                    todosGastos = viajesL.ReporteGastosAdmin();
+                    Session["TodosGastos"] = todosGastos;
+                }
+
+                // Filtrar por placa (búsqueda parcial, no exacta)
+                var gastosFiltrados = todosGastos
+                    .Where(g => g.placa != null && g.placa.ToLower().Contains(placa.ToLower()))
+                    .ToList();
+
+                if (gastosFiltrados.Count == 0)
+                {
+                    lblMensajeReportesGastos.Text = $"No se encontraron gastos para la placa: {placa}";
+                    lblMensajeReportesGastos.Style["color"] = "#6c757d";
+                }
+                else
+                {
+                    lblMensajeReportesGastos.Text = $"Se encontraron {gastosFiltrados.Count} gastos para la placa: {placa}";
+                    lblMensajeReportesGastos.Style["color"] = "#198754";
+                }
+
+                // Calcular estadísticas con los gastos filtrados
+                CalcularEstadisticasGastos(gastosFiltrados);
+
+                // Mostrar los gastos filtrados
+                MostrarGastosFiltrados(gastosFiltrados);
+            }
+            catch (Exception ex)
+            {
+                lblMensajeReportesGastos.Text = $"Error al buscar gastos: {ex.Message}";
+                lblMensajeReportesGastos.Style["color"] = "#dc3545";
+            }
+        }
+
+        protected void btnLimpiarFiltroPlaca_Click(object sender, EventArgs e)
+        {
+            // Limpiar el campo de búsqueda
+            txtBuscarPlacaGastos.Text = "";
+
+            // Recargar todos los gastos
+            MtCargarReporteGastos();
+        }
+
+        protected void btnReportes_Click(object sender, EventArgs e)
+        {
+            pnlVehiculos.Visible = false;
+            pnlUsuarios.Visible = false;
+            pnlRegistro.Visible = false;
+            pnlReportes.Visible = true;
+            pnlClientes.Visible = false;
+
+            ActivarMenu(btnReportes);
+
+            pnlReportesViajes.Visible = true;
+            pnlReportesGastos.Visible = false;
+            ActivarSubmenuReportes(btnReportesViajes);
+            MtCargarReporteViajes();
+        }
+
+
+
+
     }
 }

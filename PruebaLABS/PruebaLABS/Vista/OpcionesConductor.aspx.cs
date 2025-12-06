@@ -151,7 +151,6 @@ namespace PruebaLABS.Vista
             LimpiarFormularioGasto();
             pnlModalGasto.Visible = true;
         }
-
         protected void btnGuardarGasto_Click(object sender, EventArgs e)
         {
             try
@@ -187,15 +186,68 @@ namespace PruebaLABS.Vista
                         return;
                     }
 
-                    string folderPath = Server.MapPath("~/Evidencias/");
+                    // **CORRECCIÓN: VERIFICAR Y CREAR LA CARPETA CORRECTAMENTE**
+                    string folderPath = Server.MapPath("~/Vista/Imagenes/");
+
+                    // Debug: Verificar la ruta
+                    MostarMensajes($"Ruta de carpeta: {folderPath}", "info");
+
+                    // Crear carpeta si no existe
                     if (!Directory.Exists(folderPath))
                     {
-                        Directory.CreateDirectory(folderPath);
+                        try
+                        {
+                            Directory.CreateDirectory(folderPath);
+                            MostarMensajes($"Carpeta creada en: {folderPath}", "info");
+                        }
+                        catch (Exception exDir)
+                        {
+                            MostarMensajes($"Error al crear carpeta: {exDir.Message}", "danger");
+                            return;
+                        }
                     }
 
-                    nombreArchivo = $"gasto_{DateTime.Now:yyyyMMddHHmmss}{extension}";
+                    // Verificar permisos de escritura
+                    try
+                    {
+                        // Intentar crear un archivo de prueba
+                        string testFile = Path.Combine(folderPath, "test.txt");
+                        File.WriteAllText(testFile, "test");
+                        File.Delete(testFile);
+                        MostarMensajes("Permisos de escritura OK", "info");
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        MostarMensajes("No hay permisos de escritura en la carpeta Imagenes", "danger");
+                        return;
+                    }
+
+                    // Generar nombre único para el archivo
+                    nombreArchivo = $"gasto_{DateTime.Now:yyyyMMddHHmmssfff}{extension}";
                     string filePath = Path.Combine(folderPath, nombreArchivo);
-                    fuEvidencia.SaveAs(filePath);
+
+                    // Guardar el archivo
+                    try
+                    {
+                        fuEvidencia.SaveAs(filePath);
+
+                        // Verificar que el archivo se guardó
+                        if (File.Exists(filePath))
+                        {
+                            MostarMensajes($"Archivo guardado exitosamente: {filePath}", "success");
+                        }
+                        else
+                        {
+                            MostarMensajes("Error: El archivo no se guardó", "danger");
+                            return;
+                        }
+                    }
+                    catch (Exception exSave)
+                    {
+                        MostarMensajes($"Error al guardar archivo: {exSave.Message}", "danger");
+                        MostarMensajes($"Ruta intentada: {filePath}", "info");
+                        return;
+                    }
                 }
 
                 int idConductor = Convert.ToInt32(Session["idUsuario"]);
@@ -218,7 +270,6 @@ namespace PruebaLABS.Vista
                     imagenRecibo = nombreArchivo
                 };
 
-
                 string resultado = logicaViaje.MtRegistrarGastoConImagen(gasto);
                 MostarMensajes(resultado, "success");
 
@@ -231,7 +282,6 @@ namespace PruebaLABS.Vista
             }
         }
 
-
         protected void btnVerEvidencia_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton btn = (ImageButton)sender;
@@ -239,15 +289,21 @@ namespace PruebaLABS.Vista
 
             if (!string.IsNullOrEmpty(nombreArchivo))
             {
-                string imagePath = "~/Evidencias/" + nombreArchivo;
-                if (File.Exists(Server.MapPath(imagePath)))
+                // **CORRECCIÓN: Verificar ruta relativa correcta**
+                string imagePath = "~/Vista/Imagenes/" + nombreArchivo;
+                string physicalPath = Server.MapPath(imagePath);
+
+                // Debug: Mostrar ruta
+                MostarMensajes($"Buscando imagen en: {physicalPath}", "info");
+
+                if (File.Exists(physicalPath))
                 {
                     imgAmpliada.ImageUrl = imagePath;
                     pnlModalImagen.Visible = true;
                 }
                 else
                 {
-                    MostarMensajes("La imagen no se encuentra disponible", "warning");
+                    MostarMensajes($"La imagen no se encuentra en: {physicalPath}", "warning");
                 }
             }
         }

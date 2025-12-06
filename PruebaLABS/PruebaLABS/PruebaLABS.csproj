@@ -107,6 +107,7 @@
     <Compile Include="Modelo\ClUsuarioM.cs" />
     <Compile Include="Modelo\ClVehiculoM.cs" />
     <Compile Include="Modelo\ClViajeM.cs" />
+    <Compile Include="Modelo\ClViajesAdminM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vista\Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>

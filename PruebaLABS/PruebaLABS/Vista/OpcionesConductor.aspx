@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        
         .evidence-image {
             max-width: 50px;
             max-height: 50px;
@@ -85,7 +84,7 @@
                 border-left: 5px solid #2E7D32;
             }
 
-       
+
         .card {
             border: none;
             border-radius: 18px;
@@ -243,6 +242,7 @@
                 opacity: 0;
                 transform: translateY(4px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -266,11 +266,11 @@
             color: #6c757d;
         }
 
-        .btn-close:hover {
-            color: #2E7D32;
-        }
+            .btn-close:hover {
+                color: #2E7D32;
+            }
 
-      
+
         .formulario-gasto {
             margin-top: 30px;
             animation: slideDown 0.3s ease-out;
@@ -281,6 +281,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -292,8 +293,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid py-4">
         <div class="admin-layout">
-            
-            
+
+
             <div class="sidebar">
                 <div class="sidebar-header">
                     <i class="bi bi-signal brand-icon"></i>
@@ -312,7 +313,7 @@
                 </div>
             </div>
 
-           
+
             <div class="content-main" style="flex: 1;">
                 <div class="row mb-4">
                     <div class="col-12">
@@ -326,7 +327,7 @@
                     </div>
                 </div>
 
-               
+
                 <asp:Panel ID="pnlTablaViajes" runat="server" Visible="true">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -384,9 +385,9 @@
                     </div>
                 </asp:Panel>
 
-           
+
                 <asp:Panel ID="pnlGastos" runat="server" Visible="false">
-                    
+
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">
@@ -408,6 +409,7 @@
                                         <asp:BoundField DataField="monto" HeaderText="Monto" />
                                         <asp:BoundField DataField="fechaGasto" HeaderText="Fecha" />
                                         <asp:BoundField DataField="idViaje" HeaderText="ID Viaje" />
+
                                         <asp:TemplateField HeaderText="Evidencia">
                                             <ItemTemplate>
                                                 <asp:ImageButton ID="btnVerEvidencia" runat="server"
@@ -430,7 +432,7 @@
                         </div>
                     </div>
 
-                  
+
                     <asp:Panel ID="pnlModalGasto" runat="server" Visible="false" CssClass="formulario-gasto">
                         <div class="card mt-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
@@ -456,7 +458,23 @@
                                                 <asp:ListItem Value="Alimentación">Alimentación</asp:ListItem>
                                                 <asp:ListItem Value="Hospedaje">Hospedaje</asp:ListItem>
                                                 <asp:ListItem Value="Mantenimiento">Mantenimiento</asp:ListItem>
-                                                <asp:ListItem Value="Otro">Otro</asp:ListItem>
+                                                <asp:ListItem Value="Cargue">Cargue</asp:ListItem>
+                                                <asp:ListItem Value="Descargue">Descargue</asp:ListItem>
+                                                <asp:ListItem Value="Lavada">Lavada</asp:ListItem>
+                                                <asp:ListItem Value="Engrase">Engrase</asp:ListItem>
+                                                <asp:ListItem Value="MontajeLlantas">Montaje llantas</asp:ListItem>
+                                                <asp:ListItem Value="Calibrada">Calibrada</asp:ListItem>
+                                                <asp:ListItem Value="Parqueo">Parqueo</asp:ListItem>
+                                                <asp:ListItem Value="Mensajeria">Mensajeria</asp:ListItem>
+                                                <asp:ListItem Value="Banco">Banco(4x1000)</asp:ListItem>
+                                                <asp:ListItem Value="ComisionesBancarias">Comisiones Bancarias</asp:ListItem>
+                                                <asp:ListItem Value="Otros">Otros</asp:ListItem>
+
+
+
+
+
+
                                             </asp:DropDownList>
                                         </div>
                                         <div class="mb-3">
@@ -498,7 +516,7 @@
                     </asp:Panel>
                 </asp:Panel>
 
-               
+
                 <asp:Panel ID="pnlEditar" runat="server" Visible="false" CssClass="mt-4">
                     <div class="content-card">
                         <div class="card-header-custom">
@@ -523,7 +541,7 @@
                     </div>
                 </asp:Panel>
 
-               
+
                 <asp:Panel ID="pnlModalImagen" runat="server" Visible="false" CssClass="modal-gasto">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -539,7 +557,7 @@
                     </div>
                 </asp:Panel>
 
-                
+
                 <div class="mt-3">
                     <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="alert alert-dismissible fade show"
                         Visible="false"></asp:Label>

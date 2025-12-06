@@ -33,5 +33,16 @@ namespace PruebaLABS.Logica
         {
             return datosViaje.obteneridVeviculo(idViaje, idConductor);
         }
+
+        public List<ClViajesAdminM> MtViajesAdmin()
+        {
+            return datosViaje.MtObtenerViajesAdmin();
+        }
+
+        public List<ClGastoM> ReporteGastosAdmin()
+        {
+            return datosViaje.ReporteGastosAdmin();
+        }
+
     }
 }
