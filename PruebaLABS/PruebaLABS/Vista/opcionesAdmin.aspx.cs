@@ -4,6 +4,7 @@ using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -407,10 +408,43 @@ namespace PruebaLABS.Vista
 
                 string resultado = logicaSolicitud.MtActualizarSolicitud(idViaje, estado, costo, fechaLlegada, "");
 
+                int idCliente = ObtenerIdClientePorViaje(idViaje);
+
+                string mensajeNotificacion = "";
+
+                if (estado == "Cancelado")
+                {
+                    mensajeNotificacion = $"⚠️ Tu viaje #{idViaje} ha sido CANCELADO. Contacta al soporte para más información.";
+                }
+                else if (estado == "Completado")
+                {
+                    mensajeNotificacion = $"✅ ¡Tu viaje #{idViaje} ha sido COMPLETADO! Gracias por confiar en nosotros.";
+                }
+                else if (estado == "En curso")
+                {
+                    mensajeNotificacion = $"🚚 Tu viaje #{idViaje} está EN CURSO. El vehículo está en camino.";
+                }
+                else if (estado == "Aprobado")
+                {
+                    mensajeNotificacion = $"👍 Tu viaje #{idViaje} ha sido APROBADO. Pronto te contactaremos con los detalles.";
+                }
+                else
+                {
+                    mensajeNotificacion = $"📋 Tu viaje #{idViaje} ha cambiado de estado a: {estado}.";
+                }
+
+                if (!string.IsNullOrEmpty(costo) && costo != "0" && costo != "$0.00")
+                {
+                    mensajeNotificacion += $" Costo estimado: {costo}.";
+                }
+
+                ClNotificacionL logicaNotificacion = new ClNotificacionL();
+                string resultadoNotificacion = logicaNotificacion.MtCrearNotificacion(idCliente, mensajeNotificacion);
+
                 gvSolicitudesClientes.EditIndex = -1;
                 CargarDatosGridView();
 
-                lblMensajeSolicitudes.Text = resultado;
+                lblMensajeSolicitudes.Text = resultado + " | " + resultadoNotificacion;
                 lblMensajeSolicitudes.Style["color"] = "#198754";
             }
             catch (Exception ex)
@@ -507,7 +541,18 @@ namespace PruebaLABS.Vista
             }
         }
 
-        
+        public string GetEstadoBadgeClass(string estado)
+        {
+            switch (estado)
+            {
+                case "Pendiente": return "warning";
+                case "Aprobado": return "info";
+                case "En curso": return "primary";
+                case "Completado": return "success";
+                case "Cancelado": return "danger";
+                default: return "secondary";
+            }
+        }
 
         private void MtCargarUsuarios()
         {
@@ -526,17 +571,18 @@ namespace PruebaLABS.Vista
             txtConfirmPassword.Text = "";
             ddlRol.SelectedIndex = 0;
         }
-        public string GetEstadoBadgeClass(string estado)
+
+        private int ObtenerIdClientePorViaje(int idViaje)
         {
-            switch (estado)
-            {
-                case "Pendiente": return "pendiente";
-                case "Aprobado": return "aprobado";
-                case "En curso": return "encurso";
-                case "Completado": return "completado";
-                case "Cancelado": return "cancelado";
-                default: return "secondary";
-            }
+            string query = "select idCliente from viaje where idViaje = @idViaje";
+
+            ClConexion conexion = new ClConexion();
+            SqlCommand cmd = new SqlCommand(query, conexion.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@idViaje", idViaje);
+            object result = cmd.ExecuteScalar();
+            conexion.MtCerrarConexion();
+
+            return result != null ? Convert.ToInt32(result) : 0;
         }
         protected void btnReportesViajes_Click(object sender, EventArgs e)
         {

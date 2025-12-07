@@ -47,6 +47,9 @@
       <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -91,6 +94,7 @@
     <Compile Include="Datos\ClContadorD.cs" />
     <Compile Include="Datos\ClUusuarioD.cs" />
     <Compile Include="Datos\ClViajeD.cs" />
+    <Compile Include="Logica\ClNotificacionL.cs" />
     <Compile Include="Logica\ClSolicitudViajeL.cs" />
     <Compile Include="Logica\ClVehiculoL.cs" />
     <Compile Include="Logica\ClClienteL.cs" />
@@ -184,6 +188,7 @@
     <None Include="packages.config" />
     <Content Include="Vista\Site1.Master" />
     <Content Include="Vista\Vistas.Master" />
+    <Content Include="Vista\NotificacionesCliente.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
