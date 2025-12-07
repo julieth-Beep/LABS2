@@ -838,16 +838,31 @@ namespace PruebaLABS.Vista
         {
             if (!string.IsNullOrEmpty(rutaImagen) && rutaImagen != "")
             {
-                // Cambia la ruta para que apunte a la carpeta correcta donde se guardan las imágenes
-                // Si las imágenes están en ~/Vista/Imagenes/
-                string rutaCompleta = "~/Vista/Imagenes/" + rutaImagen;
+                // Verificar si la ruta ya contiene la carpeta completa
+                string rutaCompleta = "";
+
+                if (rutaImagen.StartsWith("~/") || rutaImagen.StartsWith("http"))
+                {
+                    // Si ya tiene una ruta completa, usarla directamente
+                    rutaCompleta = rutaImagen;
+                }
+                else
+                {
+                    // Si es solo el nombre del archivo, agregar la ruta completa
+                    // NOTA: Verificar que esta ruta coincida con donde se guardan las imágenes
+                    // Si las imágenes están en ~/Vista/Imagenes/ (como en OpcionesConductor)
+                    rutaCompleta = "~/Vista/Imagenes/" + rutaImagen;
+                }
+
+                // **CORRECCIÓN: Convertir la ruta virtual a absoluta para el navegador**
+                string rutaParaCliente = ResolveUrl(rutaCompleta);
 
                 return $@"
-            <button type='button' class='btn btn-sm btn-outline-primary' 
-                    onclick='mostrarImagen(""{rutaCompleta}"")' 
-                    data-bs-toggle='modal' data-bs-target='#modalImagen'>
-                <i class='bi bi-receipt'></i> Ver
-            </button>";
+    <button type='button' class='btn btn-sm btn-outline-primary' 
+            onclick='mostrarImagen(""{rutaParaCliente.Replace("\"", "\\\"")}"")' 
+            data-bs-toggle='modal' data-bs-target='#modalImagen'>
+        <i class='bi bi-receipt'></i> Ver
+    </button>";
             }
             return "<span class='text-muted'>Sin evidencia</span>";
         }
