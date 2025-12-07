@@ -579,7 +579,7 @@ namespace PruebaLABS.Vista
                     return;
                 }
 
-                // Calcular estadísticas
+                
                 int pendientes = 0;
                 int enCurso = 0;
                 int completados = 0;
@@ -603,17 +603,17 @@ namespace PruebaLABS.Vista
                     }
                 }
 
-                // Registrar script para mostrar estadísticas
+                
                 string script = $@"
-            document.getElementById('totalViajes').innerText = '{listaViajes.Count}';
-            document.getElementById('viajesPendientes').innerText = '{pendientes}';
-            document.getElementById('viajesEnCurso').innerText = '{enCurso}';
-            document.getElementById('viajesCompletados').innerText = '{completados}';
-        ";
+                 document.getElementById('totalViajes').innerText = '{listaViajes.Count}';
+                 document.getElementById('viajesPendientes').innerText = '{pendientes}';
+                 document.getElementById('viajesEnCurso').innerText = '{enCurso}';
+                 document.getElementById('viajesCompletados').innerText = '{completados}';
+                ";
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticas", script, true);
 
-                // Convertir la lista a DataTable
+                
                 DataTable dt = new DataTable();
                 dt.Columns.Add("idViaje", typeof(int));
                 dt.Columns.Add("puntoPartida", typeof(string));
@@ -699,12 +699,12 @@ namespace PruebaLABS.Vista
             }
         }
 
-        // ========== MÉTODOS PARA EL PANEL DE GASTOS ==========
+        
         private void MtCargarReporteGastos()
         {
             try
             {
-                // Obtener todos los gastos
+                
                 listaGastosCompleta = viajesL.ReporteGastosAdmin();
                 Session["TodosGastos"] = listaGastosCompleta;
 
@@ -720,10 +720,10 @@ namespace PruebaLABS.Vista
 
 
 
-                // Calcular estadísticas
+                
                 CalcularEstadisticasGastos(listaGastosCompleta);
 
-                // Mostrar todos los gastos inicialmente
+                
                 MostrarGastosFiltrados(listaGastosCompleta);
 
                 lblMensajeReportesGastos.Text = $"Se cargaron {listaGastosCompleta.Count} gastos.";
@@ -750,14 +750,14 @@ namespace PruebaLABS.Vista
             int mantenimiento = gastos.Count(g => g.tipoGasto?.ToLower().Contains("mantenimiento") == true);
             int otros = total - (combustible + mantenimiento);
 
-            // Registrar script para mostrar estadísticas
+            
             string script = $@"
-        document.getElementById('totalGastos').innerText = '{total}';
-        document.getElementById('gastosCombustible').innerText = '{combustible}';
-        document.getElementById('gastosMantenimiento').innerText = '{mantenimiento}';
-        document.getElementById('gastosOtros').innerText = '{otros}';
-        document.getElementById('montoTotalGastos').innerText = '${montoTotal:N2}';
-    ";
+              document.getElementById('totalGastos').innerText = '{total}';
+              document.getElementById('gastosCombustible').innerText = '{combustible}';
+              document.getElementById('gastosMantenimiento').innerText = '{mantenimiento}';
+              document.getElementById('gastosOtros').innerText = '{otros}';
+              document.getElementById('montoTotalGastos').innerText = '${montoTotal:N2}';
+            ";
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticasGastos", script, true);
         }
@@ -794,10 +794,10 @@ namespace PruebaLABS.Vista
             gvReportesGastos.DataBind();
         }
 
-        // Métodos para filtrar gastos
+        
 
 
-        // Métodos auxiliares para la vista
+        
         public string GetClaseTipoGasto(string tipo)
         {
             switch (tipo?.ToLower())
@@ -838,35 +838,33 @@ namespace PruebaLABS.Vista
         {
             if (!string.IsNullOrEmpty(rutaImagen) && rutaImagen != "")
             {
-                // Verificar si la ruta ya contiene la carpeta completa
+                
                 string rutaCompleta = "";
 
                 if (rutaImagen.StartsWith("~/") || rutaImagen.StartsWith("http"))
                 {
-                    // Si ya tiene una ruta completa, usarla directamente
+                    
                     rutaCompleta = rutaImagen;
                 }
                 else
                 {
-                    // Si es solo el nombre del archivo, agregar la ruta completa
-                    // NOTA: Verificar que esta ruta coincida con donde se guardan las imágenes
-                    // Si las imágenes están en ~/Vista/Imagenes/ (como en OpcionesConductor)
+                   
                     rutaCompleta = "~/Vista/Imagenes/" + rutaImagen;
                 }
 
-                // **CORRECCIÓN: Convertir la ruta virtual a absoluta para el navegador**
+                
                 string rutaParaCliente = ResolveUrl(rutaCompleta);
 
                 return $@"
-    <button type='button' class='btn btn-sm btn-outline-primary' 
-            onclick='mostrarImagen(""{rutaParaCliente.Replace("\"", "\\\"")}"")' 
-            data-bs-toggle='modal' data-bs-target='#modalImagen'>
-        <i class='bi bi-receipt'></i> Ver
-    </button>";
+                  <button type='button' class='btn btn-sm btn-outline-primary' 
+                   onclick='mostrarImagen(""{rutaParaCliente.Replace("\"", "\\\"")}"")' 
+                   data-bs-toggle='modal' data-bs-target='#modalImagen'>
+                  <i class='bi bi-receipt'></i> Ver
+                  </button>";
             }
             return "<span class='text-muted'>Sin evidencia</span>";
         }
-        // Agrega estos métodos en la clase OpcionesAdmin
+       
 
         protected void btnBuscarPlacaGastos_Click(object sender, EventArgs e)
         {
@@ -881,17 +879,17 @@ namespace PruebaLABS.Vista
 
             try
             {
-                // Obtener la lista completa de gastos desde la sesión o recargarla
+                
                 List<ClGastoM> todosGastos = Session["TodosGastos"] as List<ClGastoM>;
 
                 if (todosGastos == null || todosGastos.Count == 0)
                 {
-                    // Si no hay datos en sesión, cargarlos desde la base de datos
+                    
                     todosGastos = viajesL.ReporteGastosAdmin();
                     Session["TodosGastos"] = todosGastos;
                 }
 
-                // Filtrar por placa (búsqueda parcial, no exacta)
+               
                 var gastosFiltrados = todosGastos
                     .Where(g => g.placa != null && g.placa.ToLower().Contains(placa.ToLower()))
                     .ToList();
@@ -907,10 +905,10 @@ namespace PruebaLABS.Vista
                     lblMensajeReportesGastos.Style["color"] = "#198754";
                 }
 
-                // Calcular estadísticas con los gastos filtrados
+                
                 CalcularEstadisticasGastos(gastosFiltrados);
 
-                // Mostrar los gastos filtrados
+                
                 MostrarGastosFiltrados(gastosFiltrados);
             }
             catch (Exception ex)
@@ -922,10 +920,10 @@ namespace PruebaLABS.Vista
 
         protected void btnLimpiarFiltroPlaca_Click(object sender, EventArgs e)
         {
-            // Limpiar el campo de búsqueda
+            
             txtBuscarPlacaGastos.Text = "";
 
-            // Recargar todos los gastos
+           
             MtCargarReporteGastos();
         }
 

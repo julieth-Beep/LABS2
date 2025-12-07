@@ -320,13 +320,11 @@
                 font-weight: 600;
             }
 
-        /* Mejoras para la tabla */
         .table-custom th {
             background-color: #2E7D32 !important;
             color: white;
         }
 
-        /* Tarjetas de estadísticas */
         .stats-card {
             border-radius: 12px;
             padding: 20px;
@@ -337,10 +335,6 @@
                 transform: translateY(-5px);
             }
 
-        /* ====== ESTILOS ESPECÍFICOS PARA EL PANEL DE REPORTES ====== */
-        /* Estos estilos solo afectan al panel de reportes */
-
-        /* CORRECCIÓN DE BADGES DE ESTADO SEGÚN LA IMAGEN */
         .badge-estado {
             font-size: 0.80rem;
             padding: 6px 14px;
@@ -363,7 +357,6 @@
             color: #155724 !important;
         }
 
-        /* Estadísticas en panel de reportes */
         #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #ffc107"] {
             background-color: #2E7D32 !important;
         }
@@ -380,7 +373,6 @@
             background-color: #0dcaf0 !important;
         }
 
-        /* Iconos dentro de estadísticas */
         #pnlReportes .rounded-circle.p-3.me-3[style*="background-color: #2E7D32"] i {
             color: white !important;
         }
@@ -394,13 +386,10 @@
             color: white !important;
         }
 
-        /* Badges de estado específicos para panel de reportes según la imagen */
-        /* Badge de ID en reportes */
         #pnlReportes .badge.bg-dark {
             background-color: #495057 !important;
         }
 
-        /* Fondo para los iconos de conductor, cliente, vehículo */
         #pnlReportes .bg-primary-subtle {
             background-color: #e3f2fd !important;
         }
@@ -413,30 +402,25 @@
             background-color: #f5f5f5 !important;
         }
 
-            /* Color para iconos dentro de estos fondos */
             #pnlReportes .bg-primary-subtle i,
             #pnlReportes .bg-info-subtle i,
             #pnlReportes .bg-secondary-subtle i {
                 color: #2E7D32 !important;
             }
 
-        /* Encabezado de sección de viajes */
         #pnlReportes .card-header-custom[style*="border-bottom: 2px solid #2E7D32"] {
             background-color: #f8fff9 !important;
         }
 
-        /* Encabezado de sección de gastos */
         #pnlReportes .card-header-custom[style*="border-bottom: 2px solid #6f42c1"] {
             background-color: #f9f8ff !important;
         }
 
-        /* Alerta informativa */
         #pnlReportes .alert-light {
             background-color: #f8fff9 !important;
             border-color: #C8E6C9 !important;
         }
 
-        /* Botón exportar */
         #pnlReportes .btn-outline-success {
             border-color: #2E7D32;
             color: #2E7D32;
@@ -447,7 +431,6 @@
                 color: white;
             }
 
-        /* Submenú de reportes */
         #pnlReportes .sidebar-header[style*="border-bottom: 1px solid #e9ecef"] {
             background-color: #2E7D32 !important;
         }
@@ -460,19 +443,16 @@
                 color: white !important;
             }
 
-        /* Tabla en panel de reportes */
         #pnlReportes .table-custom tbody tr:hover {
             background-color: #E8F5E9 !important;
         }
 
-        /* Badge de fecha en reportes */
         #pnlReportes .badge[style*="background-color: #f8f9fa"] {
             background-color: #f8f9fa !important;
             color: #212529 !important;
             border: 1px solid #dee2e6 !important;
         }
 
-        /* ESTILOS NUEVOS PARA LA BARRA DE NAVEGACIÓN HORIZONTAL */
         .nav-reportes {
             background: white;
             border-radius: 0 0 10px 10px;
@@ -514,7 +494,6 @@
                 vertical-align: middle;
             }
 
-        /* ESTILOS ESPECÍFICOS PARA PANEL DE GASTOS */
         .badge-combustible {
             background-color: #fff3cd !important;
             color: #856404 !important;
@@ -533,7 +512,6 @@
             border: 1px solid #d6d8db;
         }
 
-        /* Modal de imagen */
         #modalImagen .modal-dialog {
             max-width: 90%;
         }
@@ -544,7 +522,6 @@
             border: 1px solid #dee2e6;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        /* Agrega esto en la sección de estilos */
         #pnlReportesGastos .search-section {
             background: #f8f9fa;
             padding: 15px;
@@ -868,7 +845,6 @@
                             <p class="text-muted">Seleccione el tipo de reporte que desea ver</p>
                         </div>
 
-                        <!-- BARRA DE NAVEGACIÓN HORIZONTAL (REEMPLAZO DEL SUBMENÚ) -->
                         <div class="row mb-4">
                             <div class="col-12">
                                 <div class="card border-0 shadow-sm">
@@ -893,7 +869,6 @@
                             </div>
                         </div>
 
-                        <!-- Panel para Viajes (SIN CAMBIOS) -->
                         <asp:Panel ID="pnlReportesViajes" runat="server" Visible="true">
                             <div class="content-card" style="border: 1px solid #e9ecef;">
                                 <div class="card-header-custom" style="border-bottom: 2px solid #2E7D32;">
@@ -902,7 +877,6 @@
                                     <p class="text-muted">Listado completo de todos los viajes registrados</p>
                                 </div>
 
-                                <!-- Encabezado con estadísticas -->
                                 <div class="row mb-4">
                                     <div class="col-md-3">
                                         <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
@@ -1084,7 +1058,7 @@
                             </div>
                         </asp:Panel>
 
-                        <!-- Panel para Gastos - NUEVO -->
+                        <
                         <asp:Panel ID="pnlReportesGastos" runat="server" Visible="false">
                             <div class="content-card" style="border: 1px solid #e9ecef;">
                                 <div class="card-header-custom" style="border-bottom: 2px solid #2E7D32;">
@@ -1121,7 +1095,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Encabezado con estadísticas -->
+                                
                                 <div class="row mb-4">
                                     <div class="col-md-3">
                                         <div class="card bg-light border-0" style="border-radius: 10px; padding: 15px;">
@@ -1567,11 +1541,11 @@
             var imgElement = document.getElementById('imgEvidencia');
             var descargarLink = document.getElementById('descargarImagen');
 
-            // Usar la ruta directamente como viene del servidor
+            
             imgElement.src = rutaImagen;
             descargarLink.href = rutaImagen;
 
-            // Extraer nombre del archivo para la descarga
+            
             var nombreArchivo = rutaImagen.split('/').pop();
             descargarLink.download = nombreArchivo;
         }

@@ -186,13 +186,10 @@ namespace PruebaLABS.Vista
                         return;
                     }
 
-                    // **CORRECCIÓN: VERIFICAR Y CREAR LA CARPETA CORRECTAMENTE**
                     string folderPath = Server.MapPath("~/Vista/Imagenes/");
 
-                    // Debug: Verificar la ruta
                     MostarMensajes($"Ruta de carpeta: {folderPath}", "info");
 
-                    // Crear carpeta si no existe
                     if (!Directory.Exists(folderPath))
                     {
                         try
@@ -207,10 +204,8 @@ namespace PruebaLABS.Vista
                         }
                     }
 
-                    // Verificar permisos de escritura
                     try
                     {
-                        // Intentar crear un archivo de prueba
                         string testFile = Path.Combine(folderPath, "test.txt");
                         File.WriteAllText(testFile, "test");
                         File.Delete(testFile);
@@ -222,16 +217,13 @@ namespace PruebaLABS.Vista
                         return;
                     }
 
-                    // Generar nombre único para el archivo
                     nombreArchivo = $"gasto_{DateTime.Now:yyyyMMddHHmmssfff}{extension}";
                     string filePath = Path.Combine(folderPath, nombreArchivo);
 
-                    // Guardar el archivo
                     try
                     {
                         fuEvidencia.SaveAs(filePath);
 
-                        // Verificar que el archivo se guardó
                         if (File.Exists(filePath))
                         {
                             MostarMensajes($"Archivo guardado exitosamente: {filePath}", "success");
@@ -289,11 +281,9 @@ namespace PruebaLABS.Vista
 
             if (!string.IsNullOrEmpty(nombreArchivo))
             {
-                // **CORRECCIÓN: Verificar ruta relativa correcta**
                 string imagePath = "~/Vista/Imagenes/" + nombreArchivo;
                 string physicalPath = Server.MapPath(imagePath);
 
-                // Debug: Mostrar ruta
                 MostarMensajes($"Buscando imagen en: {physicalPath}", "info");
 
                 if (File.Exists(physicalPath))

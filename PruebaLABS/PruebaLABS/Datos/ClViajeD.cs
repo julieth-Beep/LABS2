@@ -233,7 +233,6 @@ namespace PruebaLABS.Datos
 
             return listaViajes;
         }
-        // En la clase de datos
         public List<ClGastoM> ReporteGastosAdmin()
         {
             ClConexion oConex = new ClConexion();
@@ -259,7 +258,6 @@ namespace PruebaLABS.Datos
                     reporte.tipoGasto = dr["tipoGasto"] != DBNull.Value ? dr["tipoGasto"].ToString() : "";
                     reporte.descripcionGasto = dr["descripcion"] != DBNull.Value ? dr["descripcion"].ToString() : "";
 
-                    // Manejo de monto (varchar a decimal)
                     string montoStr = dr["monto"] != DBNull.Value ? dr["monto"].ToString() : "0";
                     decimal monto;
                     if (decimal.TryParse(montoStr, out monto))
@@ -271,7 +269,6 @@ namespace PruebaLABS.Datos
                         reporte.monto = 0;
                     }
 
-                    // Manejo de fecha (varchar a DateTime)
                     string fechaStr = dr["fecha"] != DBNull.Value ? dr["fecha"].ToString() : "";
                     DateTime fecha;
                     if (DateTime.TryParse(fechaStr, out fecha))
@@ -292,7 +289,6 @@ namespace PruebaLABS.Datos
                 }
                 catch (Exception ex)
                 {
-                    // Log del error pero continúa con los demás registros
                     Console.WriteLine($"Error procesando registro: {ex.Message}");
                 }
             }
