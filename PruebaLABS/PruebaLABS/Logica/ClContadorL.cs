@@ -49,6 +49,14 @@ namespace PruebaLABS.Logica
         {
             return oContD.MtRegistrarGasto(g);
         }
+        public string EditarBono(int idUsuario, decimal nuevoBono)
+        {
+            ClContratoM g = new ClContratoM();
+            g.idUsuario = idUsuario;
+            g.bono = nuevoBono;
+
+            return oContD.MtEditarBono(g);
+        }
 
 
     }

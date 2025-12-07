@@ -169,6 +169,8 @@
                         <asp:Button ID="btnContraViaj" runat="server" Text="Contratos de Viajes" CssClass="sidebar-item w-100 mb-2" OnClick="btnContraViaj_Click" />
                         <asp:Button ID="btnGastos" runat="server" Text="Gastos Viaje" CssClass="sidebar-item w-100 mb-2" OnClick="btnGastos_Click" />
                         <asp:Button ID="btnBonos" runat="server" Text="Bonos" CssClass="sidebar-item w-100 mb-2" OnClick="btnBonos_Click" />
+                        <asp:Button ID="btnEstadistica" runat="server" Text="Estadistica" CssClass="sidebar-item w-100 mb-2" OnClick="btnEstadistica_Click" />
+
 
                     </div>
 
@@ -362,12 +364,25 @@
                                 ShowFooter="true"
                                 OnRowDataBound="gvGastos_RowDataBound">
                                 <Columns>
+                                    <asp:BoundField DataField="placa" HeaderText="Placa" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Conductor" />
+                                    <asp:BoundField DataField="fechaInicio" HeaderText="Fecha Cargue" />
+                                    <asp:BoundField DataField="fechaFin" HeaderText="FechaDescargue" />
+                                    <asp:BoundField DataField="empresa" HeaderText="Empresa" />
+                                    <asp:BoundField DataField="tipoCarga" HeaderText="tipoCarga" />
+                                    <asp:BoundField DataField="puntoPartida" HeaderText="Ruta Origen" />
+                                    <asp:BoundField DataField="destino" HeaderText="Destino" />
+                                    <asp:BoundField DataField="costo" HeaderText="Total Viaje" />
+
                                     <asp:BoundField DataField="idGasto" HeaderText="ID" />
                                     <asp:BoundField DataField="tipoGasto" HeaderText="Tipo" />
                                     <asp:BoundField DataField="monto" HeaderText="Monto" />
                                     <asp:BoundField DataField="descripcion" HeaderText="Descripción" />
                                     <asp:BoundField DataField="fecha" HeaderText="Fecha" />
                                 </Columns>
+
+
+
                             </asp:GridView>
                         </div>
 
@@ -398,23 +413,89 @@
 
                         <div class="table-responsive">
                             <asp:GridView ID="gvBonos" runat="server" AutoGenerateColumns="false"
-                                CssClass="table table-bordered">
+                                CssClass="table table-bordered"
+                                DataKeyNames="idUsuario"
+                                OnRowEditing="gvBonos_RowEditing"
+                                OnRowCancelingEdit="gvBonos_RowCancelingEdit"
+                                OnRowUpdating="gvBonos_RowUpdating">
+
                                 <Columns>
-                                    <asp:BoundField DataField="idUsuario" HeaderText="ID Usuario" />
-                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                                    <asp:BoundField DataField="apellido" HeaderText="Apellido" />
-                                    <asp:BoundField DataField="nombre1" HeaderText="Rol" />
-                                    <asp:BoundField DataField="bono" HeaderText="Bono Asignado" />
+
+                                    <asp:BoundField DataField="idUsuario" HeaderText="ID Usuario" ReadOnly="true" />
+                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" ReadOnly="true" />
+                                    <asp:BoundField DataField="apellido" HeaderText="Apellido" ReadOnly="true" />
+                                    <asp:BoundField DataField="nombre1" HeaderText="Rol" ReadOnly="true" />
+
+                                    <asp:TemplateField HeaderText="Bono Asignado">
+                                        <ItemTemplate>
+                                            <%# Eval("bono") %>
+                                        </ItemTemplate>
+
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="txtBonoEdit" runat="server" CssClass="form-control"
+                                                Text='<%# Bind("bono") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                    </asp:TemplateField>
+
+
+                                    <asp:CommandField ShowEditButton="true" EditText="Editar" UpdateText="Guardar" CancelText="Cancelar"
+                                        ControlStyle-CssClass="btn btn-primary btn-sm" />
+
                                 </Columns>
+
                             </asp:GridView>
                         </div>
+                    </div>
+                </asp:Panel>
 
-                        <asp:Button ID="Export" runat="server" Text="Exportar Bonos"
-                            CssClass="btn btn-success mt-3" OnClick="Export_Click" />
+
+                <asp:Panel ID="pnlContabilidad" runat="server" Visible="false">
+
+                    <div class="content-card bg-white shadow rounded-3 p-4 mb-4">
+
+                        <div class="card-header-custom text-center mb-3 pb-3 border-bottom">
+                            <i class="bi bi-graph-up brand-icon"></i>
+                            <h3>Movimientos Contables</h3>
+                        </div>
+
+                        <!-- Aquí va el gráfico -->
+                        <canvas id="graficoContable" style="width: 100%; height: 500px;"></canvas>
 
                     </div>
 
                 </asp:Panel>
+
+                <!-- Cargar Chart.js -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <!-- Script que recibe los datos desde C# -->
+                <script>
+                    function CargarGrafico(labels, datos) {
+
+                        const ctx = document.getElementById('graficoContable').getContext('2d');
+
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Monto del Movimiento',
+                                    data: datos,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: { beginAtZero: true }
+                                }
+                            }
+                        });
+                    }
+                </script>
+
 
             </div>
 

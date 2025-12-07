@@ -18,6 +18,7 @@ namespace PruebaLABS.Vista
     public partial class OpcionesContador : System.Web.UI.Page
     {
         ClContadorL oContL = new ClContadorL();
+        ClEstadisticaL estadisticaL = new ClEstadisticaL();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,6 +33,7 @@ namespace PruebaLABS.Vista
             pnlContraViaj.Visible = false;
             pnlGastos.Visible = false;
             pnlBonos.Visible = false;
+            pnlContabilidad.Visible = false;
 
             CargarContratosEmp();
         }
@@ -42,6 +44,7 @@ namespace PruebaLABS.Vista
             pnlContraViaj.Visible = true;
             pnlGastos.Visible = false;
             pnlBonos.Visible = false;
+            pnlContabilidad.Visible = false;
 
             CargarContratosViaje();
         }
@@ -52,6 +55,7 @@ namespace PruebaLABS.Vista
             pnlContraViaj.Visible = false;
             pnlGastos.Visible = true;
             pnlBonos.Visible = false;
+            pnlContabilidad.Visible = false;
 
             gvGastos.DataSource = null;
             gvGastos.DataBind();
@@ -63,6 +67,7 @@ namespace PruebaLABS.Vista
             pnlContraViaj.Visible = false;
             pnlGastos.Visible = false;
             pnlBonos.Visible = true;
+            pnlContabilidad.Visible = false;
 
             CargarBonos();
         }
@@ -77,7 +82,6 @@ namespace PruebaLABS.Vista
         {
             int index = Convert.ToInt32(e.CommandArgument);
 
-            // Obtener valores de la fila
             GridViewRow row = gvContraEmp.Rows[index];
             int idContrato = Convert.ToInt32(row.Cells[0].Text);
 
@@ -151,6 +155,8 @@ namespace PruebaLABS.Vista
             gvContraViaj.DataBind();
         }
 
+
+
         protected void btnBuscarGastos_Click(object sender, EventArgs e)
         {
             if (txtIdViajeBuscar.Text == "")
@@ -191,7 +197,7 @@ namespace PruebaLABS.Vista
 
                 foreach (GridViewRow row in gvGastos.Rows)
                 {
-                    total += Convert.ToDecimal(row.Cells[2].Text); 
+                    total += Convert.ToDecimal(row.Cells[11].Text);
                 }
 
                 e.Row.Cells[1].Text = "TOTAL:";
@@ -214,14 +220,48 @@ namespace PruebaLABS.Vista
 
                 foreach (GridViewRow row in grid.Rows)
                 {
-                    DataRow dr = dt.NewRow();
-                    for (int i = 0; i < row.Cells.Count; i++)
-                        dr[i] = row.Cells[i].Text;
-                    dt.Rows.Add(dr);
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        DataRow dr = dt.NewRow();
+
+                        for (int i = 0; i < row.Cells.Count; i++)
+                            dr[i] = row.Cells[i].Text.Replace("&nbsp;", "");
+
+                        dt.Rows.Add(dr);
+                    }
                 }
 
+                decimal total = 0;
+
+                foreach (DataRow fila in dt.Rows)
+                {
+                    string valor = fila[2].ToString()
+                        .Replace("$", "")
+                        .Replace(".", "")
+                        .Replace(",", ".")
+                        .Trim();
+
+                    if (decimal.TryParse(valor,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out decimal monto))
+                    {
+                        total += monto;
+                    }
+                }
+
+                DataRow filaTotal = dt.NewRow();
+                filaTotal[2] = "TOTAL:";
+                filaTotal[2] = total.ToString("N0");
+                dt.Rows.Add(filaTotal);
+
                 ws.Cells["A1"].LoadFromDataTable(dt, true);
-                ws.Cells.AutoFitColumns();
+
+                int filaExcel = dt.Rows.Count + 1;
+                ws.Cells[filaExcel, 11 + 1].Style.Font.Bold = true;
+                ws.Cells[filaExcel, 10 + 1].Style.Font.Bold = true;
+
+                ws.Cells[ws.Dimension.Address].AutoFitColumns();
 
                 Response.Clear();
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -249,11 +289,9 @@ namespace PruebaLABS.Vista
                 int colCount = ws.Dimension.End.Column;
                 int rowCount = ws.Dimension.End.Row;
 
-                // Crear columnas
                 for (int col = 1; col <= colCount; col++)
                     dt.Columns.Add(ws.Cells[1, col].Text);
 
-                // Crear filas
                 for (int row = 2; row <= rowCount; row++)
                 {
                     DataRow dr = dt.NewRow();
@@ -329,14 +367,96 @@ namespace PruebaLABS.Vista
         }
         protected void Export_Click(object sender, EventArgs e)
         {
+            pnlBonos.Visible = true;
             ExportarExcel(gvBonos, "Bonos_Empleados");
+            pnlBonos.Visible = false;
         }
-
-
-
         public override void VerifyRenderingInServerForm(Control control) { }
 
 
+        private void ObtenerEstadistica()
+        {
+            DataTable dt = estadisticaL.ObtenerEstadistica();
+
+            decimal totalIngreso = 0;
+            decimal totalGasto = 0;
+            decimal totalContrato = 0;
+
+            // Acumular por tipo
+            foreach (DataRow row in dt.Rows)
+            {
+                string tipo = row["TipoMovimiento"].ToString().ToUpper();
+                decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                if (tipo == "INGRESO")
+                    totalIngreso += monto;
+
+                else if (tipo == "GASTO")
+                    totalGasto += monto;
+
+                else if (tipo == "CONTRATO")
+                    totalContrato += monto;
+            }
+            List<string> labels = new List<string> { "Ingreso", "Gasto", "Contrato" };
+            List<decimal> valores = new List<decimal> { totalIngreso, totalGasto, totalContrato };
+
+            pnlContraEmp.Visible = false;
+            pnlContraViaj.Visible = false;
+            pnlGastos.Visible = false;
+            pnlBonos.Visible = false;
+            pnlContabilidad.Visible = true;
+
+            // Convertir listas a JSON
+            string labelsJson = Newtonsoft.Json.JsonConvert.SerializeObject(labels);
+            string valoresJson = Newtonsoft.Json.JsonConvert.SerializeObject(valores);
+
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "MostrarGrafico",
+                $"CargarGrafico({labelsJson}, {valoresJson});",
+                true
+            );
+        }
+
+        protected void btnEstadistica_Click(object sender, EventArgs e)
+        {
+            ObtenerEstadistica();
+
+            pnlContraEmp.Visible = false;
+            pnlContraViaj.Visible = false;
+            pnlGastos.Visible = false;
+            pnlBonos.Visible = false;
+            pnlContabilidad.Visible = true;
+        }
+        protected void gvBonos_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            gvBonos.EditIndex = e.NewEditIndex;
+            CargarBonos(); // Recarga la data
+        }
+
+        protected void gvBonos_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvBonos.EditIndex = -1;
+            CargarBonos(); // Recarga
+        }
+
+        protected void gvBonos_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int idUsuario = Convert.ToInt32(gvBonos.DataKeys[e.RowIndex].Value);
+
+            TextBox txtBono = gvBonos.Rows[e.RowIndex].FindControl("txtBonoEdit") as TextBox;
+
+            decimal nuevoBono = 0;
+            decimal.TryParse(txtBono.Text, out nuevoBono);
+
+            // AQUÍ actualizas el bono en la BD
+            ClContadorL logica = new ClContadorL();
+            logica.EditarBono(idUsuario, nuevoBono);
+
+            gvBonos.EditIndex = -1;
+            CargarBonos();
+        }
 
     }
 }

@@ -51,6 +51,15 @@ namespace PruebaLABS.Vista
         protected global::System.Web.UI.WebControls.Button btnBonos;
 
         /// <summary>
+        /// Control btnEstadistica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEstadistica;
+
+        /// <summary>
         /// Control pnlContraEmp.
         /// </summary>
         /// <remarks>
@@ -339,12 +348,12 @@ namespace PruebaLABS.Vista
         protected global::System.Web.UI.WebControls.GridView gvBonos;
 
         /// <summary>
-        /// Control Export.
+        /// Control pnlContabilidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Export;
+        protected global::System.Web.UI.WebControls.Panel pnlContabilidad;
     }
 }

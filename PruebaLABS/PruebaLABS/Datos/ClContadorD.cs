@@ -15,9 +15,15 @@ namespace PruebaLABS.Datos
         {
             DataTable dt = new DataTable();
 
-            string consulta = @"SELECT g.idGasto,g.tipoGasto,g.monto,g.descripcion,g.fecha,v.idViaje,(SELECT SUM(g2.monto) FROM gasto g2
-            INNER JOIN viajeVehiculo vv2 ON vv2.idViajeVehiculo = g2.idViajeVehiculo WHERE vv2.idViaje = v.idViaje) AS totalGastosDelViaje 
-            FROM gasto g INNER JOIN viajeVehiculo v ON v.idViajeVehiculo = g.idViajeVehiculo WHERE v.idViaje = @idViaje;";
+            string consulta = @"SELECT v.fechaInicio,v.fechaFin,c.empresa,v.tipoCarga,v.puntoPartida,v.destino,v.costo,v.estadoViaje,
+            u.nombre,ve.placa, g.idGasto,g.tipoGasto,g.monto,g.descripcion,g.fecha,
+            (SELECT SUM(g2.monto) FROM gasto g2
+            INNER JOIN viajeVehiculo vv2 ON vv2.idViajeVehiculo = g2.idViajeVehiculo WHERE vv2.idViaje = v.idViaje) AS totalGastosDelViaje
+            FROM viaje v LEFT JOIN cliente c ON v.idCliente = c.idCliente LEFT JOIN viajeVehiculo vv ON v.idViaje = vv.idViaje
+            LEFT JOIN usuario u ON vv.idConductor = u.idUsuario LEFT JOIN vehiculo ve ON vv.idVehiculo = ve.idVehiculo
+            LEFT JOIN estadoVehiculo ev ON ve.idEstadoVehiculo = ev.idEstadoVehiculo LEFT JOIN gasto g ON vv.idViajeVehiculo = g.idViajeVehiculo
+            WHERE v.idViaje=@idViaje GROUP BY v.idViaje, v.fechaInicio,v.fechaFin,c.empresa,v.tipoCarga,v.puntoPartida,v.destino,v.costo,v.estadoViaje,
+            u.nombre,ve.placa, g.idGasto,g.tipoGasto,g.monto,g.descripcion,g.fecha;";
 
 
             SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
@@ -106,6 +112,22 @@ namespace PruebaLABS.Datos
             oConexion.MtCerrarConexion();
 
             return dt;
+
+        }
+        public string MtEditarBono(ClContratoM c)
+        {
+            string mensaje = "";
+            string consulta = @"update contrato set bono = @bono from contrato c join usuario u on c.idUsuario=u.idUsuario WHERE u.idUsuario = @idUsuario";
+
+            SqlCommand cmd = new SqlCommand(consulta, oConexion.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@bono", c.bono);
+            cmd.Parameters.AddWithValue("@idUsuario", c.idUsuario);
+
+            cmd.ExecuteNonQuery();
+            mensaje = "Bono actualizado correctamente";
+            oConexion.MtCerrarConexion();
+
+            return mensaje;
 
         }
         public DataTable MtContraEmp()
