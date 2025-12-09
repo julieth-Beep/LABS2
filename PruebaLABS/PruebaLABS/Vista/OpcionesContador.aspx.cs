@@ -1,15 +1,11 @@
 ﻿using OfficeOpenXml;
-using OfficeOpenXml.Table;
 using PruebaLABS.Logica;
 using PruebaLABS.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -20,42 +16,52 @@ namespace PruebaLABS.Vista
         ClContadorL oContL = new ClContadorL();
         ClEstadisticaL estadisticaL = new ClEstadisticaL();
 
+        ClViajeL viajesL = new ClViajeL();
+        List<ClGastoM> listaGastosCompleta = new List<ClGastoM>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                pnlContraEmp.Visible = true;
+                pnlContraViaj.Visible = false;
+                pnlGastos.Visible = false;
+                pnlBonos.Visible = false;
+                pnlContabilidad.Visible = false;
+                pnlReportes.Visible = false;
+
                 CargarContratosEmp();
             }
         }
-        protected void btnContraEmp_Click(object sender, EventArgs e)
+
+        private void OcultarTodo()
         {
-            pnlContraEmp.Visible = true;
+            pnlContraEmp.Visible = false;
             pnlContraViaj.Visible = false;
             pnlGastos.Visible = false;
             pnlBonos.Visible = false;
             pnlContabilidad.Visible = false;
+            pnlReportes.Visible = false;
+        }
 
+        protected void btnContraEmp_Click(object sender, EventArgs e)
+        {
+            OcultarTodo();
+            pnlContraEmp.Visible = true;
             CargarContratosEmp();
         }
 
         protected void btnContraViaj_Click(object sender, EventArgs e)
         {
-            pnlContraEmp.Visible = false;
+            OcultarTodo();
             pnlContraViaj.Visible = true;
-            pnlGastos.Visible = false;
-            pnlBonos.Visible = false;
-            pnlContabilidad.Visible = false;
-
             CargarContratosViaje();
         }
 
         protected void btnGastos_Click(object sender, EventArgs e)
         {
-            pnlContraEmp.Visible = false;
-            pnlContraViaj.Visible = false;
+            OcultarTodo();
             pnlGastos.Visible = true;
-            pnlBonos.Visible = false;
-            pnlContabilidad.Visible = false;
 
             gvGastos.DataSource = null;
             gvGastos.DataBind();
@@ -63,14 +69,18 @@ namespace PruebaLABS.Vista
 
         protected void btnBonos_Click(object sender, EventArgs e)
         {
-            pnlContraEmp.Visible = false;
-            pnlContraViaj.Visible = false;
-            pnlGastos.Visible = false;
+            OcultarTodo();
             pnlBonos.Visible = true;
-            pnlContabilidad.Visible = false;
-
             CargarBonos();
         }
+
+        protected void btnEstadistica_Click(object sender, EventArgs e)
+        {
+            OcultarTodo();
+            pnlContabilidad.Visible = true;
+            ObtenerEstadistica();
+        }
+
         private void CargarContratosEmp()
         {
             DataTable dt = oContL.ContratosEmp();
@@ -81,7 +91,6 @@ namespace PruebaLABS.Vista
         protected void gvContraEmp_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int index = Convert.ToInt32(e.CommandArgument);
-
             GridViewRow row = gvContraEmp.Rows[index];
             int idContrato = Convert.ToInt32(row.Cells[0].Text);
 
@@ -99,7 +108,6 @@ namespace PruebaLABS.Vista
             {
                 string resp = oContL.EliminarContra(idContrato);
                 lblMensaje.Text = resp;
-
                 CargarContratosEmp();
             }
             else if (e.CommandName == "cambiarTipo")
@@ -112,7 +120,6 @@ namespace PruebaLABS.Vista
                 m.tipo = nuevoTipo;
 
                 oContL.MtEditContrato(m);
-
                 CargarContratosEmp();
             }
         }
@@ -135,11 +142,10 @@ namespace PruebaLABS.Vista
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
             ClContratoM m = new ClContratoM();
-
             m.documento = txtAddDocumento.Text;
-            m.fecha = Convert.ToDateTime(txtFecha.Text);
-            m.salario = Convert.ToDecimal(txtSalario.Text);
-            m.bono = Convert.ToDecimal(txtBono.Text);
+            m.fecha = Convert.ToDateTime(txtAddFecha.Text);
+            m.salario = Convert.ToDecimal(txtAddSalario.Text);
+            m.bono = Convert.ToDecimal(txtAddBono.Text);
             m.tipo = DropDownList1.SelectedValue;
 
             string r = oContL.Registrar(m);
@@ -155,8 +161,6 @@ namespace PruebaLABS.Vista
             gvContraViaj.DataBind();
         }
 
-
-
         protected void btnBuscarGastos_Click(object sender, EventArgs e)
         {
             if (txtIdViajeBuscar.Text == "")
@@ -166,7 +170,6 @@ namespace PruebaLABS.Vista
             }
 
             int idViaje = Convert.ToInt32(txtIdViajeBuscar.Text);
-
             DataTable dt = oContL.ListarGastosViaje(idViaje);
 
             if (dt.Rows.Count == 0)
@@ -183,12 +186,6 @@ namespace PruebaLABS.Vista
             }
         }
 
-        private void CargarBonos()
-        {
-            DataTable dt = oContL.Bonos();
-            gvBonos.DataSource = dt;
-            gvBonos.DataBind();
-        }
         protected void gvGastos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.Footer)
@@ -197,7 +194,9 @@ namespace PruebaLABS.Vista
 
                 foreach (GridViewRow row in gvGastos.Rows)
                 {
-                    total += Convert.ToDecimal(row.Cells[11].Text);
+                    decimal v;
+                    if (decimal.TryParse(row.Cells[11].Text, out v))
+                        total += v;
                 }
 
                 e.Row.Cells[1].Text = "TOTAL:";
@@ -207,6 +206,77 @@ namespace PruebaLABS.Vista
                 e.Row.Cells[2].Font.Bold = true;
             }
         }
+
+        private void CargarBonos()
+        {
+            DataTable dt = oContL.Bonos();
+            gvBonos.DataSource = dt;
+            gvBonos.DataBind();
+        }
+
+        protected void gvBonos_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            gvBonos.EditIndex = e.NewEditIndex;
+            CargarBonos();
+        }
+
+        protected void gvBonos_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvBonos.EditIndex = -1;
+            CargarBonos();
+        }
+
+        protected void gvBonos_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int idUsuario = Convert.ToInt32(gvBonos.DataKeys[e.RowIndex].Value);
+            TextBox txtBono = gvBonos.Rows[e.RowIndex].FindControl("txtBonoEdit") as TextBox;
+
+            decimal nuevoBono = 0;
+            decimal.TryParse(txtBono.Text, out nuevoBono);
+
+            ClContadorL logica = new ClContadorL();
+            logica.EditarBono(idUsuario, nuevoBono);
+
+            gvBonos.EditIndex = -1;
+            CargarBonos();
+        }
+
+        private void ObtenerEstadistica()
+        {
+            DataTable dt = estadisticaL.ObtenerEstadistica();
+
+            decimal totalIngreso = 0;
+            decimal totalGasto = 0;
+            decimal totalContrato = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string tipo = row["TipoMovimiento"].ToString().ToUpper();
+                decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                if (tipo == "INGRESO")
+                    totalIngreso += monto;
+                else if (tipo == "GASTO")
+                    totalGasto += monto;
+                else if (tipo == "CONTRATO")
+                    totalContrato += monto;
+            }
+
+            List<string> labels = new List<string> { "Ingreso", "Gasto", "Contrato" };
+            List<decimal> valores = new List<decimal> { totalIngreso, totalGasto, totalContrato };
+
+            string labelsJson = Newtonsoft.Json.JsonConvert.SerializeObject(labels);
+            string valoresJson = Newtonsoft.Json.JsonConvert.SerializeObject(valores);
+
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "MostrarGrafico",
+                $"CargarGrafico({labelsJson}, {valoresJson});",
+                true
+            );
+        }
+
         private void ExportarExcel(GridView grid, string nombreArchivo)
         {
             using (ExcelPackage excel = new ExcelPackage())
@@ -214,7 +284,6 @@ namespace PruebaLABS.Vista
                 var ws = excel.Workbook.Worksheets.Add("Datos");
 
                 DataTable dt = new DataTable();
-
                 foreach (DataControlField col in grid.Columns)
                     dt.Columns.Add(col.HeaderText);
 
@@ -223,44 +292,13 @@ namespace PruebaLABS.Vista
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         DataRow dr = dt.NewRow();
-
                         for (int i = 0; i < row.Cells.Count; i++)
                             dr[i] = row.Cells[i].Text.Replace("&nbsp;", "");
-
                         dt.Rows.Add(dr);
                     }
                 }
 
-                decimal total = 0;
-
-                foreach (DataRow fila in dt.Rows)
-                {
-                    string valor = fila[2].ToString()
-                        .Replace("$", "")
-                        .Replace(".", "")
-                        .Replace(",", ".")
-                        .Trim();
-
-                    if (decimal.TryParse(valor,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        out decimal monto))
-                    {
-                        total += monto;
-                    }
-                }
-
-                DataRow filaTotal = dt.NewRow();
-                filaTotal[2] = "TOTAL:";
-                filaTotal[2] = total.ToString("N0");
-                dt.Rows.Add(filaTotal);
-
                 ws.Cells["A1"].LoadFromDataTable(dt, true);
-
-                int filaExcel = dt.Rows.Count + 1;
-                ws.Cells[filaExcel, 11 + 1].Style.Font.Bold = true;
-                ws.Cells[filaExcel, 10 + 1].Style.Font.Bold = true;
-
                 ws.Cells[ws.Dimension.Address].AutoFitColumns();
 
                 Response.Clear();
@@ -270,7 +308,6 @@ namespace PruebaLABS.Vista
                 Response.End();
             }
         }
-
 
         private DataTable ImportarExcel(FileUpload archivo)
         {
@@ -300,13 +337,20 @@ namespace PruebaLABS.Vista
                     dt.Rows.Add(dr);
                 }
             }
-
             return dt;
         }
-        protected void Button4_Click(object sender, EventArgs e)
+
+        protected void Button4_Click(object sender, EventArgs e) => ExportarExcel(gvContraEmp, "Contratos_Empleados");
+        protected void Button2_Click(object sender, EventArgs e) => ExportarExcel(gvContraViaj, "Contratos_Viajes");
+        protected void btnExportar_Click(object sender, EventArgs e) => ExportarExcel(gvGastos, "Gastos_Viaje");
+
+        protected void Export_Click(object sender, EventArgs e)
         {
-            ExportarExcel(gvContraEmp, "Contratos_Empleados");
+            pnlBonos.Visible = true;
+            ExportarExcel(gvBonos, "Bonos_Empleados");
+            pnlBonos.Visible = false;
         }
+
         protected void Button5_Click(object sender, EventArgs e)
         {
             if (!FileUpload2.HasFile)
@@ -331,15 +375,9 @@ namespace PruebaLABS.Vista
             }
 
             lblMensaje.Text = "Importación completada.";
+            CargarContratosEmp();
         }
-        protected void Button2_Click(object sender, EventArgs e)
-        {
-            ExportarExcel(gvContraViaj, "Contratos_Viajes");
-        }
-        protected void btnExportar_Click(object sender, EventArgs e)
-        {
-            ExportarExcel(gvGastos, "Gastos_Viaje");
-        }
+
         protected void btnImportar_Click(object sender, EventArgs e)
         {
             if (!fileExcel.HasFile)
@@ -365,98 +403,373 @@ namespace PruebaLABS.Vista
 
             lblGastosMensaje.Text = "Importación completada.";
         }
-        protected void Export_Click(object sender, EventArgs e)
-        {
-            pnlBonos.Visible = true;
-            ExportarExcel(gvBonos, "Bonos_Empleados");
-            pnlBonos.Visible = false;
-        }
+
         public override void VerifyRenderingInServerForm(Control control) { }
 
-
-        private void ObtenerEstadistica()
+        protected void btnReportes_Click(object sender, EventArgs e)
         {
-            DataTable dt = estadisticaL.ObtenerEstadistica();
+            OcultarTodo();
+            pnlReportes.Visible = true;
 
-            decimal totalIngreso = 0;
-            decimal totalGasto = 0;
-            decimal totalContrato = 0;
+            pnlReportesViajes.Visible = true;
+            pnlReportesGastos.Visible = false;
+            ActivarSubmenuReportes(btnReportesViajes);
+            MtCargarReporteViajes();
+        }
 
-            // Acumular por tipo
-            foreach (DataRow row in dt.Rows)
+        protected void btnReportesViajes_Click(object sender, EventArgs e)
+        {
+            pnlReportesViajes.Visible = true;
+            pnlReportesGastos.Visible = false;
+            ActivarSubmenuReportes(btnReportesViajes);
+            MtCargarReporteViajes();
+        }
+
+        protected void btnReportesGastos_Click(object sender, EventArgs e)
+        {
+            pnlReportesViajes.Visible = false;
+            pnlReportesGastos.Visible = true;
+            ActivarSubmenuReportes(btnReportesGastos);
+            MtCargarReporteGastos();
+        }
+
+        private void ActivarSubmenuReportes(Button boton)
+        {
+            btnReportesViajes.CssClass = "nav-reporte-item";
+            btnReportesGastos.CssClass = "nav-reporte-item";
+            boton.CssClass = "nav-reporte-item active";
+        }
+
+        private void MtCargarReporteViajes()
+        {
+            try
             {
-                string tipo = row["TipoMovimiento"].ToString().ToUpper();
-                decimal monto = Convert.ToDecimal(row["Monto"]);
+                var listaViajes = viajesL.MtViajesAdmin();
 
-                if (tipo == "INGRESO")
-                    totalIngreso += monto;
+                if (listaViajes == null || listaViajes.Count == 0)
+                {
+                    lblMensajeReportesViajes.Text = "No se encontraron viajes registrados.";
+                    lblMensajeReportesViajes.CssClass = "text-muted";
+                    gvReportesViajes.DataSource = null;
+                    gvReportesViajes.DataBind();
+                    lblTotalViajesMostrados.Text = "0";
 
-                else if (tipo == "GASTO")
-                    totalGasto += monto;
+                    string scriptEmpty = @"
+                        document.getElementById('totalViajes').innerText = '0';
+                        document.getElementById('viajesPendientes').innerText = '0';
+                        document.getElementById('viajesEnCurso').innerText = '0';
+                        document.getElementById('viajesCompletados').innerText = '0';
+                    ";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "resetStatsViajesCont", scriptEmpty, true);
+                    return;
+                }
 
-                else if (tipo == "CONTRATO")
-                    totalContrato += monto;
+                int pendientes = 0, enCurso = 0, completados = 0;
+
+                foreach (var viaje in listaViajes)
+                {
+                    if (viaje.estadoViaje != null)
+                    {
+                        switch (viaje.estadoViaje.ToLower())
+                        {
+                            case "pendiente": pendientes++; break;
+                            case "en curso": enCurso++; break;
+                            case "completado": completados++; break;
+                        }
+                    }
+                }
+
+                string script = $@"
+                    document.getElementById('totalViajes').innerText = '{listaViajes.Count}';
+                    document.getElementById('viajesPendientes').innerText = '{pendientes}';
+                    document.getElementById('viajesEnCurso').innerText = '{enCurso}';
+                    document.getElementById('viajesCompletados').innerText = '{completados}';
+                ";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticasViajesCont", script, true);
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("idViaje", typeof(int));
+                dt.Columns.Add("puntoPartida", typeof(string));
+                dt.Columns.Add("destino", typeof(string));
+                dt.Columns.Add("fechaInicio", typeof(string));
+                dt.Columns.Add("estadoViaje", typeof(string));
+                dt.Columns.Add("costo", typeof(string));
+                dt.Columns.Add("Conductor", typeof(string));
+                dt.Columns.Add("telefono", typeof(string));
+                dt.Columns.Add("cliente", typeof(string));
+                dt.Columns.Add("empresa", typeof(string));
+                dt.Columns.Add("placa", typeof(string));
+                dt.Columns.Add("modelo", typeof(string));
+
+                foreach (var v in listaViajes)
+                {
+                    dt.Rows.Add(
+                        v.idViaje,
+                        v.puntoPartida ?? "",
+                        v.destino ?? "",
+                        v.fechaInicio ?? "",
+                        v.estadoViaje ?? "Pendiente",
+                        v.costo ?? "0",
+                        v.nombreU ?? "Sin asignar",
+                        v.telefonoU ?? "",
+                        v.nombreC ?? "",
+                        v.empresa ?? "",
+                        v.placa ?? "",
+                        v.modelo ?? ""
+                    );
+                }
+
+                Session["TodosViajesCont"] = dt;
+                gvReportesViajes.DataSource = dt;
+                gvReportesViajes.DataBind();
+
+                lblTotalViajesMostrados.Text = dt.Rows.Count.ToString();
+                lblMensajeReportesViajes.Text = $"Se cargaron {dt.Rows.Count} viajes.";
+                lblMensajeReportesViajes.CssClass = "text-success";
             }
-            List<string> labels = new List<string> { "Ingreso", "Gasto", "Contrato" };
-            List<decimal> valores = new List<decimal> { totalIngreso, totalGasto, totalContrato };
-
-            pnlContraEmp.Visible = false;
-            pnlContraViaj.Visible = false;
-            pnlGastos.Visible = false;
-            pnlBonos.Visible = false;
-            pnlContabilidad.Visible = true;
-
-            // Convertir listas a JSON
-            string labelsJson = Newtonsoft.Json.JsonConvert.SerializeObject(labels);
-            string valoresJson = Newtonsoft.Json.JsonConvert.SerializeObject(valores);
-
-            ScriptManager.RegisterStartupScript(
-                this,
-                this.GetType(),
-                "MostrarGrafico",
-                $"CargarGrafico({labelsJson}, {valoresJson});",
-                true
-            );
+            catch (Exception ex)
+            {
+                lblMensajeReportesViajes.Text = $"Error al cargar viajes: {ex.Message}";
+                lblMensajeReportesViajes.CssClass = "text-danger";
+                gvReportesViajes.DataSource = null;
+                gvReportesViajes.DataBind();
+                lblTotalViajesMostrados.Text = "0";
+            }
         }
 
-        protected void btnEstadistica_Click(object sender, EventArgs e)
+        private void MtCargarReporteGastos()
         {
-            ObtenerEstadistica();
+            try
+            {
+                listaGastosCompleta = viajesL.ReporteGastosAdmin();
+                Session["TodosGastosCont"] = listaGastosCompleta;
 
-            pnlContraEmp.Visible = false;
-            pnlContraViaj.Visible = false;
-            pnlGastos.Visible = false;
-            pnlBonos.Visible = false;
-            pnlContabilidad.Visible = true;
+                if (listaGastosCompleta == null || listaGastosCompleta.Count == 0)
+                {
+                    lblMensajeReportesGastos.Text = "No se encontraron gastos registrados.";
+                    lblMensajeReportesGastos.CssClass = "text-muted";
+                    gvReportesGastos.DataSource = null;
+                    gvReportesGastos.DataBind();
+                    lblTotalGastosMostrados.Text = "0";
+
+                    string scriptEmpty = @"
+                        document.getElementById('totalGastos').innerText = '0';
+                        document.getElementById('gastosCombustible').innerText = '0';
+                        document.getElementById('gastosMantenimiento').innerText = '0';
+                        document.getElementById('gastosOtros').innerText = '0';
+                        document.getElementById('montoTotalGastos').innerText = '$0.00';
+                    ";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "resetStatsGastosCont", scriptEmpty, true);
+                    return;
+                }
+
+                CalcularEstadisticasGastos(listaGastosCompleta);
+                MostrarGastosFiltrados(listaGastosCompleta);
+
+                lblTotalGastosMostrados.Text = listaGastosCompleta.Count.ToString();
+                lblMensajeReportesGastos.Text = $"Se cargaron {listaGastosCompleta.Count} gastos.";
+                lblMensajeReportesGastos.CssClass = "text-success";
+            }
+            catch (Exception ex)
+            {
+                lblMensajeReportesGastos.Text = $"Error al cargar gastos: {ex.Message}";
+                lblMensajeReportesGastos.CssClass = "text-danger";
+                gvReportesGastos.DataSource = null;
+                gvReportesGastos.DataBind();
+                lblTotalGastosMostrados.Text = "0";
+            }
         }
-        protected void gvBonos_RowEditing(object sender, GridViewEditEventArgs e)
+
+        private void CalcularEstadisticasGastos(List<ClGastoM> gastos)
         {
-            gvBonos.EditIndex = e.NewEditIndex;
-            CargarBonos(); // Recarga la data
+            if (gastos == null || gastos.Count == 0)
+            {
+                string scriptEmpty = @"
+                    document.getElementById('totalGastos').innerText = '0';
+                    document.getElementById('gastosCombustible').innerText = '0';
+                    document.getElementById('gastosMantenimiento').innerText = '0';
+                    document.getElementById('gastosOtros').innerText = '0';
+                    document.getElementById('montoTotalGastos').innerText = '$0.00';
+                ";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "resetStatsGastosCont2", scriptEmpty, true);
+                return;
+            }
+
+            int total = gastos.Count;
+            decimal montoTotal = gastos.Sum(g => g.monto);
+
+            int combustible = gastos.Count(g => (g.tipoGasto ?? "").ToLower().Contains("combustible"));
+            int mantenimiento = gastos.Count(g => (g.tipoGasto ?? "").ToLower().Contains("mantenimiento"));
+
+            int otros = total - (combustible + mantenimiento);
+            if (otros < 0) otros = 0;
+
+            string script = $@"
+                document.getElementById('totalGastos').innerText = '{total}';
+                document.getElementById('gastosCombustible').innerText = '{combustible}';
+                document.getElementById('gastosMantenimiento').innerText = '{mantenimiento}';
+                document.getElementById('gastosOtros').innerText = '{otros}';
+                document.getElementById('montoTotalGastos').innerText = '${montoTotal:N2}';
+            ";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticasGastosCont", script, true);
         }
 
-        protected void gvBonos_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        private void MostrarGastosFiltrados(List<ClGastoM> gastos)
         {
-            gvBonos.EditIndex = -1;
-            CargarBonos(); // Recarga
+            DataTable dt = new DataTable();
+            dt.Columns.Add("idGasto", typeof(int));
+            dt.Columns.Add("tipoGasto", typeof(string));
+            dt.Columns.Add("descripcionGasto", typeof(string));
+            dt.Columns.Add("monto", typeof(decimal));
+            dt.Columns.Add("fechaGasto", typeof(DateTime));
+            dt.Columns.Add("nombreUsuario", typeof(string));
+            dt.Columns.Add("imagenRecibo", typeof(string));
+            dt.Columns.Add("placa", typeof(string));
+            dt.Columns.Add("idViaje", typeof(int));
+
+            foreach (var g in gastos)
+            {
+                dt.Rows.Add(
+                    g.idGasto,
+                    g.tipoGasto ?? "",
+                    g.descripcionGasto ?? "",
+                    g.monto,
+                    g.fechaGasto,
+                    g.nombreUsuario ?? "",
+                    g.imagenRecibo ?? "",
+                    g.placa ?? "",
+                    g.idViaje
+                );
+            }
+
+            gvReportesGastos.DataSource = dt;
+            gvReportesGastos.DataBind();
+            lblTotalGastosMostrados.Text = dt.Rows.Count.ToString();
         }
 
-        protected void gvBonos_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        protected void btnBuscarPlacaGastos_Click(object sender, EventArgs e)
         {
-            int idUsuario = Convert.ToInt32(gvBonos.DataKeys[e.RowIndex].Value);
+            string placa = txtBuscarPlacaGastos.Text.Trim();
 
-            TextBox txtBono = gvBonos.Rows[e.RowIndex].FindControl("txtBonoEdit") as TextBox;
+            if (string.IsNullOrEmpty(placa))
+            {
+                lblMensajeReportesGastos.Text = "Por favor ingrese una placa para buscar.";
+                lblMensajeReportesGastos.CssClass = "text-danger";
+                return;
+            }
 
-            decimal nuevoBono = 0;
-            decimal.TryParse(txtBono.Text, out nuevoBono);
+            try
+            {
+                var todos = Session["TodosGastosCont"] as List<ClGastoM>;
+                if (todos == null || todos.Count == 0)
+                {
+                    todos = viajesL.ReporteGastosAdmin();
+                    Session["TodosGastosCont"] = todos;
+                }
 
-            // AQUÍ actualizas el bono en la BD
-            ClContadorL logica = new ClContadorL();
-            logica.EditarBono(idUsuario, nuevoBono);
+                var filtrados = todos
+                    .Where(g => !string.IsNullOrEmpty(g.placa) && g.placa.ToLower().Contains(placa.ToLower()))
+                    .ToList();
 
-            gvBonos.EditIndex = -1;
-            CargarBonos();
+                if (filtrados.Count == 0)
+                {
+                    lblMensajeReportesGastos.Text = $"No se encontraron gastos para la placa: {placa}";
+                    lblMensajeReportesGastos.CssClass = "text-muted";
+                }
+                else
+                {
+                    lblMensajeReportesGastos.Text = $"Se encontraron {filtrados.Count} gastos para la placa: {placa}";
+                    lblMensajeReportesGastos.CssClass = "text-success";
+                }
+
+                CalcularEstadisticasGastos(filtrados);
+                MostrarGastosFiltrados(filtrados);
+            }
+            catch (Exception ex)
+            {
+                lblMensajeReportesGastos.Text = $"Error al buscar gastos: {ex.Message}";
+                lblMensajeReportesGastos.CssClass = "text-danger";
+            }
         }
 
+        protected void btnLimpiarFiltroPlaca_Click(object sender, EventArgs e)
+        {
+            txtBuscarPlacaGastos.Text = "";
+            MtCargarReporteGastos();
+        }
+
+        public string GetEstadoIcon(string estado)
+        {
+            switch ((estado ?? "").ToLower())
+            {
+                case "pendiente": return "bi bi-clock";
+                case "en curso": return "bi bi-arrow-right-circle";
+                case "completado": return "bi bi-check-circle";
+                case "cancelado": return "bi bi-x-circle";
+                default: return "bi bi-question-circle";
+            }
+        }
+
+        public string GetClaseTipoGasto(string tipo)
+        {
+            var t = (tipo ?? "").ToLower().Trim();
+
+            if (t.Contains("combustible")) return "badge-combustible";
+            if (t.Contains("mantenimiento")) return "badge-mantenimiento";
+
+            return "badge-otros";
+        }
+
+        public string GetIconoTipoGasto(string tipo)
+        {
+            var t = (tipo ?? "").ToLower().Trim();
+
+            if (t.Contains("combustible")) return "bi bi-fuel-pump";
+            if (t.Contains("mantenimiento")) return "bi bi-tools";
+            if (t.Contains("peaje")) return "bi bi-signpost";
+            if (t.Contains("cargue")) return "bi bi-box-seam";
+            if (t.Contains("descargue")) return "bi bi-box-arrow-down";
+            if (t.Contains("lavada") || t.Contains("lavado")) return "bi bi-droplet";
+            if (t.Contains("engrase")) return "bi bi-droplet-half";
+            if (t.Contains("parqueo")) return "bi bi-p-square";
+            if (t.Contains("4x1000")) return "bi bi-bank";
+            if (t.Contains("banco")) return "bi bi-bank";
+
+            return "bi bi-cash-stack";
+        }
+
+        public string MostrarBotonEvidencia(string rutaImagen)
+        {
+            if (!string.IsNullOrEmpty(rutaImagen) && rutaImagen != "")
+            {
+                string rutaCompleta = rutaImagen.StartsWith("~/") || rutaImagen.StartsWith("http")
+                    ? rutaImagen
+                    : "~/Vista/Imagenes/" + rutaImagen;
+
+                string rutaParaCliente = ResolveUrl(rutaCompleta);
+
+                return $@"
+                  <button type='button' class='btn btn-sm btn-outline-primary'
+                    onclick='mostrarImagen(""{rutaParaCliente.Replace("\"", "\\\"")}"")'
+                    data-bs-toggle='modal' data-bs-target='#modalImagen'>
+                    <i class='bi bi-receipt'></i> Ver
+                  </button>";
+            }
+            return "<span class='text-muted'>Sin evidencia</span>";
+        }
+
+        protected void btnExportarReportesViajes_Click(object sender, EventArgs e)
+        {
+            ExportarExcel(gvReportesViajes, "Reporte_Viajes");
+        }
+
+        protected void btnExportarReportesGastos_Click(object sender, EventArgs e)
+        {
+            ExportarExcel(gvReportesGastos, "Reporte_Gastos");
+        }
+
+        protected void gvReportesGastos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+        }
     }
 }

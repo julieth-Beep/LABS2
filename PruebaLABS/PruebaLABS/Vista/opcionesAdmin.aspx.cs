@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -17,8 +16,6 @@ namespace PruebaLABS.Vista
         ClUsuarioL logicaUsuario = new ClUsuarioL();
         ClSolicitudViajeL logicaSolicitud = new ClSolicitudViajeL();
         ClViajeL viajesL = new ClViajeL();
-        List<ClGastoM> listaGastosCompleta = new List<ClGastoM>();
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -90,7 +87,37 @@ namespace PruebaLABS.Vista
             ActivarMenu(btnRegistro);
         }
 
-      
+        protected void btnReportes_Click(object sender, EventArgs e)
+        {
+            pnlVehiculos.Visible = false;
+            pnlUsuarios.Visible = false;
+            pnlRegistro.Visible = false;
+            pnlReportes.Visible = true;
+            pnlClientes.Visible = false;
+
+            ActivarMenu(btnReportes);
+
+            pnlReportesViajes.Visible = true;
+
+            MtCargarReporteViajes();          
+            MtCargarGridEdicionViajes();     
+            MtCargarConductoresCrear();
+            MtCargarVehiculosCrear();
+            LimpiarInfoAsignacionCrear();
+        }
+
+        protected void btnReportesViajes_Click(object sender, EventArgs e)
+        {
+            pnlReportesViajes.Visible = true;
+            MtCargarReporteViajes();
+            MtCargarGridEdicionViajes();
+
+            btnReportesViajes.CssClass = "nav-reporte-item active";
+
+            MtCargarConductoresCrear();
+            MtCargarVehiculosCrear();
+            LimpiarInfoAsignacionCrear();
+        }
 
         protected void btnClientes_Click(object sender, EventArgs e)
         {
@@ -125,8 +152,7 @@ namespace PruebaLABS.Vista
 
                 ddlEstado.ClearSelection();
                 ListItem item = ddlEstado.Items.FindByText(row.Cells[4].Text);
-                if (item != null)
-                    item.Selected = true;
+                if (item != null) item.Selected = true;
 
                 lblMensaje.Text = "Vehículo cargado para edición.";
             }
@@ -193,6 +219,12 @@ namespace PruebaLABS.Vista
             ddlAddEstado.SelectedIndex = 0;
         }
 
+        private void MtCargarUsuarios()
+        {
+            gvUsuarios.DataSource = logicaUsuario.MtListarUsuarios();
+            gvUsuarios.DataBind();
+        }
+
         protected void btnRegistrarr_Click(object sender, EventArgs e)
         {
             lblMensajeRegistro.Visible = true;
@@ -238,14 +270,12 @@ namespace PruebaLABS.Vista
                 if (resultado.Contains("exitosamente"))
                 {
                     lblMensajeRegistro.Visible = false;
-
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarModalUsuario", "mostrarModalConfirmacionUsuario();", true);
-
                     LimpiarFormularioRegistro();
                 }
                 else
                 {
-                    lblMensajeRegistro.Text = "❌ " + resultado;
+                    lblMensajeRegistro.Text = "❌" + resultado;
                     lblMensajeRegistro.Style["color"] = "#dc3545";
                 }
             }
@@ -254,6 +284,18 @@ namespace PruebaLABS.Vista
                 lblMensajeRegistro.Text = "❌ Error al registrar: " + ex.Message;
                 lblMensajeRegistro.Style["color"] = "#dc3545";
             }
+        }
+
+        private void LimpiarFormularioRegistro()
+        {
+            txtDocumento.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtTelefono.Text = "";
+            txtCorreo.Text = "";
+            txtPassword.Text = "";
+            txtConfirmPassword.Text = "";
+            ddlRol.SelectedIndex = 0;
         }
 
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
@@ -273,7 +315,6 @@ namespace PruebaLABS.Vista
                 }
 
                 DataTable dtSolicitudes = logicaSolicitud.MtObtenerTodasLasSolicitudes();
-
                 DataTable dtFiltrado = FiltrarSolicitudes(dtSolicitudes, documento, estado, fechaDesde, fechaHasta);
 
                 Session["SolicitudesData"] = dtFiltrado;
@@ -285,12 +326,8 @@ namespace PruebaLABS.Vista
                 if (dtFiltrado.Rows.Count > 0)
                 {
                     string mensaje = "Se encontraron " + dtFiltrado.Rows.Count + " solicitudes";
-
-                    if (!string.IsNullOrEmpty(documento))
-                        mensaje += " para documento: " + documento;
-
-                    if (!string.IsNullOrEmpty(estado))
-                        mensaje += ", estado: " + estado;
+                    if (!string.IsNullOrEmpty(documento)) mensaje += " para documento: " + documento;
+                    if (!string.IsNullOrEmpty(estado)) mensaje += ", estado: " + estado;
 
                     lblMensajeSolicitudes.Text = mensaje;
                     lblMensajeSolicitudes.Style["color"] = "#198754";
@@ -319,39 +356,30 @@ namespace PruebaLABS.Vista
                 if (!string.IsNullOrEmpty(documento))
                 {
                     string docCliente = row["documento"].ToString().ToLower();
-                    if (!docCliente.Contains(documento.ToLower()))
-                        cumpleFiltros = false;
+                    if (!docCliente.Contains(documento.ToLower())) cumpleFiltros = false;
                 }
 
                 if (!string.IsNullOrEmpty(estado))
                 {
                     string estadoViaje = row["estadoViaje"].ToString();
-                    if (estadoViaje != estado)
-                        cumpleFiltros = false;
+                    if (estadoViaje != estado) cumpleFiltros = false;
                 }
 
                 if (!string.IsNullOrEmpty(fechaDesde))
                 {
                     DateTime fechaInicio = Convert.ToDateTime(row["fechaInicio"]);
                     DateTime fechaDesdeFiltro = Convert.ToDateTime(fechaDesde);
-
-                    if (fechaInicio < fechaDesdeFiltro)
-                        cumpleFiltros = false;
+                    if (fechaInicio < fechaDesdeFiltro) cumpleFiltros = false;
                 }
 
                 if (!string.IsNullOrEmpty(fechaHasta))
                 {
                     DateTime fechaInicio = Convert.ToDateTime(row["fechaInicio"]);
                     DateTime fechaHastaFiltro = Convert.ToDateTime(fechaHasta);
-
-                    if (fechaInicio > fechaHastaFiltro)
-                        cumpleFiltros = false;
+                    if (fechaInicio > fechaHastaFiltro) cumpleFiltros = false;
                 }
 
-                if (cumpleFiltros)
-                {
-                    dtFiltrado.ImportRow(row);
-                }
+                if (cumpleFiltros) dtFiltrado.ImportRow(row);
             }
 
             return dtFiltrado;
@@ -399,7 +427,6 @@ namespace PruebaLABS.Vista
             try
             {
                 int idViaje = Convert.ToInt32(gvSolicitudesClientes.DataKeys[e.RowIndex].Value);
-
                 GridViewRow row = gvSolicitudesClientes.Rows[e.RowIndex];
 
                 string fechaLlegada = ((TextBox)row.FindControl("txtFechaLlegada")).Text;
@@ -410,33 +437,15 @@ namespace PruebaLABS.Vista
 
                 int idCliente = ObtenerIdClientePorViaje(idViaje);
 
-                string mensajeNotificacion = "";
-
-                if (estado == "Cancelado")
-                {
-                    mensajeNotificacion = $"⚠️ Tu viaje #{idViaje} ha sido CANCELADO. Contacta al soporte para más información.";
-                }
-                else if (estado == "Completado")
-                {
-                    mensajeNotificacion = $"✅ ¡Tu viaje #{idViaje} ha sido COMPLETADO! Gracias por confiar en nosotros.";
-                }
-                else if (estado == "En curso")
-                {
-                    mensajeNotificacion = $"🚚 Tu viaje #{idViaje} está EN CURSO. El vehículo está en camino.";
-                }
-                else if (estado == "Aprobado")
-                {
-                    mensajeNotificacion = $"👍 Tu viaje #{idViaje} ha sido APROBADO. Pronto te contactaremos con los detalles.";
-                }
-                else
-                {
-                    mensajeNotificacion = $"📋 Tu viaje #{idViaje} ha cambiado de estado a: {estado}.";
-                }
+                string mensajeNotificacion;
+                if (estado == "Cancelado") mensajeNotificacion = $" Tu viaje #{idViaje} ha sido CANCELADO. Contacta al soporte para más información.";
+                else if (estado == "Completado") mensajeNotificacion = $" Tu viaje #{idViaje} ha sido COMPLETADO! Gracias por confiar en nosotros.";
+                else if (estado == "En curso") mensajeNotificacion = $" Tu viaje #{idViaje} está EN CURSO. El vehículo está en camino.";
+                else if (estado == "Aprobado") mensajeNotificacion = $" Tu viaje #{idViaje} ha sido APROBADO. Pronto te contactaremos con los detalles.";
+                else mensajeNotificacion = $" Tu viaje #{idViaje} ha cambiado de estado a: {estado}.";
 
                 if (!string.IsNullOrEmpty(costo) && costo != "0" && costo != "$0.00")
-                {
                     mensajeNotificacion += $" Costo estimado: {costo}.";
-                }
 
                 ClNotificacionL logicaNotificacion = new ClNotificacionL();
                 string resultadoNotificacion = logicaNotificacion.MtCrearNotificacion(idCliente, mensajeNotificacion);
@@ -464,14 +473,9 @@ namespace PruebaLABS.Vista
         {
             try
             {
-                string debugInfo = $"RowIndex: {e.RowIndex}, ";
-                debugInfo += $"DataKeys Count: {gvSolicitudesClientes.DataKeys.Count}, ";
-
                 if (gvSolicitudesClientes.DataKeys.Count > e.RowIndex)
                 {
                     int idViaje = Convert.ToInt32(gvSolicitudesClientes.DataKeys[e.RowIndex].Value);
-                    debugInfo += $"idViaje: {idViaje}";
-
                     string resultado = logicaSolicitud.MtEliminarSolicitud(idViaje);
 
                     RecargarSolicitudes();
@@ -484,16 +488,13 @@ namespace PruebaLABS.Vista
                     lblMensajeSolicitudes.Text = "Error: No se pudo obtener el ID de la solicitud.";
                     lblMensajeSolicitudes.Style["color"] = "#dc3545";
                 }
-
             }
             catch (Exception ex)
             {
-                lblMensajeSolicitudes.Text = "Error al eliminar: " + ex.Message + " Stack: " + ex.StackTrace;
+                lblMensajeSolicitudes.Text = "Error al eliminar: " + ex.Message;
                 lblMensajeSolicitudes.Style["color"] = "#dc3545";
             }
         }
-
-
 
         private void CargarDatosGridView()
         {
@@ -529,6 +530,7 @@ namespace PruebaLABS.Vista
                     DataTable dtSolicitudes = logicaSolicitud.MtObtenerTodasLasSolicitudes();
                     DataTable dtFiltrado = FiltrarSolicitudes(dtSolicitudes, documento, estado, fechaDesde, fechaHasta);
                     Session["SolicitudesData"] = dtFiltrado;
+
                     gvSolicitudesClientes.DataSource = dtFiltrado;
                     gvSolicitudesClientes.DataBind();
                     lblTotalRegistros.Text = dtFiltrado.Rows.Count.ToString();
@@ -554,22 +556,19 @@ namespace PruebaLABS.Vista
             }
         }
 
-        private void MtCargarUsuarios()
+        public string GetEstadoIcon(string estado)
         {
-            gvUsuarios.DataSource = logicaUsuario.MtListarUsuarios();
-            gvUsuarios.DataBind();
-        }
-
-        private void LimpiarFormularioRegistro()
-        {
-            txtDocumento.Text = "";
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            txtTelefono.Text = "";
-            txtCorreo.Text = "";
-            txtPassword.Text = "";
-            txtConfirmPassword.Text = "";
-            ddlRol.SelectedIndex = 0;
+            switch ((estado ?? "").ToLower())
+            {
+                case "pendiente": return "bi bi-clock";
+                case "en curso":
+                case "en progreso": return "bi bi-arrow-right-circle";
+                case "completado":
+                case "finalizado": return "bi bi-check-circle";
+                case "cancelado": return "bi bi-x-circle";
+                case "aprobado": return "bi bi-check-lg";
+                default: return "bi bi-question-circle";
+            }
         }
 
         private int ObtenerIdClientePorViaje(int idViaje)
@@ -583,28 +582,6 @@ namespace PruebaLABS.Vista
             conexion.MtCerrarConexion();
 
             return result != null ? Convert.ToInt32(result) : 0;
-        }
-        protected void btnReportesViajes_Click(object sender, EventArgs e)
-        {
-            pnlReportesViajes.Visible = true;
-            pnlReportesGastos.Visible = false;
-            ActivarSubmenuReportes(btnReportesViajes);
-            MtCargarReporteViajes();
-        }
-
-        protected void btnReportesGastos_Click(object sender, EventArgs e)
-        {
-            pnlReportesViajes.Visible = false;
-            pnlReportesGastos.Visible = true;
-            ActivarSubmenuReportes(btnReportesGastos);
-            MtCargarReporteGastos();
-        }
-
-        private void ActivarSubmenuReportes(Button boton)
-        {
-            btnReportesViajes.CssClass = "nav-reporte-item";
-            btnReportesGastos.CssClass = "nav-reporte-item";
-            boton.CssClass = "nav-reporte-item active";
         }
 
         private void MtCargarReporteViajes()
@@ -625,41 +602,6 @@ namespace PruebaLABS.Vista
                     return;
                 }
 
-                
-                int pendientes = 0;
-                int enCurso = 0;
-                int completados = 0;
-
-                foreach (var viaje in listaViajes)
-                {
-                    if (viaje.estadoViaje != null)
-                    {
-                        switch (viaje.estadoViaje.ToLower())
-                        {
-                            case "pendiente":
-                                pendientes++;
-                                break;
-                            case "en curso":
-                                enCurso++;
-                                break;
-                            case "completado":
-                                completados++;
-                                break;
-                        }
-                    }
-                }
-
-                
-                string script = $@"
-                 document.getElementById('totalViajes').innerText = '{listaViajes.Count}';
-                 document.getElementById('viajesPendientes').innerText = '{pendientes}';
-                 document.getElementById('viajesEnCurso').innerText = '{enCurso}';
-                 document.getElementById('viajesCompletados').innerText = '{completados}';
-                ";
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticas", script, true);
-
-                
                 DataTable dt = new DataTable();
                 dt.Columns.Add("idViaje", typeof(int));
                 dt.Columns.Add("puntoPartida", typeof(string));
@@ -702,7 +644,6 @@ namespace PruebaLABS.Vista
                     );
                 }
 
-                Session["TodosViajes"] = dt;
                 gvReportesViajes.DataSource = dt;
                 gvReportesViajes.DataBind();
 
@@ -724,273 +665,458 @@ namespace PruebaLABS.Vista
             }
         }
 
-        public string GetEstadoIcon(string estado)
-        {
-            switch (estado.ToLower())
-            {
-                case "pendiente":
-                    return "bi bi-clock";
-                case "en curso":
-                case "en progreso":
-                    return "bi bi-arrow-right-circle";
-                case "completado":
-                case "finalizado":
-                    return "bi bi-check-circle";
-                case "cancelado":
-                    return "bi bi-x-circle";
-                case "aprobado":
-                    return "bi bi-check-lg";
-                default:
-                    return "bi bi-question-circle";
-            }
-        }
-
-        
-        private void MtCargarReporteGastos()
+        private void MtCargarGridEdicionViajes()
         {
             try
             {
-                
-                listaGastosCompleta = viajesL.ReporteGastosAdmin();
-                Session["TodosGastos"] = listaGastosCompleta;
+                List<ClViajesAdminM> listaViajes = viajesL.MtViajesAdmin();
+                DataTable dt = new DataTable();
 
-                if (listaGastosCompleta == null || listaGastosCompleta.Count == 0)
+                dt.Columns.Add("idViaje", typeof(int));
+                dt.Columns.Add("origen", typeof(string));
+                dt.Columns.Add("destino", typeof(string));
+                dt.Columns.Add("distancia", typeof(string));
+                dt.Columns.Add("costo", typeof(string));
+                dt.Columns.Add("tipoCarga", typeof(string));
+                dt.Columns.Add("motivo", typeof(string));
+                dt.Columns.Add("observaciones", typeof(string));
+
+                dt.Columns.Add("idConductorCargo", typeof(int)); 
+                dt.Columns.Add("conductorNombre", typeof(string));
+                dt.Columns.Add("idVehiculo", typeof(int));
+                dt.Columns.Add("vehiculoTexto", typeof(string));
+                dt.Columns.Add("anticipo", typeof(string));
+
+                foreach (var v in listaViajes)
                 {
-                    lblMensajeReportesGastos.Text = "No se encontraron gastos registrados.";
-                    lblMensajeReportesGastos.Style["color"] = "#6c757d";
-                    gvReportesGastos.DataSource = null;
-                    gvReportesGastos.DataBind();
+                    int idViaje = v.idViaje;
+
+                    var extra = ObtenerInfoEditableViaje(idViaje);
+
+                    dt.Rows.Add(
+                        idViaje,
+                        extra.Origen,
+                        extra.Destino,
+                        extra.Distancia,
+                        extra.Costo,
+                        extra.TipoCarga,
+                        extra.Motivo,
+                        extra.Observaciones,
+                        extra.IdConductorCargo,
+                        extra.ConductorNombre,
+                        extra.IdVehiculo,
+                        extra.VehiculoTexto,
+                        extra.Anticipo
+                    );
+                }
+
+                gvViajesAdminEditar.DataSource = dt;
+                gvViajesAdminEditar.DataBind();
+            }
+            catch
+            {
+                gvViajesAdminEditar.DataSource = null;
+                gvViajesAdminEditar.DataBind();
+            }
+        }
+
+        private class ViajeEditableInfo
+        {
+            public string Origen = "";
+            public string Destino = "";
+            public string Distancia = "0";
+            public string Costo = "0";
+            public string TipoCarga = "General";
+            public string Motivo = "";
+            public string Observaciones = "";
+            public int IdConductorCargo = 0;
+            public string ConductorNombre = "";
+            public int IdVehiculo = 0;
+            public string VehiculoTexto = "";
+            public string Anticipo = "";
+        }
+
+        private ViajeEditableInfo ObtenerInfoEditableViaje(int idViaje)
+        {
+            var info = new ViajeEditableInfo();
+
+            string sql = @"
+SELECT
+    v.puntoPartida, v.destino, v.distancia, v.costo, v.tipoCarga, v.motivo, v.observaciones,
+    vv.idConductor AS idCargo,
+    vv.idVehiculo,
+    vv.anticipo,
+    (u.nombre + ' ' + u.apellido) AS Conductor,
+    (ve.placa + ' - ' + ve.modelo) AS Vehiculo
+FROM viaje v
+LEFT JOIN viajeVehiculo vv ON v.idViaje = vv.idViaje
+LEFT JOIN cargo c ON vv.idConductor = c.idCargo
+LEFT JOIN usuario u ON c.idUsuario = u.idUsuario
+LEFT JOIN vehiculo ve ON vv.idVehiculo = ve.idVehiculo
+WHERE v.idViaje = @idViaje";
+
+            ClConexion cx = new ClConexion();
+            SqlCommand cmd = new SqlCommand(sql, cx.MtAbrirConexion());
+            cmd.Parameters.AddWithValue("@idViaje", idViaje);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                info.Origen = dr["puntoPartida"] != DBNull.Value ? dr["puntoPartida"].ToString() : "";
+                info.Destino = dr["destino"] != DBNull.Value ? dr["destino"].ToString() : "";
+                info.Distancia = dr["distancia"] != DBNull.Value ? dr["distancia"].ToString() : "0";
+                info.Costo = dr["costo"] != DBNull.Value ? dr["costo"].ToString() : "0";
+                info.TipoCarga = dr["tipoCarga"] != DBNull.Value ? dr["tipoCarga"].ToString() : "General";
+                info.Motivo = dr["motivo"] != DBNull.Value ? dr["motivo"].ToString() : "";
+                info.Observaciones = dr["observaciones"] != DBNull.Value ? dr["observaciones"].ToString() : "";
+
+                info.IdConductorCargo = dr["idCargo"] != DBNull.Value ? Convert.ToInt32(dr["idCargo"]) : 0;
+                info.IdVehiculo = dr["idVehiculo"] != DBNull.Value ? Convert.ToInt32(dr["idVehiculo"]) : 0;
+                info.Anticipo = dr["anticipo"] != DBNull.Value ? dr["anticipo"].ToString() : "";
+
+                info.ConductorNombre = dr["Conductor"] != DBNull.Value ? dr["Conductor"].ToString() : "";
+                info.VehiculoTexto = dr["Vehiculo"] != DBNull.Value ? dr["Vehiculo"].ToString() : "";
+            }
+            dr.Close();
+            cx.MtCerrarConexion();
+
+            return info;
+        }
+
+        protected void btnCrearViaje_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string origen = (txtOrigenCrear.Text ?? "").Trim();
+                string destino = (txtDestinoCrear.Text ?? "").Trim();
+                string distancia = (txtDistanciaCrear.Text ?? "").Trim();
+                string costo = (txtCostoCrear.Text ?? "").Trim();
+                string tipoCarga = (txtTipoCargaCrear.Text ?? "").Trim();
+                string motivo = (txtMotivoCrear.Text ?? "").Trim(); 
+                string observaciones = (txtObservacionesCrear.Text ?? "").Trim();
+                string idClienteStr = (txtIdClienteCrear.Text ?? "").Trim();
+
+                string idConductorCargoStr = (ddlConductorCrear.SelectedValue ?? "").Trim(); 
+                string idVehiculoStr = (ddlVehiculoCrear.SelectedValue ?? "").Trim();
+                string anticipoStr = (txtAnticipoCrear.Text ?? "").Trim();
+
+                if (string.IsNullOrWhiteSpace(origen) || string.IsNullOrWhiteSpace(destino) || string.IsNullOrWhiteSpace(idClienteStr))
+                {
+                    lblMensajeCrearViaje.Text = "❌ Completa Origen, Destino y Cliente (ID).";
+                    lblMensajeCrearViaje.Style["color"] = "#dc3545";
                     return;
                 }
 
+                if (!int.TryParse(idClienteStr, out int idCliente) || idCliente <= 0)
+                {
+                    lblMensajeCrearViaje.Text = "❌ Cliente (ID) inválido.";
+                    lblMensajeCrearViaje.Style["color"] = "#dc3545";
+                    return;
+                }
 
+                string rCrear = viajesL.MtCrearViajeSinSP(idCliente, origen, destino, distancia, costo, tipoCarga, motivo, observaciones);
 
+                lblMensajeCrearViaje.Text = rCrear;
+                lblMensajeCrearViaje.Style["color"] = (rCrear ?? "").ToLower().Contains("❌") || (rCrear ?? "").ToLower().Contains("error")
+                    ? "#dc3545"
+                    : "#198754";
 
-                
-                CalcularEstadisticasGastos(listaGastosCompleta);
+                int idViajeNuevo = ExtraerIdDesdeMensaje(rCrear);
 
-                
-                MostrarGastosFiltrados(listaGastosCompleta);
+                if (idViajeNuevo > 0 &&
+                    int.TryParse(idConductorCargoStr, out int idCargo) && idCargo > 0 &&
+                    int.TryParse(idVehiculoStr, out int idVehiculo) && idVehiculo > 0)
+                {
+                    string rAsig = viajesL.MtEditarAsignacionViaje(idViajeNuevo, idCargo, idVehiculo, anticipoStr);
 
-                lblMensajeReportesGastos.Text = $"Se cargaron {listaGastosCompleta.Count} gastos.";
-                lblMensajeReportesGastos.Style["color"] = "#198754";
+                    lblMensajeCrearViaje.Text = lblMensajeCrearViaje.Text + " | " + rAsig;
+                    if ((rAsig ?? "").ToLower().Contains("❌") || (rAsig ?? "").ToLower().Contains("error"))
+                        lblMensajeCrearViaje.Style["color"] = "#dc3545";
+                }
+
+                MtCargarReporteViajes();
+                MtCargarGridEdicionViajes();
+                MtCargarConductoresCrear();
+                MtCargarVehiculosCrear();
+                LimpiarInfoAsignacionCrear();
+
+                txtOrigenCrear.Text = "";
+                txtDestinoCrear.Text = "";
+                txtDistanciaCrear.Text = "";
+                txtCostoCrear.Text = "";
+                txtTipoCargaCrear.Text = "";
+                txtObservacionesCrear.Text = "";
+                txtIdClienteCrear.Text = "";
+                txtAnticipoCrear.Text = "";
             }
             catch (Exception ex)
             {
-                lblMensajeReportesGastos.Text = $"Error al cargar gastos: {ex.Message}";
-                lblMensajeReportesGastos.Style["color"] = "#dc3545";
-                gvReportesGastos.DataSource = null;
-                gvReportesGastos.DataBind();
+                lblMensajeCrearViaje.Text = "❌ Error al crear viaje: " + ex.Message;
+                lblMensajeCrearViaje.Style["color"] = "#dc3545";
             }
         }
 
-
-
-        private void CalcularEstadisticasGastos(List<ClGastoM> gastos)
+        private int ExtraerIdDesdeMensaje(string msg)
         {
-            if (gastos == null || gastos.Count == 0) return;
+            if (string.IsNullOrEmpty(msg)) return 0;
+            int idx = msg.LastIndexOf("ID:");
+            if (idx < 0) return 0;
 
-            int total = gastos.Count;
-            decimal montoTotal = gastos.Sum(g => g.monto);
-            int combustible = gastos.Count(g => g.tipoGasto?.ToLower().Contains("combustible") == true);
-            int mantenimiento = gastos.Count(g => g.tipoGasto?.ToLower().Contains("mantenimiento") == true);
-            int otros = total - (combustible + mantenimiento);
+            string parte = msg.Substring(idx + 3).Trim();
+            if (int.TryParse(parte, out int id)) return id;
 
-            
-            string script = $@"
-              document.getElementById('totalGastos').innerText = '{total}';
-              document.getElementById('gastosCombustible').innerText = '{combustible}';
-              document.getElementById('gastosMantenimiento').innerText = '{mantenimiento}';
-              document.getElementById('gastosOtros').innerText = '{otros}';
-              document.getElementById('montoTotalGastos').innerText = '${montoTotal:N2}';
-            ";
+            parte = parte.Replace(".", "").Trim();
+            if (int.TryParse(parte, out id)) return id;
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "actualizarEstadisticasGastos", script, true);
+            return 0;
         }
 
-        private void MostrarGastosFiltrados(List<ClGastoM> gastos)
+        private void MtCargarConductoresCrear()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("idGasto", typeof(int));
-            dt.Columns.Add("tipoGasto", typeof(string));
-            dt.Columns.Add("descripcionGasto", typeof(string));
-            dt.Columns.Add("monto", typeof(decimal));
-            dt.Columns.Add("fechaGasto", typeof(DateTime));
-            dt.Columns.Add("nombreUsuario", typeof(string));
-            dt.Columns.Add("imagenRecibo", typeof(string));
-            dt.Columns.Add("placa", typeof(string));
-            dt.Columns.Add("idViaje", typeof(int));
-
-            foreach (var gasto in gastos)
-            {
-                dt.Rows.Add(
-                    gasto.idGasto,
-                    gasto.tipoGasto ?? "",
-                    gasto.descripcionGasto ?? "",
-                    gasto.monto,
-                    gasto.fechaGasto,
-                    gasto.nombreUsuario ?? "",
-                    gasto.imagenRecibo ?? "",
-                    gasto.placa ?? "",
-                    gasto.idViaje
-                );
-            }
-
-            gvReportesGastos.DataSource = dt;
-            gvReportesGastos.DataBind();
-        }
-
-        
-
-
-        
-        public string GetClaseTipoGasto(string tipo)
-        {
-            switch (tipo?.ToLower())
-            {
-                case "combustible":
-                    return "badge-combustible";
-                case "mantenimiento":
-                    return "badge-mantenimiento";
-                case "peajes":
-                case "alimentación":
-                case "otros":
-                    return "badge-otros";
-                default:
-                    return "badge-otros";
-            }
-        }
-
-        public string GetIconoTipoGasto(string tipo)
-        {
-            switch (tipo?.ToLower())
-            {
-                case "combustible":
-                    return "bi bi-fuel-pump";
-                case "mantenimiento":
-                    return "bi bi-tools";
-                case "peajes":
-                    return "bi bi-signpost";
-                case "alimentación":
-                    return "bi bi-egg-fried";
-                case "otros":
-                    return "bi bi-cash-stack";
-                default:
-                    return "bi bi-cash";
-            }
-        }
-
-        public string MostrarBotonEvidencia(string rutaImagen)
-        {
-            if (!string.IsNullOrEmpty(rutaImagen) && rutaImagen != "")
-            {
-                
-                string rutaCompleta = "";
-
-                if (rutaImagen.StartsWith("~/") || rutaImagen.StartsWith("http"))
-                {
-                    
-                    rutaCompleta = rutaImagen;
-                }
-                else
-                {
-                   
-                    rutaCompleta = "~/Vista/Imagenes/" + rutaImagen;
-                }
-
-                
-                string rutaParaCliente = ResolveUrl(rutaCompleta);
-
-                return $@"
-                  <button type='button' class='btn btn-sm btn-outline-primary' 
-                   onclick='mostrarImagen(""{rutaParaCliente.Replace("\"", "\\\"")}"")' 
-                   data-bs-toggle='modal' data-bs-target='#modalImagen'>
-                  <i class='bi bi-receipt'></i> Ver
-                  </button>";
-            }
-            return "<span class='text-muted'>Sin evidencia</span>";
-        }
-       
-
-        protected void btnBuscarPlacaGastos_Click(object sender, EventArgs e)
-        {
-            string placa = txtBuscarPlacaGastos.Text.Trim();
-
-            if (string.IsNullOrEmpty(placa))
-            {
-                lblMensajeReportesGastos.Text = "Por favor ingrese una placa para buscar.";
-                lblMensajeReportesGastos.Style["color"] = "#dc3545";
-                return;
-            }
-
             try
             {
-                
-                List<ClGastoM> todosGastos = Session["TodosGastos"] as List<ClGastoM>;
+                DataTable dt = viajesL.MtConductores(); 
+                ddlConductorCrear.Items.Clear();
+                ddlConductorCrear.Items.Add(new ListItem("Seleccione un conductor", ""));
 
-                if (todosGastos == null || todosGastos.Count == 0)
+                if (dt == null) return;
+
+                foreach (DataRow row in dt.Rows)
                 {
-                    
-                    todosGastos = viajesL.ReporteGastosAdmin();
-                    Session["TodosGastos"] = todosGastos;
+                    string idCargo = row.Table.Columns.Contains("idCargo") ? row["idCargo"].ToString() : "";
+                    string nombre = row.Table.Columns.Contains("Conductor") ? row["Conductor"].ToString() : "Conductor";
+                    string tel = row.Table.Columns.Contains("telefono") ? row["telefono"].ToString() : "";
+
+                    string texto = nombre;
+                    if (!string.IsNullOrEmpty(tel)) texto += " - " + tel;
+
+                    if (!string.IsNullOrEmpty(idCargo))
+                        ddlConductorCrear.Items.Add(new ListItem(texto, idCargo));
+                }
+            }
+            catch
+            {
+                ddlConductorCrear.Items.Clear();
+                ddlConductorCrear.Items.Add(new ListItem("Seleccione un conductor", ""));
+            }
+        }
+
+        private void MtCargarVehiculosCrear()
+        {
+            try
+            {
+                DataTable dt = viajesL.MtVehiculosDisponibles(); 
+                ddlVehiculoCrear.Items.Clear();
+                ddlVehiculoCrear.Items.Add(new ListItem("Seleccione un vehículo", ""));
+
+                if (dt == null) return;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string idVeh = row.Table.Columns.Contains("idVehiculo") ? row["idVehiculo"].ToString() : "";
+                    string vehiculoTexto = row.Table.Columns.Contains("vehiculo") ? row["vehiculo"].ToString() : "";
+                    string modelo = row.Table.Columns.Contains("modelo") ? row["modelo"].ToString() : "";
+                    string capacidad = row.Table.Columns.Contains("capacidad") ? row["capacidad"].ToString() : "";
+
+                    string texto = !string.IsNullOrEmpty(vehiculoTexto) ? vehiculoTexto : ("Vehículo " + idVeh);
+                    if (!string.IsNullOrEmpty(capacidad)) texto += " (" + capacidad + ")";
+
+                    if (!string.IsNullOrEmpty(idVeh))
+                        ddlVehiculoCrear.Items.Add(new ListItem(texto, idVeh));
+                }
+            }
+            catch
+            {
+                ddlVehiculoCrear.Items.Clear();
+                ddlVehiculoCrear.Items.Add(new ListItem("Seleccione un vehículo", ""));
+            }
+        }
+
+        protected void ddlConductorCrear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                lblTelConductorCrear.Text = "";
+                if (string.IsNullOrEmpty(ddlConductorCrear.SelectedValue)) return;
+
+                DataTable dt = viajesL.MtConductores();
+                if (dt == null) return;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string id = row.Table.Columns.Contains("idCargo") ? row["idCargo"].ToString() : "";
+                    if (id == ddlConductorCrear.SelectedValue)
+                    {
+                        string tel = row.Table.Columns.Contains("telefono") ? row["telefono"].ToString() : "";
+                        lblTelConductorCrear.Text = tel ?? "";
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                lblTelConductorCrear.Text = "";
+            }
+        }
+
+        protected void ddlVehiculoCrear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                lblModeloVehCrear.Text = "";
+                lblCapacidadVehCrear.Text = "";
+
+                if (string.IsNullOrEmpty(ddlVehiculoCrear.SelectedValue)) return;
+
+                DataTable dt = viajesL.MtVehiculosDisponibles();
+                if (dt == null) return;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string id = row.Table.Columns.Contains("idVehiculo") ? row["idVehiculo"].ToString() : "";
+                    if (id == ddlVehiculoCrear.SelectedValue)
+                    {
+                        lblModeloVehCrear.Text = row.Table.Columns.Contains("modelo") ? (row["modelo"].ToString() ?? "") : "";
+                        lblCapacidadVehCrear.Text = row.Table.Columns.Contains("capacidad") ? (row["capacidad"].ToString() ?? "") : "";
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                lblModeloVehCrear.Text = "";
+                lblCapacidadVehCrear.Text = "";
+            }
+        }
+
+        private void LimpiarInfoAsignacionCrear()
+        {
+            if (lblTelConductorCrear != null) lblTelConductorCrear.Text = "";
+            if (lblModeloVehCrear != null) lblModeloVehCrear.Text = "";
+            if (lblCapacidadVehCrear != null) lblCapacidadVehCrear.Text = "";
+            if (ddlConductorCrear != null) ddlConductorCrear.SelectedIndex = 0;
+            if (ddlVehiculoCrear != null) ddlVehiculoCrear.SelectedIndex = 0;
+            if (txtAnticipoCrear != null) txtAnticipoCrear.Text = "";
+        }
+
+        protected void gvViajesAdminEditar_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            gvViajesAdminEditar.EditIndex = e.NewEditIndex;
+            MtCargarGridEdicionViajes();
+        }
+
+        protected void gvViajesAdminEditar_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvViajesAdminEditar.EditIndex = -1;
+            MtCargarGridEdicionViajes();
+        }
+
+        protected void gvViajesAdminEditar_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && e.Row.RowState.HasFlag(DataControlRowState.Edit))
+            {
+                // conductores
+                var ddlCon = e.Row.FindControl("ddlConductorEdit") as DropDownList;
+                if (ddlCon != null)
+                {
+                    ddlCon.Items.Clear();
+                    ddlCon.Items.Add(new ListItem("Seleccione", ""));
+                    DataTable dtC = viajesL.MtConductores();
+                    if (dtC != null)
+                    {
+                        foreach (DataRow r in dtC.Rows)
+                        {
+                            string idCargo = r["idCargo"].ToString();
+                            string nom = r["Conductor"].ToString();
+                            ddlCon.Items.Add(new ListItem(nom, idCargo));
+                        }
+                    }
+
+                    var hid = e.Row.FindControl("hidConductorCargo") as HiddenField;
+                    if (hid != null && !string.IsNullOrEmpty(hid.Value))
+                    {
+                        ListItem it = ddlCon.Items.FindByValue(hid.Value);
+                        if (it != null) { ddlCon.ClearSelection(); it.Selected = true; }
+                    }
                 }
 
-               
-                var gastosFiltrados = todosGastos
-                    .Where(g => g.placa != null && g.placa.ToLower().Contains(placa.ToLower()))
-                    .ToList();
-
-                if (gastosFiltrados.Count == 0)
+                var ddlVeh = e.Row.FindControl("ddlVehiculoEdit") as DropDownList;
+                if (ddlVeh != null)
                 {
-                    lblMensajeReportesGastos.Text = $"No se encontraron gastos para la placa: {placa}";
-                    lblMensajeReportesGastos.Style["color"] = "#6c757d";
+                    ddlVeh.Items.Clear();
+                    ddlVeh.Items.Add(new ListItem("Seleccione", ""));
+                    DataTable dtV = viajesL.MtVehiculosDisponibles();
+                    if (dtV != null)
+                    {
+                        foreach (DataRow r in dtV.Rows)
+                        {
+                            string idVeh = r["idVehiculo"].ToString();
+                            string texto = r["vehiculo"].ToString();
+                            ddlVeh.Items.Add(new ListItem(texto, idVeh));
+                        }
+                    }
+
+                    var hidV = e.Row.FindControl("hidVehiculo") as HiddenField;
+                    if (hidV != null && !string.IsNullOrEmpty(hidV.Value))
+                    {
+                        ListItem it2 = ddlVeh.Items.FindByValue(hidV.Value);
+                        if (it2 != null) { ddlVeh.ClearSelection(); it2.Selected = true; }
+                    }
                 }
-                else
+            }
+        }
+
+        protected void gvViajesAdminEditar_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            try
+            {
+                int idViaje = Convert.ToInt32(gvViajesAdminEditar.DataKeys[e.RowIndex].Value);
+                GridViewRow row = gvViajesAdminEditar.Rows[e.RowIndex];
+
+                string origen = ((TextBox)row.FindControl("txtOrigenEdit")).Text.Trim();
+                string destino = ((TextBox)row.FindControl("txtDestinoEdit")).Text.Trim();
+                string distancia = ((TextBox)row.FindControl("txtDistanciaEdit")).Text.Trim();
+                string costo = ((TextBox)row.FindControl("txtCostoEdit")).Text.Trim();
+                string tipoCarga = ((TextBox)row.FindControl("txtTipoCargaEdit")).Text.Trim();
+                string motivo = ((TextBox)row.FindControl("txtMotivoEdit")).Text.Trim();
+                string observaciones = ((TextBox)row.FindControl("txtObservacionesEdit")).Text.Trim();
+
+                string conductorCargoStr = ((DropDownList)row.FindControl("ddlConductorEdit")).SelectedValue;
+                string vehiculoStr = ((DropDownList)row.FindControl("ddlVehiculoEdit")).SelectedValue;
+                string anticipo = ((TextBox)row.FindControl("txtAnticipoEdit")).Text.Trim();
+
+                string r1 = viajesL.MtEditarViajeBase(idViaje, origen, destino, distancia, costo, tipoCarga, motivo, observaciones);
+
+                string r2 = "";
+                if (int.TryParse(conductorCargoStr, out int idCargo) && idCargo > 0 &&
+                    int.TryParse(vehiculoStr, out int idVeh) && idVeh > 0)
                 {
-                    lblMensajeReportesGastos.Text = $"Se encontraron {gastosFiltrados.Count} gastos para la placa: {placa}";
-                    lblMensajeReportesGastos.Style["color"] = "#198754";
+                    r2 = viajesL.MtEditarAsignacionViaje(idViaje, idCargo, idVeh, anticipo);
                 }
 
-                
-                CalcularEstadisticasGastos(gastosFiltrados);
+                gvViajesAdminEditar.EditIndex = -1;
+                MtCargarReporteViajes();
+                MtCargarGridEdicionViajes();
+                MtCargarConductoresCrear();
+                MtCargarVehiculosCrear();
 
-                
-                MostrarGastosFiltrados(gastosFiltrados);
+                if (lblMensajeReportesViajes != null)
+                {
+                    string msg = r1;
+                    if (!string.IsNullOrEmpty(r2)) msg += " | " + r2;
+
+                    lblMensajeReportesViajes.Text = msg;
+                    lblMensajeReportesViajes.Style["color"] = (msg.ToLower().Contains("❌") || msg.ToLower().Contains("error")) ? "#dc3545" : "#198754";
+                }
             }
             catch (Exception ex)
             {
-                lblMensajeReportesGastos.Text = $"Error al buscar gastos: {ex.Message}";
-                lblMensajeReportesGastos.Style["color"] = "#dc3545";
+                if (lblMensajeReportesViajes != null)
+                {
+                    lblMensajeReportesViajes.Text = "❌ Error al actualizar: " + ex.Message;
+                    lblMensajeReportesViajes.Style["color"] = "#dc3545";
+                }
             }
         }
-
-        protected void btnLimpiarFiltroPlaca_Click(object sender, EventArgs e)
-        {
-            
-            txtBuscarPlacaGastos.Text = "";
-
-           
-            MtCargarReporteGastos();
-        }
-
-        protected void btnReportes_Click(object sender, EventArgs e)
-        {
-            pnlVehiculos.Visible = false;
-            pnlUsuarios.Visible = false;
-            pnlRegistro.Visible = false;
-            pnlReportes.Visible = true;
-            pnlClientes.Visible = false;
-
-            ActivarMenu(btnReportes);
-
-            pnlReportesViajes.Visible = true;
-            pnlReportesGastos.Visible = false;
-            ActivarSubmenuReportes(btnReportesViajes);
-            MtCargarReporteViajes();
-        }
-
-
-
-
     }
 }

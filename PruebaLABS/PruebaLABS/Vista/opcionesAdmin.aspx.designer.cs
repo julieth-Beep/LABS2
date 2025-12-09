@@ -411,15 +411,6 @@ namespace PruebaLABS.Vista
         protected global::System.Web.UI.WebControls.Button btnReportesViajes;
 
         /// <summary>
-        /// Control btnReportesGastos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReportesGastos;
-
-        /// <summary>
         /// Control pnlReportesViajes.
         /// </summary>
         /// <remarks>
@@ -447,58 +438,157 @@ namespace PruebaLABS.Vista
         protected global::System.Web.UI.WebControls.Label lblMensajeReportesViajes;
 
         /// <summary>
-        /// Control pnlReportesGastos.
+        /// Control txtOrigenCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlReportesGastos;
+        protected global::System.Web.UI.WebControls.TextBox txtOrigenCrear;
 
         /// <summary>
-        /// Control txtBuscarPlacaGastos.
+        /// Control txtDestinoCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBuscarPlacaGastos;
+        protected global::System.Web.UI.WebControls.TextBox txtDestinoCrear;
 
         /// <summary>
-        /// Control btnBuscarPlacaGastos.
+        /// Control txtDistanciaCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarPlacaGastos;
+        protected global::System.Web.UI.WebControls.TextBox txtDistanciaCrear;
 
         /// <summary>
-        /// Control btnLimpiarFiltroPlaca.
+        /// Control txtCostoCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpiarFiltroPlaca;
+        protected global::System.Web.UI.WebControls.TextBox txtCostoCrear;
 
         /// <summary>
-        /// Control gvReportesGastos.
+        /// Control txtTipoCargaCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvReportesGastos;
+        protected global::System.Web.UI.WebControls.TextBox txtTipoCargaCrear;
 
         /// <summary>
-        /// Control lblMensajeReportesGastos.
+        /// Control txtMotivoCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensajeReportesGastos;
+        protected global::System.Web.UI.WebControls.TextBox txtMotivoCrear;
+
+        /// <summary>
+        /// Control txtObservacionesCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesCrear;
+
+        /// <summary>
+        /// Control txtIdClienteCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIdClienteCrear;
+
+        /// <summary>
+        /// Control ddlConductorCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlConductorCrear;
+
+        /// <summary>
+        /// Control lblTelConductorCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTelConductorCrear;
+
+        /// <summary>
+        /// Control ddlVehiculoCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlVehiculoCrear;
+
+        /// <summary>
+        /// Control lblModeloVehCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblModeloVehCrear;
+
+        /// <summary>
+        /// Control lblCapacidadVehCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCapacidadVehCrear;
+
+        /// <summary>
+        /// Control txtAnticipoCrear.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAnticipoCrear;
+
+        /// <summary>
+        /// Control btnCrearViaje.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCrearViaje;
+
+        /// <summary>
+        /// Control lblMensajeCrearViaje.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMensajeCrearViaje;
+
+        /// <summary>
+        /// Control gvViajesAdminEditar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvViajesAdminEditar;
 
         /// <summary>
         /// Control pnlClientes.
